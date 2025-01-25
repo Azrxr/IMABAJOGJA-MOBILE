@@ -2,4 +2,15 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="background">#FFFFFFFF</color>
+    <color name="background_night">#010204</color>
+    <color name="primary">#3398DB</color>
+    <color name="primary_night">#2489CC</color>
+    <color name="secondary">#F5F5F5</color>
+    <color name="secondary_night">#1B1C1D</color>
+    <color name="accent">#46698B</color>
+    <color name="text">#1C1717</color>
+    <color name="text_night">#F7F7F7</color>
+
+
 </resources>

@@ -95,7 +95,7 @@
             android:layout_marginBottom="16dp"
             android:alpha="0"
             android:hint="Username"
-            app:startIconDrawable="@drawable/ic_email_24"
+            app:startIconDrawable="@drawable/ic_user"
             tools:alpha="100">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -113,7 +113,7 @@
             android:layout_marginBottom="16dp"
             android:alpha="0"
             android:hint="Masukkan Email Anda"
-            app:startIconDrawable="@drawable/ic_email_24"
+            app:startIconDrawable="@drawable/ic_email"
             tools:alpha="100">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -131,7 +131,7 @@
             android:layout_marginBottom="16dp"
             android:alpha="0"
             android:hint="Masukkan Password Anda"
-            app:startIconDrawable="@drawable/ic_email_24"
+            app:startIconDrawable="@drawable/ic_password"
             tools:alpha="100">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -150,7 +150,7 @@
             android:layout_marginBottom="16dp"
             android:alpha="0"
             android:hint="Masukkan kembali Password Anda"
-            app:startIconDrawable="@drawable/ic_email_24"
+            app:startIconDrawable="@drawable/ic_password"
             tools:alpha="100">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -171,6 +171,15 @@
             android:alpha="0"
             android:text="Daftar"
             tools:alpha="100" />
+
+        <TextView
+            android:id="@+id/btnLogin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:alpha="0"
+            tools:alpha="100"
+            android:text="Sudah punya Akun ? Masuk"
+            style="@style/textBodyM"/>
 
     </LinearLayout>
 

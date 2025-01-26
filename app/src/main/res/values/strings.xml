@@ -49,4 +49,8 @@
     <string name="btnGoogle">google login</string>
     <string name="welcome_title">Selamat Datang di IMABA Jogja</string>
     <string name="welcome_desc">Silahkan login atau daftar untuk melanjutkan</string>
+    <string name="home">Home</string>
+    <string name="member">Member</string>
+    <string name="study">Study</string>
+    <string name="profile">Profile</string>
 </resources>

@@ -2,6 +2,7 @@ package com.imaba.imabajogja.ui.authentication
 
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.activity.enableEdgeToEdge
@@ -25,9 +26,20 @@ class LoginActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+        intentHandler()
         playAnimation()
     }
 
+    private fun intentHandler(){
+        binding.btnDaftar.setOnClickListener {
+            val registerIntent = Intent(this, RegisterActivity::class.java)
+            startActivity(registerIntent)
+        }
+        binding.btnForgotPassword.setOnClickListener {
+            val forgotPasswordIntent = Intent(this, ForgotPasswordActivity::class.java)
+            startActivity(forgotPasswordIntent)
+        }
+    }
     private fun playAnimation() {
         ObjectAnimator.ofFloat(binding.logo, View.TRANSLATION_X, -30f, 30f).apply {
             duration = 6000
@@ -44,6 +56,7 @@ class LoginActivity : AppCompatActivity() {
             ObjectAnimator.ofFloat(binding.tilPassword, View.ALPHA, 1f).setDuration(100)
         val login = ObjectAnimator.ofFloat(binding.btnLogin, View.ALPHA, 1f).setDuration(200)
         val forgotPassword = ObjectAnimator.ofFloat(binding.btnForgotPassword, View.ALPHA, 1f).setDuration(200)
+        val btnDaftar = ObjectAnimator.ofFloat(binding.btnDaftar, View.ALPHA, 1f).setDuration(200)
 
         AnimatorSet().apply {
             playSequentially(
@@ -52,7 +65,8 @@ class LoginActivity : AppCompatActivity() {
                 emailEditTextLayout,
                 passwordEditTextLayout,
                 login,
-                forgotPassword
+                forgotPassword,
+                btnDaftar
             )
             startDelay = 100
         }.start()

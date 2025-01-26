@@ -9,6 +9,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.imaba.imabajogja.MainActivity
 import com.imaba.imabajogja.R
 import com.imaba.imabajogja.databinding.ActivityLoginBinding
 
@@ -31,6 +32,10 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun intentHandler(){
+        binding.btnLogin.setOnClickListener {
+            val loginIntent = Intent(this, MainActivity::class.java)
+            startActivity(loginIntent)
+        }
         binding.btnDaftar.setOnClickListener {
             val registerIntent = Intent(this, RegisterActivity::class.java)
             startActivity(registerIntent)
@@ -68,7 +73,7 @@ class LoginActivity : AppCompatActivity() {
                 forgotPassword,
                 btnDaftar
             )
-            startDelay = 100
+            startDelay = 200
         }.start()
     }
 

@@ -53,4 +53,6 @@
     <string name="member">Member</string>
     <string name="study">Study</string>
     <string name="profile">Profile</string>
+    <string name="search_hint">Cari Anggota</string>
+    <string name="title_member">Daftar Anggota</string>
 </resources>

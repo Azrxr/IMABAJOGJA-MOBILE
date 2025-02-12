@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".ui.MainActivity">
 
     <FrameLayout
         android:id="@+id/fragmentContainer"
@@ -24,9 +24,23 @@
         app:circularflow_angles="20dp"
         app:elevation="20dp"
         app:itemIconSize="33dp"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:menu="@menu/bottom_nav_menu" />
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/admBottomNav"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:circularflow_angles="20dp"
+        app:elevation="20dp"
+        app:itemIconSize="33dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:menu="@menu/adm_bottom_nav_menu" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

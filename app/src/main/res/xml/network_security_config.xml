@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<network-security-config>
+    <domain-config cleartextTrafficPermitted="true">
+        <domain includeSubdomains="true">192.168.100.178</domain> <!-- kost 5g -->
+        <domain includeSubdomains="true">192.168.100.176</domain>
+        <domain includeSubdomains="true">192.168.100.125</domain>
+        <domain includeSubdomains="true">192.168.206.251</domain> <!-- BLD -->
+        <domain includeSubdomains="true">10.200.227.140</domain> <!-- kantor 1 -->
+        <domain includeSubdomains="true">192.168.41.79</domain> <!-- hostpot hp -->
+    </domain-config>
+</network-security-config>

@@ -14,6 +14,7 @@ import com.imaba.imabajogja.databinding.ItemDocumentMinimalBinding
 class FileAdapter (private val files: List<OrganizationFile>, private val onItemClicked: (OrganizationFile) -> Unit) :
     RecyclerView.Adapter<FileAdapter.FileViewHolder>() {
 
+
     class FileViewHolder(private val binding: ItemDocumentMinimalBinding) : RecyclerView.ViewHolder(binding.root) {
         val title: TextView = binding.tvTitle
         val description: TextView = binding.tvDescription

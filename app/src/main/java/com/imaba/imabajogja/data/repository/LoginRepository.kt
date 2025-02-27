@@ -9,6 +9,8 @@ import com.imaba.imabajogja.data.api.ApiService
 import com.imaba.imabajogja.data.model.UserModel
 import com.imaba.imabajogja.data.model.UserPreference
 import com.imaba.imabajogja.data.response.LoginResponse
+import com.imaba.imabajogja.data.response.RegisterAdminResponse
+import com.imaba.imabajogja.data.response.RegisterResponse
 import com.imaba.imabajogja.data.utils.Result
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
@@ -29,6 +31,36 @@ class LoginRepository @Inject constructor(
 
             } catch (e: Exception) {
                 Log.e("login","gagal login:  ${e.message.toString()}")
+                emit(Result.Error(e.message.toString()))
+            }
+        }
+
+    }
+
+    fun register(username: String, email: String, password: String, passwordConfirmation: String) : LiveData<Result<RegisterResponse>> {
+        return liveData {
+            emit(Result.Loading)
+            try {
+                val register = apiService.register(username, email, password, passwordConfirmation)
+                emit(Result.Success(register))
+
+            } catch (e: Exception) {
+                Log.e("register","gagal register:  ${e.message.toString()}")
+                emit(Result.Error(e.message.toString()))
+            }
+        }
+
+    }
+
+    fun registerAdm(username: String, fullname: String, phoneNumber: String, email: String, password: String, passwordConfirmation: String) : LiveData<Result<RegisterAdminResponse>> {
+        return liveData {
+            emit(Result.Loading)
+            try {
+                val register = apiService.registerAdmin(username, fullname, phoneNumber, email, password, passwordConfirmation)
+                emit(Result.Success(register))
+
+            } catch (e: Exception) {
+                Log.e("register","gagal register:  ${e.message.toString()}")
                 emit(Result.Error(e.message.toString()))
             }
         }

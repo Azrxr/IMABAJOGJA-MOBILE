@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "173134022524",
+    "project_id": "imaba-jogja",
+    "storage_bucket": "imaba-jogja.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:173134022524:android:833473035d0d7b811086f9",
+        "android_client_info": {
+          "package_name": "com.imaba.imabajogja"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCYk0-IgjixOEjiPnDEFgtmjkmF-JCCCR0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

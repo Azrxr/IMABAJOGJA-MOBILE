@@ -18,6 +18,8 @@ object ApiConfig {
     @Singleton
     fun getApiService(token: String): ApiService {
         val url = "http://192.168.100.178:8000/api/"
+//        val url = "http://192.168.1.88:8000/api/" //perpus utara
+//        val url = "http://10.0.2.2:8000/api/" //local
 
         //token
         val authInterceptor = Interceptor { chain ->

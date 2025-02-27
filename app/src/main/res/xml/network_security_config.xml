@@ -3,9 +3,11 @@
     <domain-config cleartextTrafficPermitted="true">
         <domain includeSubdomains="true">192.168.100.178</domain> <!-- kost 5g -->
         <domain includeSubdomains="true">192.168.100.176</domain>
-        <domain includeSubdomains="true">192.168.100.125</domain>
+        <domain includeSubdomains="true">192.168.1.88</domain> <!-- perpus utara -->
         <domain includeSubdomains="true">192.168.206.251</domain> <!-- BLD -->
         <domain includeSubdomains="true">10.200.227.140</domain> <!-- kantor 1 -->
         <domain includeSubdomains="true">192.168.41.79</domain> <!-- hostpot hp -->
+        <domain includeSubdomains="true">10.0.2.2:8000</domain> <!-- local -->
+        <domain includeSubdomains="true">10.0.2.2</domain> <!-- local -->
     </domain-config>
 </network-security-config>

@@ -23,7 +23,9 @@ import com.imaba.imabajogja.ui.home.HomeFragment
 import com.imaba.imabajogja.ui.member.MemberFragment
 import com.imaba.imabajogja.ui.profile.ProfileFragment
 import com.imaba.imabajogja.ui.welcome.WelcomeActivity
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding

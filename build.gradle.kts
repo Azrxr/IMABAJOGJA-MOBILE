@@ -5,4 +5,7 @@ plugins {
     id("com.google.dagger.hilt.android") version "2.48.1" apply false
 //        id("org.jetbrains.kotlin.kapt")
     id("com.android.library") version "8.1.4" apply false
+    // Add the dependency for the Google services Gradle plugin
+    //id("com.google.gms.google-services") version "4.3.15" apply false
+
 }

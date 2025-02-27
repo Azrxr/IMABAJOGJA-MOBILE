@@ -5,11 +5,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.imaba.imabajogja.data.di.Injection
 import com.imaba.imabajogja.data.repository.LoginRepository
+import com.imaba.imabajogja.data.repository.MemberRepository
 import com.imaba.imabajogja.ui.MainViewModel
 import com.imaba.imabajogja.ui.authentication.AuthViewModel
+import com.imaba.imabajogja.ui.home.HomeViewModel
 
 class ViewModelFactory(
-    private val loginRepository: LoginRepository,
+    private val loginRepository: LoginRepository
     ) : ViewModelProvider.NewInstanceFactory() {
 
     @Suppress("UNCHECKED_CAST")
@@ -22,6 +24,7 @@ class ViewModelFactory(
                 MainViewModel(loginRepository) as T
             }
 
+
             else -> throw IllegalArgumentException("Unknown ViewModel class: " + modelClass.name)
         }
     }
@@ -33,10 +36,13 @@ class ViewModelFactory(
         fun getInstance(context: Context): ViewModelFactory {
             if (INSTANCE == null) {
                 synchronized(ViewModelFactory::class.java) {
-                    INSTANCE = ViewModelFactory(Injection.provideRepository(context))
+                    INSTANCE = ViewModelFactory(
+                        Injection.provideRepository(context)
+                    )
                 }
             }
             return INSTANCE as ViewModelFactory
         }
+
     }
 }

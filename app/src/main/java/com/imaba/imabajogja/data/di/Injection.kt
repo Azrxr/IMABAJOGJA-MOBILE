@@ -6,6 +6,7 @@ import com.imaba.imabajogja.data.api.ApiConfig
 import com.imaba.imabajogja.data.model.UserPreference
 import com.imaba.imabajogja.data.model.dataStore
 import com.imaba.imabajogja.data.repository.LoginRepository
+import com.imaba.imabajogja.data.repository.MemberRepository
 import kotlinx.coroutines.runBlocking
 
 object Injection {

@@ -15,28 +15,26 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.imaba.imabajogja.R
 import com.imaba.imabajogja.data.ViewModelFactory
-import com.imaba.imabajogja.databinding.ActivityRegisterBinding
-import com.imaba.imabajogja.ui.MainActivity
 import com.imaba.imabajogja.data.utils.Result
+import com.imaba.imabajogja.databinding.ActivityAdmRegisterBinding
+import com.imaba.imabajogja.databinding.ActivityRegisterBinding
 
-class RegisterActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityRegisterBinding
+class AdmRegisterActivity : AppCompatActivity() {
+
+    private lateinit var binding: ActivityAdmRegisterBinding
     private val viewModel by viewModels<AuthViewModel> {
         ViewModelFactory.getInstance(this)
     }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        binding = ActivityRegisterBinding.inflate(layoutInflater)
+        binding = ActivityAdmRegisterBinding.inflate(layoutInflater)
         setContentView(binding.root)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        playAnimation()
-        intentHandler()
     }
 
     private fun intentHandler() {
@@ -47,6 +45,8 @@ class RegisterActivity : AppCompatActivity() {
         binding.btnDaftar.setOnClickListener {
             val username = binding.edtUsername.text.toString()
             val email = binding.edtEmail.text.toString()
+            val fullname = binding.edtFullname.text.toString()
+            val phoneNumber = binding.edtPhoneNumber.text.toString()
             val password = binding.edtPassword.text.toString()
             val passwordConfirmation = binding.edtPasswordConfirm.text.toString()
 
@@ -89,17 +89,19 @@ class RegisterActivity : AppCompatActivity() {
             } else {
                 binding.tilPasswordConfirm.error = null
             }
-            register(username, email, password, passwordConfirmation)
+            registerAdm(username, fullname, phoneNumber, email, password, passwordConfirmation)
 
         }
     }
-    private fun register(
+    private fun registerAdm(
         username: String,
+        fullname: String,
+        phoneNumber: String,
         email: String,
         password: String,
         passwordConfirmation: String
     ) {
-        viewModel.register(username, email, password, passwordConfirmation).observe(this) {
+        viewModel.registerAdm(username, fullname, phoneNumber, email, password, passwordConfirmation).observe(this) {
             if (it != null) {
                 when (it) {
                     is Result.Loading -> {
@@ -112,7 +114,7 @@ class RegisterActivity : AppCompatActivity() {
                             setTitle("Yeah!")
                             setMessage(it.data.message)
                             setPositiveButton("Lanjut") { _, _ ->
-                                startActivity(Intent(this@RegisterActivity, LoginActivity::class.java))
+                                startActivity(Intent(this@AdmRegisterActivity, LoginActivity::class.java))
                                 finish()
                             }
                             create()
@@ -154,6 +156,10 @@ class RegisterActivity : AppCompatActivity() {
             ObjectAnimator.ofFloat(binding.tvDesc, View.ALPHA, 1f).setDuration(100)
         val usernameEditTextLayout =
             ObjectAnimator.ofFloat(binding.tilUsername, View.ALPHA, 1f).setDuration(100)
+        val fullnameEditTextLayout =
+            ObjectAnimator.ofFloat(binding.tilFullname, View.ALPHA, 1f).setDuration(100)
+        val phoneNumberEditTextLayout =
+            ObjectAnimator.ofFloat(binding.tilPhoneNumber, View.ALPHA, 1f).setDuration(100)
         val emailEditTextLayout =
             ObjectAnimator.ofFloat(binding.tilEmail, View.ALPHA, 1f).setDuration(100)
         val passwordEditTextLayout =
@@ -162,7 +168,7 @@ class RegisterActivity : AppCompatActivity() {
             ObjectAnimator.ofFloat(binding.tilPasswordConfirm, View.ALPHA, 1f).setDuration(100)
         val signup = ObjectAnimator.ofFloat(binding.btnDaftar, View.ALPHA, 1f).setDuration(100)
         val login = ObjectAnimator.ofFloat(binding.btnLogin, View.ALPHA, 1f).setDuration(100)
-        val regAdmin = ObjectAnimator.ofFloat(binding.btnRegisterAdmin, View.ALPHA, 1f).setDuration(100)
+        val regAnggota = ObjectAnimator.ofFloat(binding.btnRegisterAnggota, View.ALPHA, 1f).setDuration(100)
 
 
         AnimatorSet().apply {
@@ -170,12 +176,14 @@ class RegisterActivity : AppCompatActivity() {
                 title,
                 desc,
                 usernameEditTextLayout,
+                fullnameEditTextLayout,
+                phoneNumberEditTextLayout,
                 emailEditTextLayout,
                 passwordEditTextLayout,
                 passwordConfirmEditTextLayout,
                 signup,
                 login,
-                regAdmin
+                regAnggota
             )
             startDelay = 100
         }.start()

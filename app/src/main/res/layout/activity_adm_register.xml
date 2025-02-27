@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.authentication.RegisterActivity">
+    tools:context=".ui.authentication.AdmRegisterActivity">
 
     <com.google.android.material.progressindicator.LinearProgressIndicator
         android:id="@+id/progressIndicator"
@@ -107,6 +107,42 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilFullname"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:alpha="0"
+            android:hint="Nama Lengkap"
+            app:startIconDrawable="@drawable/ic_user"
+            tools:alpha="100">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edtFullname"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="textEmailAddress" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilPhoneNumber"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:alpha="0"
+            android:hint="Nomor Hp"
+            app:startIconDrawable="@drawable/ic_user"
+            tools:alpha="100">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edtPhoneNumber"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="textEmailAddress" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/tilEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -183,12 +219,12 @@
             style="@style/textBodyM"/>
 
         <TextView
-            android:id="@+id/btnRegisterAdmin"
+            android:id="@+id/btnRegisterAnggota"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:alpha="0"
             tools:alpha="100"
-            android:text="daftar sebagai admin"
+            android:text="daftar sebagai anggota"
             android:textAlignment="center"
             style="@style/textBodyS"/>
     </LinearLayout>

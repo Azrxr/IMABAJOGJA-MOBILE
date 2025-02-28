@@ -14,7 +14,9 @@ import com.imaba.imabajogja.data.response.RegisterResponse
 import com.imaba.imabajogja.data.utils.Result
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class LoginRepository @Inject constructor(
     private val apiService: ApiService,
     private val userPreference: UserPreference
@@ -77,6 +79,10 @@ class LoginRepository @Inject constructor(
 
     suspend fun logout() {
         userPreference.logout()
+    }
+
+    suspend fun getUserToken(): String {
+        return userPreference.getToken()
     }
 
     companion object {

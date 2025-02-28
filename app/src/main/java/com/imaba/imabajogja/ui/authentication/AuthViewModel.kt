@@ -1,5 +1,6 @@
 package com.imaba.imabajogja.ui.authentication
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -43,4 +44,5 @@ class AuthViewModel @Inject constructor(
             loginRepository.saveSession(user)
         }
     }
+
 }

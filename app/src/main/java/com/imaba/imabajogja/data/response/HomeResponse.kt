@@ -14,21 +14,6 @@ data class HomeResponse(
 	val message: String
 )
 
-data class OrganizationFile(
-
-	@field:SerializedName("file_url")
-	val fileUrl: String,
-
-	@field:SerializedName("description")
-	val description: String,
-
-	@field:SerializedName("id")
-	val id: Int,
-
-	@field:SerializedName("title")
-	val title: String
-)
-
 data class OrganizationProfile(
 
 	@field:SerializedName("vision")
@@ -43,20 +28,11 @@ data class OrganizationProfile(
 	@field:SerializedName("contact_phone")
 	val contactPhone: String,
 
-	@field:SerializedName("updated_at")
-	val updatedAt: String,
-
 	@field:SerializedName("description")
 	val description: String,
 
 	@field:SerializedName("contact_phone2")
 	val contactPhone2: String,
-
-	@field:SerializedName("created_at")
-	val createdAt: String,
-
-	@field:SerializedName("files")
-	val files: List<OrganizationFile>,
 
 	@field:SerializedName("id")
 	val id: Int,
@@ -65,5 +41,27 @@ data class OrganizationProfile(
 	val title: String,
 
 	@field:SerializedName("contact_email")
-	val contactEmail: String
+	val contactEmail: String,
+
+	@field:SerializedName("files")
+val files: List<OrganizationFile>,
+
+)
+
+data class OrganizationFile(
+
+	@field:SerializedName("file_url")
+	val fileUrl: String,
+
+	@field:SerializedName("organization_profile_id")
+	val organizationProfileId: Int,
+
+	@field:SerializedName("description")
+	val description: String,
+
+	@field:SerializedName("id")
+	val id: Int,
+
+	@field:SerializedName("title")
+	val title: String
 )

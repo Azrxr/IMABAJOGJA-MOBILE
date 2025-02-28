@@ -14,16 +14,15 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.imaba.imabajogja.R
-import com.imaba.imabajogja.data.ViewModelFactory
 import com.imaba.imabajogja.databinding.ActivityRegisterBinding
 import com.imaba.imabajogja.ui.MainActivity
 import com.imaba.imabajogja.data.utils.Result
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class RegisterActivity : AppCompatActivity() {
     private lateinit var binding: ActivityRegisterBinding
-    private val viewModel by viewModels<AuthViewModel> {
-        ViewModelFactory.getInstance(this)
-    }
+    private val viewModel : AuthViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

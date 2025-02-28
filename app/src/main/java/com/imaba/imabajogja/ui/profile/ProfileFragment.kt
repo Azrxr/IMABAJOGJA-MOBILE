@@ -9,7 +9,12 @@ import android.view.View
 import android.view.ViewGroup
 import com.imaba.imabajogja.R
 import com.imaba.imabajogja.databinding.FragmentProfileBinding
+import com.imaba.imabajogja.ui.MainViewModel
+import com.imaba.imabajogja.ui.authentication.LoginActivity
+import com.imaba.imabajogja.ui.welcome.WelcomeActivity
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class ProfileFragment : Fragment() {
 
     companion object {
@@ -17,7 +22,9 @@ class ProfileFragment : Fragment() {
     }
 
     private val viewModel: ProfileViewModel by viewModels()
+    private val mainViewModel: MainViewModel by viewModels()
     private lateinit var binding: FragmentProfileBinding
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,9 +39,18 @@ class ProfileFragment : Fragment() {
         binding = FragmentProfileBinding.inflate(inflater, container, false)
         return binding.root
 
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         binding.btnEdit.setOnClickListener {
-            val intent = Intent(activity, EditProfileActivity::class.java)
+            val intent = Intent(requireContext(), EditProfileActivity::class.java)
             startActivity(intent)
+        }
+
+        binding.btnLogout.setOnClickListener {
+            mainViewModel.logout()
+            startActivity(Intent(requireContext(), WelcomeActivity::class.java))
         }
     }
 }

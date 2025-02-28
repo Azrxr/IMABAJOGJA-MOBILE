@@ -8,13 +8,19 @@ import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
+import javax.inject.Inject
+import javax.inject.Singleton
 
 val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "session")
 
-class UserPreference private constructor(private val dataStore: DataStore<Preferences>) {
+@Singleton
+class UserPreference @Inject  constructor(@ApplicationContext private val context: Context) {
+
+    private val dataStore: DataStore<Preferences> = context.dataStore
 
     suspend fun saveSession(user: UserModel) {
         dataStore.edit { preferences ->
@@ -22,7 +28,7 @@ class UserPreference private constructor(private val dataStore: DataStore<Prefer
             preferences[TOKEN_KEY] = user.token
             preferences[IS_LOGIN_KEY] = true
             preferences[ROLE_KEY] = user.role
-            Log.d("token", "token tersimpan: ${user.token} ")
+            Log.d("token", "UserPreferece: token tersimpan: ${user.token} ")
         }
     }
 
@@ -55,23 +61,23 @@ class UserPreference private constructor(private val dataStore: DataStore<Prefer
     }
 
     companion object {
-        @Volatile
-        private var INSTANCE: UserPreference? = null
+//        @Volatile
+//        private var INSTANCE: UserPreference? = null
 
         private val EMAIL_KEY = stringPreferencesKey("email")
         private val TOKEN_KEY = stringPreferencesKey("token")
         private val IS_LOGIN_KEY = booleanPreferencesKey("isLogin")
         private val ROLE_KEY = stringPreferencesKey("role")
 
-        fun getInstance(dataStore: DataStore<Preferences>): UserPreference {
-            return INSTANCE ?: synchronized(this) {
-                val instance = UserPreference(dataStore)
-                INSTANCE = instance
-                instance
-            }
-        }
-        fun create(dataStore: DataStore<Preferences>): UserPreference {
-            return UserPreference(dataStore)
-        }
+//        fun getInstance(dataStore: DataStore<Preferences>): UserPreference {
+//            return INSTANCE ?: synchronized(this) {
+//                val instance = UserPreference(dataStore)
+//                INSTANCE = instance
+//                instance
+//            }
+//        }
+//        fun create(dataStore: DataStore<Preferences>): UserPreference {
+//            return UserPreference(dataStore)
+//        }
     }
 }

@@ -1,5 +1,6 @@
 package com.imaba.imabajogja.ui
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
@@ -15,7 +16,10 @@ class MainViewModel @Inject constructor (private val repository: LoginRepository
     fun getSession(): LiveData<UserModel> {
         return repository.getSession().asLiveData()
     }
-
+    fun getUserToken() = viewModelScope.launch {
+        val token = repository.getUserToken()
+        Log.d("MainViewModel", "Token: $token")
+    }
     fun logout() {
         viewModelScope.launch {
             repository.logout()

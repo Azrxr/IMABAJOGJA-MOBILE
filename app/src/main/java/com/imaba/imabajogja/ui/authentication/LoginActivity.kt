@@ -15,18 +15,17 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.imaba.imabajogja.ui.MainActivity
 import com.imaba.imabajogja.R
-import com.imaba.imabajogja.data.ViewModelFactory
 import com.imaba.imabajogja.data.model.UserModel
 import com.imaba.imabajogja.data.response.LoginResponse
 import com.imaba.imabajogja.databinding.ActivityLoginBinding
 import com.imaba.imabajogja.data.utils.Result
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class LoginActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityLoginBinding
-    private val viewModel by viewModels<AuthViewModel> {
-        ViewModelFactory.getInstance(this)
-    }
+    private val viewModel : AuthViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

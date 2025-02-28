@@ -14,17 +14,13 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.imaba.imabajogja.R
-import com.imaba.imabajogja.data.ViewModelFactory
 import com.imaba.imabajogja.data.utils.Result
 import com.imaba.imabajogja.databinding.ActivityAdmRegisterBinding
-import com.imaba.imabajogja.databinding.ActivityRegisterBinding
 
 class AdmRegisterActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityAdmRegisterBinding
-    private val viewModel by viewModels<AuthViewModel> {
-        ViewModelFactory.getInstance(this)
-    }
+    private val viewModel : AuthViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -35,6 +31,8 @@ class AdmRegisterActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+        playAnimation()
+        intentHandler()
     }
 
     private fun intentHandler() {

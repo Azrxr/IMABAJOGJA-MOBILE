@@ -2,6 +2,7 @@
 <network-security-config>
     <domain-config cleartextTrafficPermitted="true">
         <domain includeSubdomains="true">192.168.100.178</domain> <!-- kost 5g -->
+        <domain includeSubdomains="true">192.168.100.7</domain> <!-- kost 4g -->
         <domain includeSubdomains="true">192.168.100.176</domain>
         <domain includeSubdomains="true">192.168.1.88</domain> <!-- perpus utara -->
         <domain includeSubdomains="true">192.168.206.251</domain> <!-- BLD -->

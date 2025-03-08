@@ -12,7 +12,9 @@ import android.os.Environment
 import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.FileProvider
 import androidx.exifinterface.media.ExifInterface
 import java.io.ByteArrayOutputStream
@@ -115,6 +117,10 @@ fun rotateImage(source: Bitmap, angle: Float): Bitmap? {
 
 fun showLoading(view: View, state: Boolean) {
     view.visibility = if (state) View.VISIBLE else View.GONE
+}
+
+fun Context.showToast(message: String) {
+    Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
 }
 
 @SuppressLint("SimpleDateFormat")

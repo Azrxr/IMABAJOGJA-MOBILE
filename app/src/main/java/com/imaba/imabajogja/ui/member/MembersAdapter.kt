@@ -12,6 +12,7 @@ import com.imaba.imabajogja.R
 import com.imaba.imabajogja.data.response.DataItemMember
 import com.imaba.imabajogja.databinding.ItemMembersBinding
 
+
 class MembersAdapter(
     private val onItemClick: (DataItemMember) -> Unit
 ) : PagingDataAdapter<DataItemMember, MembersAdapter.MemberViewHolder>(DIFF_CALLBACK) {
@@ -34,18 +35,21 @@ class MembersAdapter(
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(member: DataItemMember, onItemClick : (DataItemMember) -> Unit) {
+            val context = binding.root.context
             binding.rvFullname.text = member.fullname
-            binding.rvGeneration.text = member.angkatan.toString()
-            binding.rvNoMember.text = member.noMember
-            binding.rvPhone.text = member.phoneNumber.toString()
-            binding.rvUniversity.text = member.schollOrigin
-            binding.rvPrody.text = member.memberType
-            binding.rvType.text = member.memberType
+            binding.rvGeneration.text = member.angkatan ?: context.getString(R.string.empty)
+            binding.rvNoMember.text = member.noMember ?: context.getString(R.string.empty)
+            binding.rvPhone.text = member.phoneNumber ?: context.getString(R.string.empty)
+            binding.rvType.text = member.memberType ?: context.getString(R.string.empty)
+
+            val studyMember = member.studyMembers?.firstOrNull()
+            binding.rvPrody.text = studyMember?.programStudy ?: context.getString(R.string.empty)
+            binding.rvUniversity.text = studyMember?.university ?: context.getString(R.string.empty)
 
             Glide.with(binding.root.context)
             .load(member.profileImgUrl)
                 .placeholder(R.drawable.ic_user)
-                .error(R.drawable.bg_circle)
+                .error(R.drawable.ic_user)
                 .into(binding.rvImage)
 
             binding.root.setOnClickListener {

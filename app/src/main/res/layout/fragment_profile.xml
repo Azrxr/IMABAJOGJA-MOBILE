@@ -95,7 +95,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/tvName" />
 
             <TextView
-                android:id="@+id/textView4"
+                android:id="@+id/tvPhoneNumber"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="@string/number_example"
@@ -110,8 +110,8 @@
                 android:layout_height="wrap_content"
                 android:text="Edit"
                 android:textColor="@color/white"
-                app:layout_constraintEnd_toEndOf="@+id/textView4"
-                app:layout_constraintTop_toBottomOf="@+id/textView4" />
+                app:layout_constraintEnd_toEndOf="@+id/tvPhoneNumber"
+                app:layout_constraintTop_toBottomOf="@+id/tvPhoneNumber" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 
@@ -142,6 +142,14 @@
                 android:text="@string/biodata"
                 android:textColor="@color/white" />
 
+            <!-- Full Name -->
+            <TextView
+                style="@style/textBodyS"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/fullname"
+                android:textColor="@color/white" />
+
             <TextView
                 android:id="@+id/tvFullname"
                 style="@style/textBodyL"
@@ -155,7 +163,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="@color/white"
-                android:layout_marginBottom="4dp" />
+                android:layout_marginBottom="8dp" />
+
+            <!-- Place & Date of Birth -->
+            <TextView
+                style="@style/textBodyS"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/place_date"
+                android:textColor="@color/white" />
 
             <TextView
                 style="@style/textBodyL"
@@ -170,7 +186,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="@color/white"
-                android:layout_marginBottom="4dp" />
+                android:layout_marginBottom="8dp" />
+
+            <!-- Gender -->
+            <TextView
+                style="@style/textBodyS"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/gender"
+                android:textColor="@color/white" />
 
             <TextView
                 style="@style/textBodyL"
@@ -185,7 +209,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="@color/white"
-                android:layout_marginBottom="4dp" />
+                android:layout_marginBottom="8dp" />
+
+            <!-- Religion -->
+            <TextView
+                style="@style/textBodyS"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/religion"
+                android:textColor="@color/white" />
 
             <TextView
                 style="@style/textBodyL"
@@ -200,7 +232,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="@color/white"
-                android:layout_marginBottom="4dp" />
+                android:layout_marginBottom="8dp" />
+
+            <!-- NISN -->
+            <TextView
+                style="@style/textBodyS"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/nisn"
+                android:textColor="@color/white" />
 
             <TextView
                 style="@style/textBodyL"
@@ -215,9 +255,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="@color/white"
-                android:layout_marginBottom="4dp" />
+                android:layout_marginBottom="8dp" />
+
         </LinearLayout>
     </androidx.cardview.widget.CardView>
+
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView3"
@@ -246,12 +288,18 @@
                 android:textColor="@color/white" />
 
             <TextView
+                style="@style/textBodyS"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/no_anggota"
+                android:textColor="@color/white" />
+
+            <TextView
                 android:id="@+id/tvNoMember"
                 style="@style/textBodyL"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:text="Nomor Anggota"
+                android:text="@string/no_anggota"
                 android:textColor="@color/white" />
 
             <View
@@ -260,13 +308,18 @@
                 android:layout_marginTop="4dp"
                 android:background="@color/white" />
 
+            <TextView
+                style="@style/textBodyS"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/angkatan"
+                android:textColor="@color/white" />
             <TextView
                 android:id="@+id/tvGeneration"
                 style="@style/textBodyL"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:text="Angkatan"
+                android:text="@string/angkatan"
                 android:textColor="@color/white" />
 
             <View
@@ -276,12 +329,17 @@
                 android:background="@color/white" />
 
             <TextView
+                style="@style/textBodyS"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/jenis_anggota"
+                android:textColor="@color/white" />
+            <TextView
                 android:id="@+id/tvType"
                 style="@style/textBodyL"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:text="Jenis Anggota"
+                android:text="@string/jenis_anggota"
                 android:textColor="@color/white" />
 
             <View
@@ -320,11 +378,17 @@
                 android:textColor="@color/white" />
 
             <TextView
+                style="@style/textBodyS"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/phone_number"
+                android:textColor="@color/white" />
+            <TextView
                 android:id="@+id/tvPhone"
                 style="@style/textBodyL"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Nomor Telepon"
+                android:text="@string/phone_number"
                 android:textColor="@color/white" />
 
             <View
@@ -334,12 +398,17 @@
                 android:background="@color/white" />
 
             <TextView
+                style="@style/textBodyS"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/full_address"
+                android:textColor="@color/white" />
+            <TextView
                 android:id="@+id/tvAddress"
                 style="@style/textBodyL"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:text="full address"
+                android:text="@string/full_address"
                 android:textColor="@color/white" />
 
             <View

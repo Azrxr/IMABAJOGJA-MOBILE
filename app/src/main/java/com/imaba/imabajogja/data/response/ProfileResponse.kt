@@ -8,102 +8,102 @@ import com.google.gson.annotations.SerializedName
 data class ProfileResponse(
 
 	@field:SerializedName("data")
-	val data: ProfileUser,
+	val data: ProfileUser? = null,
 
 	@field:SerializedName("error")
-	val error: Boolean,
+	val error: Boolean? = null,
 
 	@field:SerializedName("message")
-	val message: String
+	val message: String? = null
 ) : Parcelable
 
 @Parcelize
 data class ProfileUser(
 
 	@field:SerializedName("member_type")
-	val memberType: String,
+	val memberType: String? = null,
 
 	@field:SerializedName("role")
-	val role: String,
+	val role: String? = null,
 
 	@field:SerializedName("gender")
-	val gender: String,
+	val gender: String? = null,
 
 	@field:SerializedName("is_studyng")
-	val isStudyng: Int,
+	val isStudyng: Int? = null,
 
 	@field:SerializedName("agama")
-	val agama: String,
+	val agama: String? = null,
 
 	@field:SerializedName("tahun_lulus")
-	val tahunLulus: Int,
+	val tahunLulus: Int? = null,
 
 	@field:SerializedName("created_at")
-	val createdAt: String,
+	val createdAt: String? = null,
 
 	@field:SerializedName("regency")
-	val regency: String,
+	val regency: String? = null,
 
 	@field:SerializedName("full_address")
-	val fullAddress: String,
+	val fullAddress: String? = null,
 
 	@field:SerializedName("updated_at")
-	val updatedAt: String,
+	val updatedAt: String? = null,
 
 	@field:SerializedName("province")
-	val province: String,
+	val province: String? = null,
 
 	@field:SerializedName("id")
-	val id: Int,
+	val id: Int? = null,
 
 	@field:SerializedName("banned")
-	val banned: Int,
+	val banned: Int? = null,
 
 	@field:SerializedName("email")
-	val email: String,
+	val email: String? = null,
 
 	@field:SerializedName("tanggal_lahir")
-	val tanggalLahir: String,
+	val tanggalLahir: String? = null,
 
 	@field:SerializedName("no_member")
-	val noMember: String,
+	val noMember: String? = null,
 
 	@field:SerializedName("profile_img_url")
-	val profileImgUrl: String,
+	val profileImgUrl: String? = null,
 
 	@field:SerializedName("angkatan")
-	val angkatan: Int,
+	val angkatan: String? = null,
 
 	@field:SerializedName("nisn")
-	val nisn: Int,
+	val nisn: Int? = null,
 
 	@field:SerializedName("kode_pos")
-	val kodePos: Int,
+	val kodePos: Int? = null,
 
 	@field:SerializedName("email_verified_at")
-	val emailVerifiedAt: Boolean,
+	val emailVerifiedAt: String? = null,
 
 	@field:SerializedName("scholl_origin")
-	val schollOrigin: String,
+	val schollOrigin: String? = null,
 
 	@field:SerializedName("tempat")
-	val tempat: String,
+	val tempat: String? = null,
 
 	@field:SerializedName("user_id")
-	val userId: Int,
+	val userId: Int? = null,
 
 	@field:SerializedName("ban_reason")
-	val banReason: String,
+	val banReason: String? = null,
 
 	@field:SerializedName("district")
-	val district: String,
+	val district: String? = null,
 
 	@field:SerializedName("phone_number")
-	val phoneNumber: Int,
+	val phoneNumber: String? = null,
 
 	@field:SerializedName("fullname")
-	val fullname: String,
+	val fullname: String? = null,
 
 	@field:SerializedName("username")
-	val username: String
+	val username: String? = null
 ) : Parcelable

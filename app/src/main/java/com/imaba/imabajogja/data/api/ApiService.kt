@@ -7,13 +7,21 @@ import com.imaba.imabajogja.data.response.ProfileResponse
 import com.imaba.imabajogja.data.response.ProfileUpdateResponse
 import com.imaba.imabajogja.data.response.RegisterAdminResponse
 import com.imaba.imabajogja.data.response.RegisterResponse
+import com.imaba.imabajogja.data.response.WilayahItem
+import com.imaba.imabajogja.data.response.WilayahResponse
+import okhttp3.MultipartBody
 import retrofit2.Response
+import retrofit2.http.Body
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
 import retrofit2.http.Headers
+import retrofit2.http.Multipart
 import retrofit2.http.POST
+import retrofit2.http.Part
 import retrofit2.http.Path
+import retrofit2.http.Query
+import java.io.File
 
 interface ApiService {
 
@@ -67,13 +75,8 @@ interface ApiService {
         @Field("username") username: String,
         @Field("email") email: String,
 
-//        @Field("current_password") currentPassword: String,
-//        @Field("new_password") newPassword: String,
-//        @Field("password_confirmation") passwordConfirmation: String,
-
         @Field("fullname") fullname: String,
         @Field("phone_number") phoneNumber: String,
-        @Field("profile_img_path") profileImg: String,
 
         @Field("province_id") provinceId: Int,
         @Field("regency_id") regencyId: Int,
@@ -89,15 +92,33 @@ interface ApiService {
         @Field("tahun_lulus") tahunLulus: Int,
     ): Response<ProfileUpdateResponse>
 
+    @Multipart
+    @POST("member/profileUpdate")
+    suspend fun updatePhotoProfile(
+        @Part profileImg: MultipartBody.Part
+    ): Response<ProfileUpdateResponse>
 
+    @FormUrlEncoded
+    @POST("member/profileUpdate")
+    suspend fun updatePassword(
+        @Field("current_password") currentPassword: String,
+        @Field("new_password") newPassword: String,
+        @Field("password_confirmation") passwordConfirmation: String,
+    ): Response<ProfileUpdateResponse>
 
-//    @GET("locations/provinces")
-//    suspend fun getProvinces(): Response<List<Province>>
-//
-//    @GET("locations/regencies/{province_id}")
-//    suspend fun getRegencies(@Path("province_id") provinceId: Int): Response<List<Regency>>
-//
-//    @GET("locations/districts/{regency_id}")
-//    suspend fun getDistricts(@Path("regency_id") regencyId: Int): Response<List<District>>
+    @GET("province")
+    suspend fun getProvinces(): WilayahResponse
 
+    @GET("regency/{id}")
+    suspend fun getRegencies(
+        @Path("id") provinceId: Int,
+        @Query("search") search: String? = null
+    ): WilayahResponse
+
+    // 🔥 GET District List (Kecamatan berdasarkan Regency ID)
+    @GET("district/{id}")
+    suspend fun getDistricts(
+        @Path("id") regencyId: Int,
+        @Query("search") search: String? = null
+    ): WilayahResponse
 }

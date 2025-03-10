@@ -3,7 +3,6 @@ package com.imaba.imabajogja.ui.member
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.AdapterView.OnItemClickListener
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -34,9 +33,9 @@ class MembersAdapter(
     inner class MemberViewHolder(private val binding: ItemMembersBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(member: DataItemMember, onItemClick : (DataItemMember) -> Unit) {
+        fun bind(member: DataItemMember, onItemClick: (DataItemMember) -> Unit) {
             val context = binding.root.context
-            binding.rvFullname.text = member.fullname
+            binding.rvFullname.text = member.fullname ?: context.getString(R.string.empty)
             binding.rvGeneration.text = member.angkatan ?: context.getString(R.string.empty)
             binding.rvNoMember.text = member.noMember ?: context.getString(R.string.empty)
             binding.rvPhone.text = member.phoneNumber ?: context.getString(R.string.empty)
@@ -47,8 +46,8 @@ class MembersAdapter(
             binding.rvUniversity.text = studyMember?.university ?: context.getString(R.string.empty)
 
             Glide.with(binding.root.context)
-            .load(member.profileImgUrl)
-                .placeholder(R.drawable.ic_user)
+                .load(member.profileImgUrl)
+                .placeholder(R.drawable.ic_image_broken)
                 .error(R.drawable.ic_user)
                 .into(binding.rvImage)
 
@@ -60,11 +59,17 @@ class MembersAdapter(
 
     companion object {
         private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<DataItemMember>() {
-            override fun areItemsTheSame(oldItem: DataItemMember, newItem: DataItemMember): Boolean {
+            override fun areItemsTheSame(
+                oldItem: DataItemMember,
+                newItem: DataItemMember
+            ): Boolean {
                 return oldItem.id == newItem.id
             }
 
-            override fun areContentsTheSame(oldItem: DataItemMember, newItem: DataItemMember): Boolean {
+            override fun areContentsTheSame(
+                oldItem: DataItemMember,
+                newItem: DataItemMember
+            ): Boolean {
                 return oldItem == newItem
             }
         }

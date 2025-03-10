@@ -1,5 +1,6 @@
 package com.imaba.imabajogja.ui.profile
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -9,10 +10,10 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.bumptech.glide.Glide
+import com.imaba.imabajogja.R
 import com.imaba.imabajogja.data.response.ProfileResponse
 import com.imaba.imabajogja.data.response.ProfileUser
 import com.imaba.imabajogja.data.utils.Result
-import com.imaba.imabajogja.data.utils.showLoading
 import com.imaba.imabajogja.data.utils.showToast
 import com.imaba.imabajogja.databinding.FragmentProfileBinding
 import com.imaba.imabajogja.ui.MainViewModel
@@ -24,12 +25,13 @@ class ProfileFragment : Fragment() {
 
     companion object {
         fun newInstance() = ProfileFragment()
+
     }
 
     private val viewModel: ProfileViewModel by viewModels()
     private val mainViewModel: MainViewModel by viewModels()
     private lateinit var binding: FragmentProfileBinding
-
+    private val REQUEST_UPDATE_PROFILE = 1001
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -77,7 +79,7 @@ class ProfileFragment : Fragment() {
         binding.btnEdit.setOnClickListener {
             profileData?.let { profile ->
                 val intent = EditProfileActivity.newIntent(requireContext(), profile)
-                startActivity(intent)
+                startActivityForResult(intent, REQUEST_UPDATE_PROFILE)
             } ?: requireContext().showToast("Data profil belum tersedia")
         }
 
@@ -86,21 +88,42 @@ class ProfileFragment : Fragment() {
             startActivity(Intent(requireContext(), WelcomeActivity::class.java))
         }
     }
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == REQUEST_UPDATE_PROFILE && resultCode == Activity.RESULT_OK) {
+            viewModel.getProfileData() // Ambil ulang data profile terbaru
+        }
+    }
 
     private fun showProfileData(data: ProfileResponse) {
         val profile = data.data
-        binding.tvName.text = profile.fullname
-        binding.tvEmail.text = profile.email
-        binding.tvPhone.text = profile.phoneNumber.toString()
-        binding.tvAddress.text = profile.fullAddress
-        binding.tvGender.text = profile.gender
-        binding.tvNISN.text = profile.nisn.toString()
-        binding.tvType.text = profile.memberType
-        binding.tvReligion.text = profile.agama
-        binding.tvPlaceDate.text = "${profile.tempat}, ${profile.tanggalLahir}"
-        binding.tvGeneration.text = profile.angkatan?.toString() ?: "Tidak tersedia"
+        binding.tvName.text = profile?.username ?: getString(R.string.empty)
+        binding.tvFullname.text = profile?.fullname ?: getString(R.string.empty)
+        binding.tvEmail.text = profile?.email ?: getString(R.string.empty)
+        binding.tvPhone.text = profile?.phoneNumber ?: getString(R.string.empty)
+        binding.tvPhoneNumber.text = profile?.phoneNumber ?: getString(R.string.empty)
+        binding.tvAddress.text = if (profile?.fullAddress != null && profile.district != null && profile.regency != null && profile.province != null) {
+            "${profile.fullAddress}, ${profile.district}, ${profile.regency}, ${profile.province}"
+        } else {
+            getString(R.string.empty)
+        }
+        binding.tvGender.text = profile?.gender ?: getString(R.string.empty)
+        binding.tvNISN.text = profile?.nisn?.toString() ?: getString(R.string.empty)
+        binding.tvType.text = profile?.memberType ?: getString(R.string.empty)
+        binding.tvReligion.text = profile?.agama ?: getString(R.string.empty)
+        binding.tvPlaceDate.text = if (profile?.tempat != null && profile.tanggalLahir != null) {
+            "${profile.tempat}, ${profile.tanggalLahir}"
+        } else {
+            getString(R.string.empty)
+        }
 
-        Glide.with(requireContext()).load(profile.profileImgUrl).into(binding.ivProfile)
+        binding.tvGeneration.text = profile?.angkatan ?: getString(R.string.empty)
+
+        Glide.with(requireContext())
+            .load(profile?.profileImgUrl)
+            .placeholder(R.drawable.ic_user) // Placeholder jika loading gambar
+            .error(R.drawable.ic_image_broken) // Gambar default jika gagal memuat
+            .into(binding.ivProfile)
     }
 
     private fun showLoading(isLoading: Boolean) {

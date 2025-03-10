@@ -10,11 +10,9 @@ import android.net.Uri
 import android.os.Build
 import android.os.Environment
 import android.provider.MediaStore
-import android.view.LayoutInflater
 import android.view.View
+import android.widget.EditText
 import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.FileProvider
 import androidx.exifinterface.media.ExifInterface
 import java.io.ByteArrayOutputStream
@@ -28,40 +26,55 @@ import java.util.Locale
 
 private const val FILENAME_FORMAT = "yyyyMMdd_HHmmss"
 private val timeStamp: String = SimpleDateFormat(FILENAME_FORMAT, Locale.US).format(Date())
-private const val MAXIMAL_SIZE = 1000000
+private const val MAXIMAL_SIZE = 2_000_000 // 🔥 Maksimum 2MB
 
-//fun getImageUri(context: Context): Uri {
-//    var uri: Uri? = null
-//    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-//        val contentValues = ContentValues().apply {
-//            put(MediaStore.MediaColumns.DISPLAY_NAME, "$timeStamp.jpg")
-//            put(MediaStore.MediaColumns.MIME_TYPE, "image/jpeg")
-//            put(MediaStore.MediaColumns.RELATIVE_PATH, "Pictures/MyCamera/")
-//        }
-//        uri = context.contentResolver.insert(
-//            MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-//            contentValues
-//        )
-//    }
-//    return uri ?: getImageUriForPreQ(context)
-//}
-//
-//private fun getImageUriForPreQ(context: Context): Uri {
-//    val filesDir = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
-//    val imageFile = File(filesDir, "/MyCamera/$timeStamp.jpg")
-//    if (imageFile.parentFile?.exists() == false) imageFile.parentFile?.mkdir()
-//    return FileProvider.getUriForFile(
-//        context,
-//        "${BuildConfig.APPLICATION_ID}.fileprovider",
-//        imageFile
-//    )
-//}
 
+fun EditText.setTextOrPlaceholder(value: String?, placeholder: String) {
+    if (!value.isNullOrEmpty()) {
+        this.setText(value)
+    } else {
+        this.setText("")
+        this.hint = placeholder
+    }
+}
+
+
+// 🔥 1. Fungsi untuk mendapatkan URI gambar (Android 10+)
+fun getImageUri(context: Context): Uri {
+    var uri: Uri? = null
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+        val contentValues = ContentValues().apply {
+            put(MediaStore.MediaColumns.DISPLAY_NAME, "$timeStamp.jpg")
+            put(MediaStore.MediaColumns.MIME_TYPE, "image/jpeg")
+            put(MediaStore.MediaColumns.RELATIVE_PATH, "Pictures/MyCamera/")
+        }
+        uri = context.contentResolver.insert(
+            MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+            contentValues
+        )
+    }
+    return uri ?: getImageUriForPreQ(context)
+}
+
+// 🔥 2. Untuk Android 9 (Pie) ke bawah
+private fun getImageUriForPreQ(context: Context): Uri {
+    val filesDir = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+    val imageFile = File(filesDir, "/MyCamera/$timeStamp.jpg")
+    if (imageFile.parentFile?.exists() == false) imageFile.parentFile?.mkdir()
+    return FileProvider.getUriForFile(
+        context,
+        "${context.packageName}.fileprovider",
+        imageFile
+    )
+}
+
+// 🔥 3. Buat file gambar sementara
 fun createCustomTempFile(context: Context): File {
     val filesDir = context.externalCacheDir
     return File.createTempFile(timeStamp, ".jpg", filesDir)
 }
 
+// 🔥 4. Convert URI ke File
 fun uriToFile(imageUri: Uri, context: Context): File {
     val myFile = createCustomTempFile(context)
     val inputStream = context.contentResolver.openInputStream(imageUri) as InputStream
@@ -72,10 +85,9 @@ fun uriToFile(imageUri: Uri, context: Context): File {
     outputStream.close()
     inputStream.close()
     return myFile
-
-
 }
-//kompress gambar
+
+// 🔥 5. Kompresi gambar agar tidak lebih dari 2MB
 fun File.reduceFileImage(): File {
     val file = this
     val bitmap = BitmapFactory.decodeFile(file.path).getRotatedBitmap(file)
@@ -87,13 +99,13 @@ fun File.reduceFileImage(): File {
         val bmpPicByteArray = bmpStream.toByteArray()
         streamLength = bmpPicByteArray.size
         compressQuality -= 5
-    } while (streamLength > MAXIMAL_SIZE)
-    bitmap?.compress(Bitmap.CompressFormat.JPEG, compressQuality, FileOutputStream(file))
+    } while (streamLength > MAXIMAL_SIZE && compressQuality > 0)
 
+    bitmap?.compress(Bitmap.CompressFormat.JPEG, compressQuality, FileOutputStream(file))
     return file
 }
 
-//rotasi gambar
+// 🔥 6. Pastikan gambar tidak berputar saat diunggah
 fun Bitmap.getRotatedBitmap(file: File): Bitmap? {
     val orientation = ExifInterface(file).getAttributeInt(
         ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_UNDEFINED
@@ -107,12 +119,11 @@ fun Bitmap.getRotatedBitmap(file: File): Bitmap? {
     }
 }
 
+// 🔥 7. Fungsi untuk rotasi gambar
 fun rotateImage(source: Bitmap, angle: Float): Bitmap? {
     val matrix = Matrix()
     matrix.postRotate(angle)
-    return Bitmap.createBitmap(
-        source, 0, 0, source.width, source.height, matrix, true
-    )
+    return Bitmap.createBitmap(source, 0, 0, source.width, source.height, matrix, true)
 }
 
 fun showLoading(view: View, state: Boolean) {

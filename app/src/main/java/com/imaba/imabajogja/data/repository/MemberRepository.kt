@@ -12,8 +12,13 @@ import com.imaba.imabajogja.data.response.DataItemMember
 import com.imaba.imabajogja.data.response.HomeResponse
 import com.imaba.imabajogja.data.response.ProfileResponse
 import com.imaba.imabajogja.data.response.ProfileUpdateResponse
+import com.imaba.imabajogja.data.response.WilayahItem
 import com.imaba.imabajogja.data.utils.Result
 import kotlinx.coroutines.flow.Flow
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody.Companion.asRequestBody
+import java.io.File
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -77,8 +82,7 @@ class MemberRepository @Inject constructor(private val apiService: ApiService) {
 
     fun updateProfile(
         username : String, email : String,
-//        currentPassword: String, newPassword: String, passwordConfirmation: String,
-        fullname : String, phoneNumber : String, profileImg: String,
+        fullname : String, phoneNumber : String,
         provinceId: Int, regencyId: Int, districtId: Int, fullAddres: String, kodePos: String,
         agama: String, nisn: String, tempat: String, tanggalLahir: String, gender: String,
         schollOrigin: String, tahunLulus: Int,
@@ -88,8 +92,7 @@ class MemberRepository @Inject constructor(private val apiService: ApiService) {
             try {
                 val response = apiService.updateProfile(
                     username, email,
-//                    currentPassword, newPassword, passwordConfirmation,
-                    fullname, phoneNumber, profileImg,
+                    fullname, phoneNumber,
                     provinceId, regencyId, districtId, fullAddres, kodePos,
                     agama, nisn, tempat, tanggalLahir, gender,
                     schollOrigin, tahunLulus)
@@ -107,6 +110,108 @@ class MemberRepository @Inject constructor(private val apiService: ApiService) {
                 Log.d("data", "error MemberRepository: ${e.message}")
                 emit(Result.Error(e.message.toString()))
             }
+        }
+    }
+
+    fun updatePhotoProfile(photoFile: File): LiveData<Result<ProfileUpdateResponse>> {
+        return liveData {
+            emit(Result.Loading)
+            try {
+                // 🔥 Konversi file menjadi Multipart
+                val requestFile = photoFile.asRequestBody("image/jpeg".toMediaTypeOrNull())
+                val body = MultipartBody.Part.createFormData("profile_img_path", photoFile.name, requestFile)
+                // 🔥 Panggil API
+                val response = apiService.updatePhotoProfile(body)
+
+                if (response.isSuccessful) {
+                    emit(Result.Success(response.body()!!))
+                } else {
+                    emit(Result.Error("Gagal mengupload foto: ${response.message()}"))
+                }
+            } catch (e: Exception) {
+                emit(Result.Error(e.message.toString()))
+            }
+        }
+    }
+//    fun updatePhotoProfile(
+//        profileImg : String
+//    ): LiveData<Result<ProfileUpdateResponse>>{
+//        return liveData {
+//            try {
+//                val response = apiService.updatePhotoProfile(
+//                    profileImg
+//                )
+//                if (response.isSuccessful) {
+//                    response.body()?.let {
+//                        emit(Result.Success(it))
+//                    } ?: emit(Result.Error("Response body kosong"))
+//                } else {
+//                    val errorMessage = response.errorBody()?.string() ?: "Terjadi kesalahan"
+//                    emit(Result.Error("Error ${response.code()}: $errorMessage"))
+//                }
+//            }
+//            catch (e: Exception) {
+//
+//                Log.d("data", "error MemberRepository: ${e.message}")
+//                emit(Result.Error(e.message.toString()))
+//            }
+//        }
+//    }
+
+    fun updatePassword(
+        currentPassword: String,
+        newPassword:String,
+        passwordConfirmation: String
+    ): LiveData<Result<ProfileUpdateResponse>>{
+        return liveData {
+            try {
+                val response = apiService.updatePassword(
+                    currentPassword, newPassword, passwordConfirmation
+                )
+                if (response.isSuccessful) {
+                    response.body()?.let {
+                        emit(Result.Success(it))
+                    } ?: emit(Result.Error("Response body kosong"))
+                } else {
+                    val errorMessage = response.errorBody()?.string() ?: "Terjadi kesalahan"
+                    emit(Result.Error("Error ${response.code()}: $errorMessage"))
+                }
+            }
+            catch (e: Exception) {
+
+                Log.d("data", "error MemberRepository: ${e.message}")
+                emit(Result.Error(e.message.toString()))
+            }
+        }
+    }
+
+    fun getProvinces(): LiveData<Result<List<WilayahItem>>> = liveData {
+        emit(Result.Loading)
+        try {
+            val response = apiService.getProvinces()
+            emit(Result.Success(response.data))
+        } catch (e: Exception) {
+            emit(Result.Error(e.message.toString()))
+        }
+    }
+
+    fun getRegencies(provinceId: Int, search: String? = null): LiveData<Result<List<WilayahItem>>> = liveData {
+        emit(Result.Loading)
+        try {
+            val response = apiService.getRegencies(provinceId, search)
+            emit(Result.Success(response.data))
+        } catch (e: Exception) {
+            emit(Result.Error(e.message.toString()))
+        }
+    }
+
+    fun getDistricts(regencyId: Int, search: String? = null): LiveData<Result<List<WilayahItem>>> = liveData {
+        emit(Result.Loading)
+        try {
+            val response = apiService.getDistricts(regencyId, search)
+            emit(Result.Success(response.data))
+        } catch (e: Exception) {
+            emit(Result.Error(e.message.toString()))
         }
     }
 }

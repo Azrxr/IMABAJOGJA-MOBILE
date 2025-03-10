@@ -1,27 +1,38 @@
 package com.imaba.imabajogja.ui.profile
 
 import android.app.Activity
+import android.app.DatePickerDialog
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Log
+import android.widget.ArrayAdapter
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
+import com.imaba.imabajogja.R
+import com.imaba.imabajogja.data.api.ApiService
 import com.imaba.imabajogja.data.response.ProfileUser
 import com.imaba.imabajogja.data.utils.Result
 import com.imaba.imabajogja.data.utils.createCustomTempFile
+import com.imaba.imabajogja.data.utils.reduceFileImage
+import com.imaba.imabajogja.data.utils.setTextOrPlaceholder
 import com.imaba.imabajogja.data.utils.showToast
+import com.imaba.imabajogja.data.utils.uriToFile
 import com.imaba.imabajogja.databinding.ActivityEditProfileBinding
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import java.io.File
 import java.io.FileOutputStream
 import java.io.InputStream
+import java.util.Calendar
 
 @AndroidEntryPoint
 class EditProfileActivity : AppCompatActivity() {
@@ -30,6 +41,14 @@ class EditProfileActivity : AppCompatActivity() {
     private val viewModel: ProfileViewModel by viewModels()
     private var profileData: ProfileUser? = null
     private var selectedImageFile: File? = null
+
+    private lateinit var provinceAdapter: ArrayAdapter<String>
+    private lateinit var regencyAdapter: ArrayAdapter<String>
+    private lateinit var districtAdapter: ArrayAdapter<String>
+
+    private var selectedProvinceId: Int? = null
+    private var selectedRegencyId: Int? = null
+    private var selectedDistrictId: Int? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,117 +67,198 @@ class EditProfileActivity : AppCompatActivity() {
             showProfileData(it)
         }
         updateProfile()
+        setupDropdowns()
+        setupDatePicker()
+        pickImageFromGallery()
 
     }
 
     private fun showProfileData(data: ProfileUser) {
         val profile = data
 
-        binding.etUsername.setText(profile.username)
-        binding.etEmail.setText(profile.email)
+        binding.etUsername.setTextOrPlaceholder(profile.username, "Masukkan username")
+        binding.etEmail.setTextOrPlaceholder(profile.email, "Masukkan email")
 
-        binding.etFullname.setText(profile.fullname)
-        binding.etPhoneNumber.setText(profile.phoneNumber)
-        binding.etFullAddress.setText(profile.fullAddress)
-        binding.etPostalCode.setText(profile.kodePos)
-        binding.etReligion.setText(profile.agama)
-        binding.etNisn.setText(profile.nisn)
-        binding.etBirthPlace.setText(profile.tempat)
-        binding.etBirthDate.setText(profile.tanggalLahir)
-        binding.etGender.setText(profile.gender)
-        binding.etSchoolOrigin.setText(profile.schollOrigin)
-        binding.etGraduationYear.setText(profile.tahunLulus)
+        binding.etProvince.setTextOrPlaceholder(profile.province, "Provinsi")
+        binding.etCity.setTextOrPlaceholder(profile.regency, "kota")
+        binding.etDistrict.setTextOrPlaceholder(profile.district, "kecamatan")
 
-        Glide.with(this).load(profile.profileImgUrl).into(binding.ivProfile)
+        binding.etFullname.setTextOrPlaceholder(profile.fullname, "Masukkan nama lengkap")
+        binding.etPhoneNumber.setTextOrPlaceholder(profile.phoneNumber?.toString(), "Masukkan nomor telepon")
+        binding.etFullAddress.setTextOrPlaceholder(profile.fullAddress, "Masukkan alamat lengkap")
+        binding.etPostalCode.setTextOrPlaceholder(profile.kodePos?.toString(), "Masukkan kode pos")
+        binding.etReligion.setTextOrPlaceholder(profile.agama, "Masukkan agama")
+        binding.etNisn.setTextOrPlaceholder(profile.nisn?.toString(), "Masukkan NISN")
+        binding.etBirthPlace.setTextOrPlaceholder(profile.tempat, "Masukkan tempat lahir")
+        binding.etBirthDate.setTextOrPlaceholder(profile.tanggalLahir?.toString(), "Masukkan tanggal lahir")
+        binding.etGender.setTextOrPlaceholder(profile.gender, "Pilih jenis kelamin")
+        binding.etSchoolOrigin.setTextOrPlaceholder(profile.schollOrigin?.toString(), "Masukkan asal sekolah")
+        binding.etGraduationYear.setTextOrPlaceholder(profile.tahunLulus?.toString(), "Masukkan tahun lulus")
+
+        Glide.with(this)
+            .load(profile.profileImgUrl)
+            .placeholder(R.drawable.ic_user) // 🔥 Set placeholder jika gambar kosong
+            .error(R.drawable.ic_image_broken) // 🔥 Jika gagal load, tampilkan default
+            .into(binding.ivProfile)
+
     }
 
     private fun pickImageFromGallery() {
-        val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-        intent.type = "image/*"
-        startActivityForResult(intent, REQUEST_PICK_IMAGE)
+        binding.btnUpload.setOnClickListener{
+            val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+            intent.type = "image/*"
+            startActivityForResult(intent, REQUEST_PICK_IMAGE)
+        }
+
     }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
         if (requestCode == REQUEST_PICK_IMAGE && resultCode == Activity.RESULT_OK) {
             val selectedImageUri: Uri? = data?.data
             if (selectedImageUri != null) {
-                binding.ivProfile.setImageURI(selectedImageUri) // 🔥 Tampilkan preview gambar
-                selectedImageFile = uriToFile(selectedImageUri, this) // 🔥 Ubah Uri ke File untuk upload
+                // 🔥 Tampilkan gambar yang dipilih
+                binding.ivProfile.setImageURI(selectedImageUri)
+
+                // 🔥 Konversi URI ke File & Kompres sebelum upload
+                selectedImageFile = uriToFile(selectedImageUri, this).reduceFileImage()
+
+                // 🔥 Langsung kirim ke server setelah dipilih
+                uploadPhoto()
             } else {
                 showToast("Gagal memilih gambar")
             }
         }
     }
 
-    private fun uriToFile(selectedImg: Uri, context: Context): File {
-        val myFile = createCustomTempFile(context)
-        val inputStream = context.contentResolver.openInputStream(selectedImg) as InputStream
-        val outputStream = FileOutputStream(myFile)
-        val buffer = ByteArray(1024)
-        var length: Int
-        while (inputStream.read(buffer).also { length = it } > 0) {
-            outputStream.write(buffer, 0, length)
-        }
-        outputStream.close()
-        inputStream.close()
-        return myFile
+    private fun setupGenderDropDown() {
+        val genderOptions = listOf("Laki-laki", "Perempuan")
+        val adapter = ArrayAdapter(this, android.R.layout.simple_dropdown_item_1line, genderOptions)
+        binding.etGender.setAdapter(adapter)
     }
 
+    private fun setupReligionDropDown() {
+        val religionOptions = listOf("Islam", "Kristen", "Katolik", "Hindu", "Budha", "Konghucu", "Lainnya")
+        val adapter = ArrayAdapter(this, android.R.layout.simple_dropdown_item_1line, religionOptions)
+        binding.etGender.setAdapter(adapter)
+    }
 
-//    private fun setupGenderSpinner() {
-//        val genderList = listOf("Laki-laki", "Perempuan")
-//        val adapter = ArrayAdapter(this, R.layout.simple_spinner_dropdown_item, genderList)
-//        binding.spinnerGender.adapter = adapter
-//
-//        binding.spinnerGender.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-//            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-//                selectedGender = genderList[position] // Simpan nilai yang dipilih
-//            }
-//            override fun onNothingSelected(parent: AdapterView<*>?) {}
-//        }
-//    }
+    private fun setupProvinceDropdown() {
+        viewModel.getProvinces().observe(this) { result ->
+            when (result) {
+                is Result.Success -> {
+                    val provinceNames = result.data.map { it.name }
+                    provinceAdapter = ArrayAdapter(this, android.R.layout.simple_dropdown_item_1line, provinceNames)
+                    binding.etProvince.setAdapter(provinceAdapter)
 
+                    binding.etProvince.setOnItemClickListener { _, _, position, _ ->
+                        selectedProvinceId = result.data[position].id
+                        setupRegencyDropdown()
+                    }
+                }
+                is Result.Error -> showToast("Gagal mengambil provinsi: ${result.message}")
+                is Result.Loading -> showToast("Memuat data provinsi...")
+            }
+        }
+    }
 
-//    private fun getProvinces() {
-//        lifecycleScope.launch {
-//            val response = apiService.getProvinces()
-//            if (response.isSuccessful) {
-//                val provinces = response.body() ?: emptyList()
-//                val adapter = ArrayAdapter(this@EditProfileActivity, android.R.layout.simple_spinner_dropdown_item, provinces.map { it.name })
-//                binding.spinnerProvince.adapter = adapter
-//            }
-//        }
-//    }
-//
-//    private fun getRegencies(provinceId: Int) {
-//        lifecycleScope.launch {
-//            val response = apiService.getRegencies(provinceId)
-//            if (response.isSuccessful) {
-//                val regencies = response.body() ?: emptyList()
-//                val adapter = ArrayAdapter(this@EditProfileActivity, android.R.layout.simple_spinner_dropdown_item, regencies.map { it.name })
-//                binding.spinnerRegency.adapter = adapter
-//            }
-//        }
-//    }
+    private fun setupRegencyDropdown() {
+        selectedProvinceId?.let { provinceId ->
+            viewModel.getRegencies(provinceId).observe(this) { result ->
+                when (result) {
+                    is Result.Success -> {
+                        val regencyNames = result.data.map { it.name }
+                        regencyAdapter = ArrayAdapter(this, android.R.layout.simple_dropdown_item_1line, regencyNames)
+                        binding.etCity.setAdapter(regencyAdapter)
 
+                        binding.etCity.setOnItemClickListener { _, _, position, _ ->
+                            selectedRegencyId = result.data[position].id
+                            setupDistrictDropdown()
+                        }
+                    }
+                    is Result.Error -> showToast("Gagal mengambil kabupaten/kota: ${result.message}")
+                    is Result.Loading -> showToast("Memuat data kabupaten/kota...")
+                }
+            }
+        }
+    }
+
+    private fun setupDistrictDropdown() {
+        selectedRegencyId?.let { regencyId ->
+            viewModel.getDistricts(regencyId).observe(this) { result ->
+                when (result) {
+                    is Result.Success -> {
+                        val districtNames = result.data.map { it.name }
+                        districtAdapter = ArrayAdapter(this, android.R.layout.simple_dropdown_item_1line, districtNames)
+                        binding.etDistrict.setAdapter(districtAdapter)
+
+                        binding.etDistrict.setOnItemClickListener { _, _, position, _ ->
+                            selectedDistrictId = result.data[position].id
+                        }
+                    }
+                    is Result.Error -> showToast("Gagal mengambil kecamatan: ${result.message}")
+                    is Result.Loading -> showToast("Memuat data kecamatan...")
+                }
+            }
+        }
+    }
+
+    private fun setupDropdowns() {
+        setupProvinceDropdown()
+        setupRegencyDropdown()
+        setupDistrictDropdown()
+        setupGenderDropDown()
+        setupReligionDropDown()
+    }
+
+    private fun setupDatePicker(): String {
+        var selectedDate = ""
+        binding.etBirthDate.setOnClickListener {
+            val calendar = Calendar.getInstance()
+            val year = calendar.get(Calendar.YEAR)
+            val month = calendar.get(Calendar.MONTH)
+            val day = calendar.get(Calendar.DAY_OF_MONTH)
+
+            val datePicker = DatePickerDialog(this, { _, selectedYear, selectedMonth, selectedDay ->
+                selectedDate = String.format("%04d-%02d-%02d", selectedYear, selectedMonth + 1, selectedDay)
+                binding.etBirthDate.setText(selectedDate) // 🔥 Menampilkan tanggal yang dipilih di EditText
+            }, year, month, day)
+
+            datePicker.show()
+        }
+        return selectedDate
+    }
+
+    private fun uploadPhoto(){
+        selectedImageFile?.let { file ->
+            viewModel.updatePhotoProfile(file).observe(this) { result ->
+                when (result) {
+                    is Result.Success -> {
+                        showToast("Foto profil berhasil diperbarui!")
+                        Log.d("UploadPhoto", "Berhasil: ${result.data}")
+                    }
+
+                    is Result.Error -> {
+                        showToast("Gagal mengupload foto: ${result.message}")
+                        Log.e("UploadPhoto", "Error: ${result.message}")
+                    }
+
+                    is Result.Loading -> {
+                        showToast("Mengunggah foto profil...")
+                    }
+                }
+            }
+        } ?: showToast("Pilih gambar terlebih dahulu")
+    }
 
     private fun updateProfile() {
         binding.btnSave.setOnClickListener {
             val username = binding.etUsername.text.toString()
             val email = binding.etEmail.text.toString()
 
-//            val currentPassword = binding.edtCurrentPassword.text.toString()
-//            val newPassword = binding.edtNewPassword.text.toString()
-//            val passwordConfirmation = binding.edtPasswordConfirm.text.toString()
-
             val fullname = binding.etFullname.text.toString()
             val phoneNumber = binding.etPhoneNumber.text.toString()
-
-            val profileImg = "profile.jpg"
-            val provinceId = binding.etProvince.id
-            val regencyId = binding.etCity.id
-            val districtId = binding.etDistrict.id
 
             val fullAddress = binding.etFullAddress.text.toString()
             val kodePos = binding.etPostalCode.text.toString()
@@ -170,21 +270,30 @@ class EditProfileActivity : AppCompatActivity() {
             val schollOrigin = binding.etSchoolOrigin.text.toString()
             val tahunLulus = binding.etGraduationYear.text.toString().toInt()
 
-            binding.btnUpload.setOnClickListener {
-                pickImageFromGallery()
-            }
-
             viewModel.updateProfile(
                 username, email,
-//                currentPassword, newPassword, passwordConfirmation,
-                fullname, phoneNumber, profileImg, provinceId, regencyId, districtId,
+                fullname, phoneNumber, selectedProvinceId ?: 0, selectedRegencyId ?: 0, selectedDistrictId ?: 0,
                 fullAddress, kodePos, agama, nisn, tempat, tanggalLahir, gender,
                 schollOrigin, tahunLulus
             ).observe(this) { result ->
                 when (result) {
-                    is Result.Success -> showToast("Profil berhasil diperbarui!")
-                    is Result.Error -> showToast("Gagal memperbarui profil: ${result.message}")
-                    is Result.Loading -> showToast("Memproses pembaruan profil...")
+                    is Result.Success -> {
+                        Log.d("UpdateProfile", "Profil berhasil diperbarui!")
+                        showToast("Profil berhasil diperbarui!")
+                        val intent = Intent()
+                        setResult(Activity.RESULT_OK, intent) // Kirim sinyal ke fragment
+                        finish()
+                    }
+
+                    is Result.Error -> {
+                        Log.e("UpdateProfile", "Gagal memperbarui profil: ${result.message}")
+                        showToast("Gagal memperbarui profil: ${result.message}")
+                    }
+
+                    is Result.Loading -> {
+                        Log.d("UpdateProfile", "Memproses pembaruan profil...")
+                        showToast("Memproses pembaruan profil...")
+                    }
                 }
             }
         }

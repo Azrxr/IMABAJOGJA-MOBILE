@@ -12,6 +12,10 @@ import com.imaba.imabajogja.data.response.DataItemMember
 import com.imaba.imabajogja.data.response.HomeResponse
 import com.imaba.imabajogja.data.response.ProfileResponse
 import com.imaba.imabajogja.data.response.ProfileUpdateResponse
+import com.imaba.imabajogja.data.response.StudyItem
+import com.imaba.imabajogja.data.response.StudyPlans
+import com.imaba.imabajogja.data.response.StudyPlansResponse
+import com.imaba.imabajogja.data.response.StudyResponse
 import com.imaba.imabajogja.data.response.WilayahItem
 import com.imaba.imabajogja.data.utils.Result
 import kotlinx.coroutines.flow.Flow
@@ -133,30 +137,6 @@ class MemberRepository @Inject constructor(private val apiService: ApiService) {
             }
         }
     }
-//    fun updatePhotoProfile(
-//        profileImg : String
-//    ): LiveData<Result<ProfileUpdateResponse>>{
-//        return liveData {
-//            try {
-//                val response = apiService.updatePhotoProfile(
-//                    profileImg
-//                )
-//                if (response.isSuccessful) {
-//                    response.body()?.let {
-//                        emit(Result.Success(it))
-//                    } ?: emit(Result.Error("Response body kosong"))
-//                } else {
-//                    val errorMessage = response.errorBody()?.string() ?: "Terjadi kesalahan"
-//                    emit(Result.Error("Error ${response.code()}: $errorMessage"))
-//                }
-//            }
-//            catch (e: Exception) {
-//
-//                Log.d("data", "error MemberRepository: ${e.message}")
-//                emit(Result.Error(e.message.toString()))
-//            }
-//        }
-//    }
 
     fun updatePassword(
         currentPassword: String,
@@ -214,4 +194,76 @@ class MemberRepository @Inject constructor(private val apiService: ApiService) {
             emit(Result.Error(e.message.toString()))
         }
     }
+    fun getUniversity(): LiveData<Result<List<StudyItem>>> = liveData {
+        emit(Result.Loading)
+        try {
+            val response = apiService.getUniversity()
+            emit(Result.Success(response.data))
+        } catch (e: Exception) {
+            emit(Result.Error(e.message.toString()))
+        }
+    }
+
+    fun getFaculty(universityId: Int, search: String? = null): LiveData<Result<List<StudyItem>>> = liveData {
+        emit(Result.Loading)
+        try {
+            val response = apiService.getFaculty(universityId, search)
+            emit(Result.Success(response.data))
+        } catch (e: Exception) {
+            emit(Result.Error(e.message.toString()))
+        }
+    }
+    fun getProgramStudy(universityId: Int, search: String? = null): LiveData<Result<List<StudyItem>>> = liveData {
+        emit(Result.Loading)
+        try {
+            val response = apiService.getProgramStudy(universityId, search)
+            emit(Result.Success(response.data))
+        } catch (e: Exception) {
+            emit(Result.Error(e.message.toString()))
+        }
+    }
+
+    fun getStudyPlans(): LiveData<Result<List<StudyPlans>>> = liveData {
+        emit(Result.Loading)
+        try {
+            val response = apiService.getStudyPlane()
+            if (!response.error){
+                emit(Result.Success(response.data))
+            } else(
+                emit(Result.Error(response.message))
+            )
+        }  catch (e: Exception) {
+            emit(Result.Error(e.message.toString() ?: "Terjadi kesalahan"))
+        }
+    }
+
+    fun addStudyPlan(universityId: Int, programStudyId: Int): LiveData<Result<String>> = liveData {
+        emit(Result.Loading)
+        try {
+            val response = apiService.addStudyPlan(universityId, programStudyId)
+            if (response.isSuccessful && response.body() != null) {
+                emit(Result.Success(response.body()!!.message))
+            } else {
+                emit(Result.Error(response.errorBody()?.string() ?: "Gagal menambahkan study plan"))
+            }
+        } catch (e: Exception) {
+            emit(Result.Error(e.message ?: "Terjadi kesalahan"))
+        }
+    }
+
+    fun deleteStudyPlan(id: Int):
+        LiveData<Result<String>> = liveData {
+            emit(Result.Loading)
+            try {
+                val response = apiService.deleteStudyPlane(id)
+                if (response.isSuccessful && response.body() != null) {
+                    emit(Result.Success(response.body()!!.message))
+                } else {
+                    emit(Result.Error(response.errorBody()?.string() ?: "Gagal menghapus data"))
+                }
+            } catch (e: Exception) {
+                emit(Result.Error(e.message ?: "Terjadi kesalahan"))
+            }
+    }
+
 }

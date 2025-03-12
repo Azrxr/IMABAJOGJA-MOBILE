@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,260 +7,169 @@
     android:padding="16dp"
     tools:context=".ui.campus.CampuseFragment">
 
-    <TextView
-        android:id="@+id/title"
-        style="@style/textHeaderL_bold"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Pendidikan"
-        android:textAlignment="center"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_height="wrap_content">
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cardViewCampusCurrent"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="top"
-        android:elevation="4dp"
-        app:cardCornerRadius="20dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/title">
-
-        <LinearLayout
+        <com.google.android.material.progressindicator.LinearProgressIndicator
+            android:id="@+id/progressBar"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:padding="16dp">
+            android:layout_height="wrap_content"
+            android:indeterminate="true"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                style="@style/textBodyL_bold"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:padding="8dp"
-                android:text="Perguruan tinggi saat ini" />
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/tilCampusName"
-                android:layout_width="match_parent"
-                app:startIconDrawable="@drawable/ic_university"
-                android:layout_height="wrap_content">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/etCampusName"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Nama Perguruan Tinggi"
-                    android:inputType="text"
-                    android:maxLines="1" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/tilFaculty"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/etFaculty"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Fakultas"
-                    android:inputType="text"
-                    android:maxLines="1" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/tilStudyProgram"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:startIconDrawable="@drawable/ic_study"
-                android:layout_marginTop="8dp">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/etStudyProgram"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Program Studi"
-                    android:inputType="text"
-                    android:maxLines="1" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-        </LinearLayout>
-    </androidx.cardview.widget.CardView>
-
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="rencana kuliah anda di jogja"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cardViewCampusCurrent" />
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cardViewCampusPlan"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:elevation="4dp"
-        app:cardCornerRadius="20dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView3">
-
-        <LinearLayout
+        <TextView
+            android:id="@+id/title"
+            style="@style/textHeaderM_bold"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:padding="16dp">
+            android:layout_height="wrap_content"
+            android:text="Pendidikan"
+            android:textAlignment="center"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/progressBar" />
 
-            <TextView
-                style="@style/textBodyL_bold"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:padding="8dp"
-                android:text="Rencana Kuliah" />
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/tilCampusNamePlan"
-                android:layout_width="match_parent"
-                app:startIconDrawable="@drawable/ic_university"
-                android:layout_height="wrap_content">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/etCampusNamePlan"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Nama Perguruan Tinggi"
-                    android:inputType="text"
-                    android:maxLines="1" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/tilProdiPlan"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:startIconDrawable="@drawable/ic_study"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/etProdiPlan"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Program Studi"
-                    android:inputType="text"
-                    android:maxLines="1" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/tilStudiPlan2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:startIconDrawable="@drawable/ic_study"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/etStudyPlan2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Program Studi 2"
-                android:inputType="text"
-                android:maxLines="1" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-        </LinearLayout>
-    </androidx.cardview.widget.CardView>
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cardViewCampusPlan2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:elevation="4dp"
-        app:cardCornerRadius="20dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cardViewCampusPlan">
-
-        <LinearLayout
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardViewCampusCurrent"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:padding="16dp">
+            android:layout_height="wrap_content"
+            android:layout_gravity="top"
+            android:elevation="4dp"
+            app:cardCornerRadius="20dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/title">
 
-            <TextView
-                style="@style/textBodyL_bold"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:padding="8dp"
-                android:text="Rencana Kuliah 2" />
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:padding="16dp">
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/tilCampusNamePlan2"
-                android:layout_width="match_parent"
-                app:startIconDrawable="@drawable/ic_university"
-                android:layout_height="wrap_content">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/etCampusNamePlan2"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Nama Perguruan Tinggi"
-                    android:inputType="text"
-                    android:maxLines="1" />
-            </com.google.android.material.textfield.TextInputLayout>
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:padding="8dp">
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/tilProdiPlan1_2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:startIconDrawable="@drawable/ic_study"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp">
+                    <TextView
+                        style="@style/textBodyL_bold"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Perguruan tinggi saat ini" />
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/etProdiPlan1_2"
+                    <TextView
+                        android:id="@+id/tvSaveCampusCurrent"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingEnd="8dp"
+                        android:text="Simpan"
+                        android:textSize="14sp"
+                        tools:ignore="RtlSymmetry" />
+                </LinearLayout>
+
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tilCampusName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Program Studi"
-                    android:inputType="text"
-                    android:maxLines="1" />
-            </com.google.android.material.textfield.TextInputLayout>
+                    app:endIconMode="dropdown_menu"
+                    app:startIconDrawable="@drawable/ic_university">
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/tilStudiPlan2_2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:startIconDrawable="@drawable/ic_study"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp">
+                    <AutoCompleteTextView
+                        android:id="@+id/etCampusName"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:hint="@string/nama_perguruan_tinggi"
+                        android:inputType="text"
+                        android:maxLines="1"
+                        android:padding="8dp" />
+                </com.google.android.material.textfield.TextInputLayout>
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/etStudyPlan2_2"
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tilFaculty"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Program Studi 2"
-                    android:inputType="text"
-                    android:maxLines="1" />
-            </com.google.android.material.textfield.TextInputLayout>
+                    android:layout_marginTop="8dp"
+                    app:endIconMode="dropdown_menu">
 
-        </LinearLayout>
-    </androidx.cardview.widget.CardView>
+                    <AutoCompleteTextView
+                        android:id="@+id/etFaculty"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:hint="@string/fakultas"
+                        android:inputType="text"
+                        android:maxLines="1"
+                        android:padding="8dp" />
+                </com.google.android.material.textfield.TextInputLayout>
 
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Lengkapi Dokument"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/cardViewCampusPlan2" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tilStudyProgram"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    app:endIconMode="dropdown_menu"
+                    app:startIconDrawable="@drawable/ic_study">
+
+                    <AutoCompleteTextView
+                        android:id="@+id/etStudyProgram"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:hint="@string/program_studi"
+                        android:inputType="text"
+                        android:maxLines="1" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <TextView
+            android:id="@+id/textView3"
+            style="@style/textBodyL_bold"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="rencana kuliah anda di jogja"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cardViewCampusCurrent" />
+
+        <Button
+            android:id="@+id/btnLengkapiDoc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/lengkapi_persyaratan_dokumen"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView3" />
+
+        <Button
+            android:id="@+id/btnAddPlans"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableStart="@drawable/ic_camera_plus"
+            android:text="Tambah Renaca Kuliah"
+            app:layout_constraintEnd_toEndOf="@+id/btnLengkapiDoc"
+            app:layout_constraintStart_toStartOf="@+id/btnLengkapiDoc"
+            app:layout_constraintTop_toBottomOf="@+id/btnLengkapiDoc" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvStudyPlans"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btnAddPlans"
+            tools:listitem="@layout/item_study_plans" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>

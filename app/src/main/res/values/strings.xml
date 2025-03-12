@@ -5,7 +5,7 @@
     <string name="second_fragment_label">Second Fragment</string>
     <string name="next">Next</string>
     <string name="previous">Previous</string>
-<string name="empty">Data tidak tersedia</string>
+    <string name="empty">Data tidak tersedia</string>
     <string name="lorem_ipsum">
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam in scelerisque sem. Mauris
         volutpat, dolor id interdum ullamcorper, risus dolor egestas lectus, sit amet mattis purus
@@ -81,4 +81,13 @@
     <string name="no_anggota">Nomor Anggota</string>
     <string name="angkatan">Angkatan</string>
     <string name="jenis_anggota">Jenis Anggota</string>
+    <string name="rencana_perguruan_tinggi">Rencana Perguruan tinggi</string>
+    <string name="nama_perguruan_tinggi">Nama Perguruan Tinggi</string>
+    <string name="program_studi">Program Studi</string>
+    <string name="program_studi_2">Program Studi 2</string>
+    <string name="jenjang">Jenjang: </string>
+    <string name="status">status</string>
+    <string name="lengkapi_persyaratan_dokumen">Lengkapi Persyaratan Dokumen</string>
+    <string name="fakultas">Fakultas</string>
+    <string name="delete">Hapus</string>
 </resources>

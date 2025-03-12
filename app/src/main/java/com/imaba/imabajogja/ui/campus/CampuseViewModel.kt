@@ -1,7 +1,33 @@
 package com.imaba.imabajogja.ui.campus
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
+import com.imaba.imabajogja.data.repository.MemberRepository
+import com.imaba.imabajogja.data.response.StudyItem
+import com.imaba.imabajogja.data.response.StudyPlans
+import com.imaba.imabajogja.data.utils.Result
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class CampuseViewModel : ViewModel() {
-    // TODO: Implement the ViewModel
+@HiltViewModel
+class CampuseViewModel @Inject constructor(private val repository: MemberRepository) : ViewModel() {
+
+    fun getStudyPlans(): LiveData<Result<List<StudyPlans>>> =
+        repository.getStudyPlans()
+
+    fun addStudyPlan(universityId: Int, programStudyId: Int): LiveData<Result<String>> {
+        return repository.addStudyPlan(universityId, programStudyId)
+    }
+
+    fun getUniversity(): LiveData<Result<List<StudyItem>>> = repository.getUniversity()
+
+    fun getFaculty(universityId: Int, search: String? = null): LiveData<Result<List<StudyItem>>> =
+        repository.getFaculty(universityId, search)
+
+    fun getProgramStudy(universityId: Int, search: String? = null): LiveData<Result<List<StudyItem>>> =
+        repository.getProgramStudy(universityId, search)
+
+    fun deleteStudyPlan(studyPlanId: Int): LiveData<Result<String>> {
+        return repository.deleteStudyPlan(studyPlanId)
+    }
 }

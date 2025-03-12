@@ -7,11 +7,15 @@ import com.imaba.imabajogja.data.response.ProfileResponse
 import com.imaba.imabajogja.data.response.ProfileUpdateResponse
 import com.imaba.imabajogja.data.response.RegisterAdminResponse
 import com.imaba.imabajogja.data.response.RegisterResponse
+import com.imaba.imabajogja.data.response.StudyPlansResponse
+import com.imaba.imabajogja.data.response.StudyResponse
+import com.imaba.imabajogja.data.response.SuccesResponse
 import com.imaba.imabajogja.data.response.WilayahItem
 import com.imaba.imabajogja.data.response.WilayahResponse
 import okhttp3.MultipartBody
 import retrofit2.Response
 import retrofit2.http.Body
+import retrofit2.http.DELETE
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
@@ -121,4 +125,43 @@ interface ApiService {
         @Path("id") regencyId: Int,
         @Query("search") search: String? = null
     ): WilayahResponse
+
+    @GET ("university")
+    suspend fun getUniversity(): StudyResponse
+
+    @GET ("faculty/{id}")
+    suspend fun getFaculty(
+        @Path("id") provinceId: Int,
+        @Query("search") search: String? = null
+    ): StudyResponse
+
+    @GET ("programStudy/{id}")
+    suspend fun getProgramStudy(
+        @Path("id") provinceId: Int,
+        @Query("search") search: String? = null
+    ): StudyResponse
+
+    @FormUrlEncoded
+    @POST ("member/studyPlaneAdd")
+    suspend fun addStudyPlan(
+        @Field("university_id") universityId: Int,
+        @Field("program_study_id") programStudyId: Int
+    ): Response<SuccesResponse>
+
+    @GET ("member/studyPlane")
+    suspend fun getStudyPlane(): StudyPlansResponse
+
+    @FormUrlEncoded
+    @POST ("member/studyPlaneUpdate/{id}")
+    suspend fun updateStudyPlane(
+        @Field("id") id: Int,
+        @Field("university_id") universityId: Int,
+        @Field("program_study_id") programStudyId: Int
+    ): Response<SuccesResponse>
+
+
+    @DELETE ("member/studyPlaneDelete/{id}")
+    suspend fun deleteStudyPlane(
+        @Path("id") id: Int
+    ): Response<SuccesResponse>
 }

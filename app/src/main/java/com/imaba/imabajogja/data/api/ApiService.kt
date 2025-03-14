@@ -1,5 +1,6 @@
 package com.imaba.imabajogja.data.api
 
+import com.imaba.imabajogja.data.response.DocumentsResponse
 import com.imaba.imabajogja.data.response.HomeResponse
 import com.imaba.imabajogja.data.response.LoginResponse
 import com.imaba.imabajogja.data.response.MembersResponse
@@ -13,6 +14,7 @@ import com.imaba.imabajogja.data.response.SuccesResponse
 import com.imaba.imabajogja.data.response.WilayahItem
 import com.imaba.imabajogja.data.response.WilayahResponse
 import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.DELETE
@@ -126,33 +128,33 @@ interface ApiService {
         @Query("search") search: String? = null
     ): WilayahResponse
 
-    @GET ("university")
+    @GET("university")
     suspend fun getUniversity(): StudyResponse
 
-    @GET ("faculty/{id}")
+    @GET("faculty/{id}")
     suspend fun getFaculty(
         @Path("id") provinceId: Int,
         @Query("search") search: String? = null
     ): StudyResponse
 
-    @GET ("programStudy/{id}")
+    @GET("programStudy/{id}")
     suspend fun getProgramStudy(
         @Path("id") provinceId: Int,
         @Query("search") search: String? = null
     ): StudyResponse
 
     @FormUrlEncoded
-    @POST ("member/studyPlaneAdd")
+    @POST("member/studyPlaneAdd")
     suspend fun addStudyPlan(
         @Field("university_id") universityId: Int,
         @Field("program_study_id") programStudyId: Int
     ): Response<SuccesResponse>
 
-    @GET ("member/studyPlane")
+    @GET("member/studyPlane")
     suspend fun getStudyPlane(): StudyPlansResponse
 
     @FormUrlEncoded
-    @POST ("member/studyPlaneUpdate/{id}")
+    @POST("member/studyPlaneUpdate/{id}")
     suspend fun updateStudyPlane(
         @Field("id") id: Int,
         @Field("university_id") universityId: Int,
@@ -160,8 +162,37 @@ interface ApiService {
     ): Response<SuccesResponse>
 
 
-    @DELETE ("member/studyPlaneDelete/{id}")
+    @DELETE("member/studyPlaneDelete/{id}")
     suspend fun deleteStudyPlane(
         @Path("id") id: Int
     ): Response<SuccesResponse>
+
+    @GET("member/showDocument")
+    suspend fun getDocuments(): Response<DocumentsResponse>
+
+    @DELETE("member/deleteDocument/{field}")
+    suspend fun deleteDocument(
+        @Path("field") field: String
+    ) : Response<SuccesResponse>
+
+    @Multipart
+    @POST("member/uploadDocument")
+    suspend fun uploadDocument(
+        @Part("documentType") documentType: RequestBody,
+        @Part file: MultipartBody.Part // File dokumen
+    ): Response<SuccesResponse>
+
+    @Multipart
+    @POST("member/uploadHomePhoto")
+    @Headers ("Content-Type: multipart/form-data")
+    suspend fun uploadHomePhoto(
+        @Part photoImg: MultipartBody.Part,
+        @Part ("photo_title") photoTitle: RequestBody,
+    ): Response<SuccesResponse>
+
+    @DELETE("member/deleteHomePhoto/{id}")
+    suspend fun deleteHomePhoto(
+        @Path("id") id: Int
+    ): Response<SuccesResponse>
+
 }

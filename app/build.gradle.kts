@@ -110,6 +110,11 @@ dependencies {
     //preference
     implementation(libs.androidx.datastore.preferences)
 
+    //compress pdf
+    implementation (libs.itext7.core)
+
+
+
     // Import the Firebase BoM
 
 //    implementation(platform(libs.firebase.bom))

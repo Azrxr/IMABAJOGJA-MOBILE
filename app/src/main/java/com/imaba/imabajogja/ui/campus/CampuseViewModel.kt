@@ -3,10 +3,14 @@ package com.imaba.imabajogja.ui.campus
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import com.imaba.imabajogja.data.repository.MemberRepository
+import com.imaba.imabajogja.data.response.DocumentsResponse
 import com.imaba.imabajogja.data.response.StudyItem
 import com.imaba.imabajogja.data.response.StudyPlans
+import com.imaba.imabajogja.data.response.SuccesResponse
 import com.imaba.imabajogja.data.utils.Result
 import dagger.hilt.android.lifecycle.HiltViewModel
+import okhttp3.MultipartBody
+import java.io.File
 import javax.inject.Inject
 
 @HiltViewModel
@@ -29,5 +33,27 @@ class CampuseViewModel @Inject constructor(private val repository: MemberReposit
 
     fun deleteStudyPlan(studyPlanId: Int): LiveData<Result<String>> {
         return repository.deleteStudyPlan(studyPlanId)
+    }
+
+    fun getDocuments(): LiveData<Result<DocumentsResponse>> =
+        repository.getDocuments()
+
+    fun uploadDocument(documentType: String, file: File): LiveData<Result<SuccesResponse>> {
+        return repository.uploadDocument(documentType, file)
+    }
+
+    fun deleteDocument(field: String): LiveData<Result<SuccesResponse>> {
+        return repository.deleteDocument(field)
+    }
+
+    fun uploadHomePhoto(photoTitle: String, homePhoto: File): LiveData<Result<SuccesResponse>> {
+        return repository.uploadHomePhoto(photoTitle, homePhoto)
+    }
+    fun uploadPhotoDoc(photoType: String, file: File): LiveData<Result<SuccesResponse>> {
+        return repository.uploadHomePhoto(photoType, file)
+    }
+
+    fun deleteHomePhoto(id: Int): LiveData<Result<SuccesResponse>> {
+        return repository.deleteHomePhoto(id)
     }
 }

@@ -9,6 +9,7 @@ import androidx.paging.PagingData
 import com.imaba.imabajogja.data.api.ApiService
 import com.imaba.imabajogja.data.pagging.MemberPagingSource
 import com.imaba.imabajogja.data.response.DataItemMember
+import com.imaba.imabajogja.data.response.DocumentsResponse
 import com.imaba.imabajogja.data.response.HomeResponse
 import com.imaba.imabajogja.data.response.ProfileResponse
 import com.imaba.imabajogja.data.response.ProfileUpdateResponse
@@ -16,12 +17,17 @@ import com.imaba.imabajogja.data.response.StudyItem
 import com.imaba.imabajogja.data.response.StudyPlans
 import com.imaba.imabajogja.data.response.StudyPlansResponse
 import com.imaba.imabajogja.data.response.StudyResponse
+import com.imaba.imabajogja.data.response.SuccesResponse
 import com.imaba.imabajogja.data.response.WilayahItem
 import com.imaba.imabajogja.data.utils.Result
+import com.imaba.imabajogja.data.utils.compressPdf
+import com.imaba.imabajogja.data.utils.reduceFileImage
+import com.itextpdf.io.IOException
 import kotlinx.coroutines.flow.Flow
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.File
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -29,7 +35,7 @@ import javax.inject.Singleton
 @Singleton
 class MemberRepository @Inject constructor(private val apiService: ApiService) {
 
-//    Repository akan menjadi perantara antara API Service dan ViewModel.
+    //    Repository akan menjadi perantara antara API Service dan ViewModel.
     fun getHomeData(): LiveData<Result<HomeResponse>> = liveData {
         emit(Result.Loading)
         try {
@@ -85,8 +91,8 @@ class MemberRepository @Inject constructor(private val apiService: ApiService) {
     }
 
     fun updateProfile(
-        username : String, email : String,
-        fullname : String, phoneNumber : String,
+        username: String, email: String,
+        fullname: String, phoneNumber: String,
         provinceId: Int, regencyId: Int, districtId: Int, fullAddres: String, kodePos: String,
         agama: String, nisn: String, tempat: String, tanggalLahir: String, gender: String,
         schollOrigin: String, tahunLulus: Int,
@@ -99,7 +105,8 @@ class MemberRepository @Inject constructor(private val apiService: ApiService) {
                     fullname, phoneNumber,
                     provinceId, regencyId, districtId, fullAddres, kodePos,
                     agama, nisn, tempat, tanggalLahir, gender,
-                    schollOrigin, tahunLulus)
+                    schollOrigin, tahunLulus
+                )
                 if (response.isSuccessful) {
                     response.body()?.let {
                         emit(Result.Success(it))
@@ -108,8 +115,7 @@ class MemberRepository @Inject constructor(private val apiService: ApiService) {
                     val errorMessage = response.errorBody()?.string() ?: "Terjadi kesalahan"
                     emit(Result.Error("Error ${response.code()}: $errorMessage"))
                 }
-            }
-            catch (e: Exception) {
+            } catch (e: Exception) {
 
                 Log.d("data", "error MemberRepository: ${e.message}")
                 emit(Result.Error(e.message.toString()))
@@ -123,7 +129,11 @@ class MemberRepository @Inject constructor(private val apiService: ApiService) {
             try {
                 // 🔥 Konversi file menjadi Multipart
                 val requestFile = photoFile.asRequestBody("image/jpeg".toMediaTypeOrNull())
-                val body = MultipartBody.Part.createFormData("profile_img_path", photoFile.name, requestFile)
+                val body = MultipartBody.Part.createFormData(
+                    "profile_img_path",
+                    photoFile.name,
+                    requestFile
+                )
                 // 🔥 Panggil API
                 val response = apiService.updatePhotoProfile(body)
 
@@ -140,9 +150,9 @@ class MemberRepository @Inject constructor(private val apiService: ApiService) {
 
     fun updatePassword(
         currentPassword: String,
-        newPassword:String,
+        newPassword: String,
         passwordConfirmation: String
-    ): LiveData<Result<ProfileUpdateResponse>>{
+    ): LiveData<Result<ProfileUpdateResponse>> {
         return liveData {
             try {
                 val response = apiService.updatePassword(
@@ -156,8 +166,7 @@ class MemberRepository @Inject constructor(private val apiService: ApiService) {
                     val errorMessage = response.errorBody()?.string() ?: "Terjadi kesalahan"
                     emit(Result.Error("Error ${response.code()}: $errorMessage"))
                 }
-            }
-            catch (e: Exception) {
+            } catch (e: Exception) {
 
                 Log.d("data", "error MemberRepository: ${e.message}")
                 emit(Result.Error(e.message.toString()))
@@ -175,25 +184,28 @@ class MemberRepository @Inject constructor(private val apiService: ApiService) {
         }
     }
 
-    fun getRegencies(provinceId: Int, search: String? = null): LiveData<Result<List<WilayahItem>>> = liveData {
-        emit(Result.Loading)
-        try {
-            val response = apiService.getRegencies(provinceId, search)
-            emit(Result.Success(response.data))
-        } catch (e: Exception) {
-            emit(Result.Error(e.message.toString()))
+    fun getRegencies(provinceId: Int, search: String? = null): LiveData<Result<List<WilayahItem>>> =
+        liveData {
+            emit(Result.Loading)
+            try {
+                val response = apiService.getRegencies(provinceId, search)
+                emit(Result.Success(response.data))
+            } catch (e: Exception) {
+                emit(Result.Error(e.message.toString()))
+            }
         }
-    }
 
-    fun getDistricts(regencyId: Int, search: String? = null): LiveData<Result<List<WilayahItem>>> = liveData {
-        emit(Result.Loading)
-        try {
-            val response = apiService.getDistricts(regencyId, search)
-            emit(Result.Success(response.data))
-        } catch (e: Exception) {
-            emit(Result.Error(e.message.toString()))
+    fun getDistricts(regencyId: Int, search: String? = null): LiveData<Result<List<WilayahItem>>> =
+        liveData {
+            emit(Result.Loading)
+            try {
+                val response = apiService.getDistricts(regencyId, search)
+                emit(Result.Success(response.data))
+            } catch (e: Exception) {
+                emit(Result.Error(e.message.toString()))
+            }
         }
-    }
+
     fun getUniversity(): LiveData<Result<List<StudyItem>>> = liveData {
         emit(Result.Loading)
         try {
@@ -204,16 +216,21 @@ class MemberRepository @Inject constructor(private val apiService: ApiService) {
         }
     }
 
-    fun getFaculty(universityId: Int, search: String? = null): LiveData<Result<List<StudyItem>>> = liveData {
-        emit(Result.Loading)
-        try {
-            val response = apiService.getFaculty(universityId, search)
-            emit(Result.Success(response.data))
-        } catch (e: Exception) {
-            emit(Result.Error(e.message.toString()))
+    fun getFaculty(universityId: Int, search: String? = null): LiveData<Result<List<StudyItem>>> =
+        liveData {
+            emit(Result.Loading)
+            try {
+                val response = apiService.getFaculty(universityId, search)
+                emit(Result.Success(response.data))
+            } catch (e: Exception) {
+                emit(Result.Error(e.message.toString()))
+            }
         }
-    }
-    fun getProgramStudy(universityId: Int, search: String? = null): LiveData<Result<List<StudyItem>>> = liveData {
+
+    fun getProgramStudy(
+        universityId: Int,
+        search: String? = null
+    ): LiveData<Result<List<StudyItem>>> = liveData {
         emit(Result.Loading)
         try {
             val response = apiService.getProgramStudy(universityId, search)
@@ -227,12 +244,12 @@ class MemberRepository @Inject constructor(private val apiService: ApiService) {
         emit(Result.Loading)
         try {
             val response = apiService.getStudyPlane()
-            if (!response.error){
+            if (!response.error) {
                 emit(Result.Success(response.data))
-            } else(
-                emit(Result.Error(response.message))
-            )
-        }  catch (e: Exception) {
+            } else (
+                    emit(Result.Error(response.message))
+                    )
+        } catch (e: Exception) {
             emit(Result.Error(e.message.toString() ?: "Terjadi kesalahan"))
         }
     }
@@ -252,18 +269,168 @@ class MemberRepository @Inject constructor(private val apiService: ApiService) {
     }
 
     fun deleteStudyPlan(id: Int):
-        LiveData<Result<String>> = liveData {
+            LiveData<Result<String>> = liveData {
+        emit(Result.Loading)
+        try {
+            val response = apiService.deleteStudyPlane(id)
+            if (response.isSuccessful && response.body() != null) {
+                emit(Result.Success(response.body()!!.message))
+            } else {
+                emit(Result.Error(response.errorBody()?.string() ?: "Gagal menghapus data"))
+            }
+        } catch (e: Exception) {
+            emit(Result.Error(e.message ?: "Terjadi kesalahan"))
+        }
+    }
+
+    fun uploadDocument(documentType: String, file: File): LiveData<Result<SuccesResponse>> =
+        liveData {
             emit(Result.Loading)
             try {
-                val response = apiService.deleteStudyPlane(id)
-                if (response.isSuccessful && response.body() != null) {
-                    emit(Result.Success(response.body()!!.message))
+                // 📝 Cek apakah file perlu dikompres
+                val compressedFile = try {
+                    compressPdf(file) // 🔥 Kompres PDF sebelum upload
+                } catch (e: IOException) {
+                    Log.e("UploadDocument", "❌ Gagal mengompres PDF: ${e.message}")
+                    emit(Result.Error("Gagal mengompres PDF: ${e.message}"))
+                    return@liveData
+                }
+
+                val docTypeRequestBody =
+                    documentType.toRequestBody("text/plain".toMediaTypeOrNull())
+                val requestFile =
+                    compressedFile.asRequestBody("application/pdf".toMediaTypeOrNull())
+                val filePart = MultipartBody.Part.createFormData(
+                    documentType,
+                    compressedFile.name,
+                    requestFile
+                )
+
+                // 🔥 Panggil API Service
+                val response = apiService.uploadDocument(docTypeRequestBody, filePart)
+
+                Log.d("UploadDocument", "Mengunggah dokumen: $documentType")
+                Log.d("UploadDocument", "Nama file: ${file.name}, Ukuran: ${file.length()} bytes")
+
+                if (response.isSuccessful) {
+                    emit(Result.Success(response.body()!!))
+                    Log.d("UploadDocument", "✅ Dokumen berhasil diunggah!")
                 } else {
-                    emit(Result.Error(response.errorBody()?.string() ?: "Gagal menghapus data"))
+                    emit(Result.Error("Gagal mengupload dokumen: ${response.message()}"))
+                    Log.e("UploadDocument", "❌ Gagal: ${response.body()}")
                 }
             } catch (e: Exception) {
-                emit(Result.Error(e.message ?: "Terjadi kesalahan"))
+                Log.e("UploadDocument", "❌ Terjadi kesalahan: ${e.message}")
+                emit(Result.Error("Terjadi kesalahan: ${e.message}"))
             }
+        }
+
+    fun deleteDocument(field: String): LiveData<Result<SuccesResponse>> = liveData {
+        emit(Result.Loading)
+        try {
+            val response = apiService.deleteDocument(field)
+            if (response.isSuccessful) {
+                emit(Result.Success(response.body()!!))
+            } else {
+                emit(Result.Error("Gagal menghapus dokumen: ${response.errorBody()?.string()}"))
+            }
+        } catch (e: Exception) {
+            Log.e("DeleteDoc", "Error: ${e.message}")
+            emit(Result.Error("Terjadi kesalahan: ${e.message}"))
+        }
+    }
+
+    // Upload foto rumah dengan title
+    fun uploadPhotoDoc(documentType: String, file: File): LiveData<Result<SuccesResponse>> =
+        liveData {
+
+            emit(Result.Loading)
+            try {
+                // 🔥 Konversi file menjadi Multipart
+                val compressedFile = file.reduceFileImage()
+                val requestFile = compressedFile.asRequestBody("image/jpeg".toMediaTypeOrNull())
+
+                val filePart = MultipartBody.Part.createFormData(documentType, compressedFile.name, requestFile)
+
+                val photoType = documentType.toRequestBody("text/plain".toMediaTypeOrNull())
+
+                // 🔥 Panggil API
+                val response = apiService.uploadDocument(photoType, filePart)
+
+                if (response.isSuccessful) {
+                    emit(Result.Success(response.body()!!))
+                } else {
+                    emit(Result.Error("Gagal mengupload foto: ${response.message()}"))
+                }
+            } catch (e: Exception) {
+                emit(Result.Error(e.message.toString()))
+            }
+
+        }
+
+    // Upload foto rumah dengan title
+    fun uploadHomePhoto(photoTitle: String, photoFile: File): LiveData<Result<SuccesResponse>> =
+        liveData {
+
+            emit(Result.Loading)
+            try {
+                // 🔥 Konversi file menjadi Multipart
+                val compressedFile = photoFile.reduceFileImage()
+                // 🔥 Konversi file menjadi MultipartBody
+                val requestFile = compressedFile.asRequestBody("image/jpeg".toMediaTypeOrNull())
+                val body = MultipartBody.Part.createFormData(
+                    "photo_img_path",
+                    compressedFile.name,
+                    requestFile
+                )
+                val titleBody = photoTitle.toRequestBody("text/plain".toMediaTypeOrNull())
+
+                // 🔥 Panggil API
+                val response = apiService.uploadHomePhoto(body, titleBody)
+
+                if (response.isSuccessful) {
+                    emit(Result.Success(response.body()!!))
+                } else {
+                    emit(Result.Error("Gagal mengupload foto: ${response.message()}"))
+                }
+            } catch (e: Exception) {
+                emit(Result.Error(e.message.toString()))
+            }
+
+        }
+
+    // Hapus foto rumah berdasarkan ID
+    fun deleteHomePhoto(id: Int): LiveData<Result<SuccesResponse>> = liveData {
+        emit(Result.Loading)
+        try {
+            val response = apiService.deleteHomePhoto(id)
+            if (response.isSuccessful) {
+                emit(Result.Success(response.body()!!))
+            } else {
+                emit(Result.Error("Gagal menghapus foto rumah: ${response.errorBody()?.string()}"))
+            }
+        } catch (e: Exception) {
+            Log.e("DeletePhoto", "Error: ${e.message}")
+            emit(Result.Error("Terjadi kesalahan: ${e.message}"))
+        }
+    }
+
+    fun getDocuments(): LiveData<Result<DocumentsResponse>> = liveData {
+        emit(Result.Loading)
+        try {
+            val response = apiService.getDocuments()
+            if (!response.isSuccessful) {
+                throw Exception("Error dari server: ${response.code()} - ${response.message()}")
+            }
+            val body = response.body()
+            if (body == null) {
+                throw Exception("Response dari server kosong")
+            }
+            emit(Result.Success(body))
+
+        } catch (e: Exception) {
+            emit(Result.Error(e.message.toString()))
+        }
     }
 
 }

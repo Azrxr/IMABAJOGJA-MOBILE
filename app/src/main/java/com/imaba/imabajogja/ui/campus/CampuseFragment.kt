@@ -52,6 +52,9 @@ class CampuseFragment : Fragment() {
         binding.btnAddPlans.setOnClickListener {
             startActivity(Intent(requireContext(), AddStudyPlanActivity::class.java))
         }
+        binding.btnLengkapiDoc.setOnClickListener {
+            startActivity(Intent(requireContext(), DokumenCampuseActivity::class.java))
+        }
 
     }
 

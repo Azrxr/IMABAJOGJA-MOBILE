@@ -1,18 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="70dp"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:elevation="4dp"
-    app:cardElevation="4dp"
-    android:layout_margin="4dp"
     android:layout_gravity="center"
-    app:cardCornerRadius="15dp">
+    android:layout_margin="4dp"
+    android:elevation="4dp"
+    app:cardCornerRadius="15dp"
+    app:cardElevation="4dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_margin="4dp"
+
         android:elevation="4dp"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
@@ -25,18 +26,45 @@
             android:layout_height="60dp"
             android:contentDescription="icon document"
             android:elevation="4dp"
-            android:src="@drawable/ic_upload"
+            android:src="@drawable/ic_pdf"
+            android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <ImageButton
+            android:id="@+id/btnAddDoc"
+            android:layout_width="40dp"
+            android:layout_height="60dp"
+            android:layout_marginStart="288dp"
+            android:contentDescription="icon document"
+            android:elevation="4dp"
+            android:layout_marginEnd="8dp"
+            android:src="@drawable/ic_document_plus"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageButton
+            android:id="@+id/btnDelete"
+            android:layout_width="40dp"
+            android:layout_height="60dp"
+            android:layout_marginEnd="8dp"
+            android:src="@drawable/ic_delete"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@+id/tvDescription"
+            app:layout_constraintEnd_toEndOf="@+id/tvTitle"
+            app:layout_constraintTop_toTopOf="@+id/tvTitle" />
+
         <TextView
-            style="@style/textBodyL_bold"
             android:id="@+id/tvTitle"
+            style="@style/textBodyL_bold"
             android:layout_width="0dp"
-            android:paddingTop="8dp"
-            android:layout_marginStart="4dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:paddingTop="8dp"
+            android:maxLines="1"
             android:text="@string/name_example"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/ivDocument"
@@ -46,14 +74,12 @@
             android:id="@+id/tvDescription"
             style="@style/textBodyS"
             android:layout_width="0dp"
-            android:layout_marginStart="4dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
             android:text="@string/name_example"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/ivDocument"
             app:layout_constraintTop_toBottomOf="@+id/tvTitle" />
-
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.cardview.widget.CardView>

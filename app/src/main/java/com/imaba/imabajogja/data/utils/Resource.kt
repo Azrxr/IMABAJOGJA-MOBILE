@@ -10,11 +10,17 @@ import android.net.Uri
 import android.os.Build
 import android.os.Environment
 import android.provider.MediaStore
+import android.util.Log
 import android.view.View
 import android.widget.EditText
 import android.widget.Toast
 import androidx.core.content.FileProvider
 import androidx.exifinterface.media.ExifInterface
+import com.itextpdf.io.IOException
+import com.itextpdf.kernel.pdf.PdfDocument
+import com.itextpdf.kernel.pdf.PdfReader
+import com.itextpdf.kernel.pdf.PdfWriter
+import com.itextpdf.kernel.pdf.canvas.parser.PdfCanvasProcessor
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileOutputStream
@@ -37,6 +43,38 @@ fun EditText.setTextOrPlaceholder(value: String?, placeholder: String) {
         this.hint = placeholder
     }
 }
+
+fun compressPdf(file: File): File {
+    val maxSize = 2 * 1024 * 1024 // 2MB
+    var compressedFile = File(file.parent, "compressed_${file.name}")
+
+    Log.d("CompressPDF", "📝 Ukuran awal: ${file.length()} bytes")
+
+    if (file.length() <= maxSize) {
+        return file // Jika sudah sesuai, langsung return
+    }
+
+    try {
+        // 🔥 Gunakan iText 7 untuk menulis ulang PDF
+        val reader = PdfReader(file)
+        val writer = PdfWriter(FileOutputStream(compressedFile))
+        val pdfDoc = PdfDocument(reader, writer)
+
+        pdfDoc.close() // Selesai menulis ulang PDF
+
+        Log.d("CompressPDF", "✅ Ukuran setelah kompresi: ${compressedFile.length()} bytes")
+
+        if (compressedFile.length() > maxSize) {
+            throw IOException("⚠️ File masih terlalu besar setelah kompresi.")
+        }
+
+        return compressedFile
+    } catch (e: Exception) {
+        Log.e("CompressPDF", "❌ Error kompresi: ${e.message}")
+        throw IOException("Gagal mengompres PDF: ${e.message}")
+    }
+}
+
 
 
 // 🔥 1. Fungsi untuk mendapatkan URI gambar (Android 10+)
@@ -86,6 +124,24 @@ fun uriToFile(imageUri: Uri, context: Context): File {
     inputStream.close()
     return myFile
 }
+
+fun uriToFilePdf(uri: Uri, context: Context): File {
+    val myFile = File(context.cacheDir, "temp_document.pdf")
+    val inputStream = context.contentResolver.openInputStream(uri) ?: return myFile
+    val outputStream = FileOutputStream(myFile)
+
+    val buffer = ByteArray(1024)
+    var length: Int
+    while (inputStream.read(buffer).also { length = it } > 0) {
+        outputStream.write(buffer, 0, length)
+    }
+    outputStream.close()
+    inputStream.close()
+
+    return myFile
+}
+
+
 
 // 🔥 5. Kompresi gambar agar tidak lebih dari 2MB
 fun File.reduceFileImage(): File {

@@ -90,4 +90,6 @@
     <string name="lengkapi_persyaratan_dokumen">Lengkapi Persyaratan Dokumen</string>
     <string name="fakultas">Fakultas</string>
     <string name="delete">Hapus</string>
+    <string name="home_photo">Foto Rumah</string>
+    <string name="btn_home_photo">Tambah Foto Rumah</string>
 </resources>

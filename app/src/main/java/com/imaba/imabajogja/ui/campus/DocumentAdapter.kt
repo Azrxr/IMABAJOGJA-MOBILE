@@ -96,8 +96,4 @@ class DocumentAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(documentList[position])
     }
-    fun updateData(newList: List<Pair<String, String?>>) {
-        documentList = newList
-        notifyDataSetChanged()
-    }
 }

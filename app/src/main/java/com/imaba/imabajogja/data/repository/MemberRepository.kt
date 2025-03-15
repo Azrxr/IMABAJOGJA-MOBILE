@@ -14,6 +14,7 @@ import com.imaba.imabajogja.data.response.HomeResponse
 import com.imaba.imabajogja.data.response.ProfileResponse
 import com.imaba.imabajogja.data.response.ProfileUpdateResponse
 import com.imaba.imabajogja.data.response.StudyItem
+import com.imaba.imabajogja.data.response.StudyMemberResponse
 import com.imaba.imabajogja.data.response.StudyPlans
 import com.imaba.imabajogja.data.response.SuccesResponse
 import com.imaba.imabajogja.data.response.WilayahItem
@@ -26,6 +27,7 @@ import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
+import timber.log.Timber
 import java.io.File
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -294,8 +296,10 @@ class MemberRepository @Inject constructor(private val apiService: ApiService) {
                     return@liveData
                 }
 
-                val docTypeRequestBody = documentType.toRequestBody("text/plain".toMediaTypeOrNull())
-                val requestFile = compressedFile.asRequestBody("application/pdf".toMediaTypeOrNull())
+                val docTypeRequestBody =
+                    documentType.toRequestBody("text/plain".toMediaTypeOrNull())
+                val requestFile =
+                    compressedFile.asRequestBody("application/pdf".toMediaTypeOrNull())
                 val filePart = MultipartBody.Part.createFormData(
                     documentType,
                     compressedFile.name,
@@ -346,7 +350,11 @@ class MemberRepository @Inject constructor(private val apiService: ApiService) {
                 val compressedFile = file.reduceFileImage()
                 val requestFile = compressedFile.asRequestBody("image/jpeg".toMediaTypeOrNull())
 
-                val filePart = MultipartBody.Part.createFormData(documentType, compressedFile.name, requestFile)
+                val filePart = MultipartBody.Part.createFormData(
+                    documentType,
+                    compressedFile.name,
+                    requestFile
+                )
                 val photoType = documentType.toRequestBody("text/plain".toMediaTypeOrNull())
 
                 // 🔥 Panggil API
@@ -425,6 +433,65 @@ class MemberRepository @Inject constructor(private val apiService: ApiService) {
 
         } catch (e: Exception) {
             emit(Result.Error(e.message.toString()))
+        }
+    }
+
+    fun getStudyMember(): LiveData<Result<StudyMemberResponse>> = liveData {
+        emit(Result.Loading)
+        try {
+            val response = apiService.getStudyMember()
+            if (!response.isSuccessful) {
+                throw Exception("Error dari server: ${response.code()} - ${response.message()}")
+            }
+            val body = response.body()
+            if (body == null) {
+                throw Exception("Response dari server kosong")
+            }
+            emit(Result.Success(body))
+        } catch (e: Exception) {
+            emit(Result.Error(e.message.toString()))
+
+        }
+    }
+
+    fun updateStudyMember(
+        universityId: Int,
+        facultyId: Int,
+        programStudyId: Int
+    ): LiveData<Result<SuccesResponse>> = liveData {
+        emit(Result.Loading)
+        try {
+            Timber.d("Mengirim data ke server: universityId=$universityId, facultyId=$facultyId, programStudyId=$programStudyId")
+
+            val response = apiService.updateStudyMember(universityId, facultyId, programStudyId)
+
+            if (response.isSuccessful && response.body() != null) {
+                Log.d("UpdateStudyMember", "Berhasil update: ${response.body()!!.message}")
+                emit(Result.Success(response.body()!!))
+            } else {
+                val errorMessage = response.errorBody()?.string() ?: "Gagal memperbarui data"
+                Log.e("UpdateStudyMember", "Error Response: $errorMessage")
+                emit(Result.Error(errorMessage))
+            }
+        } catch (e: Exception) {
+            Log.e("UpdateStudyMember", "Exception: ${e.message}")
+            emit(Result.Error("Terjadi kesalahan: ${e.message}"))
+        }
+    }
+
+    fun deleteStudyMember(): LiveData<Result<SuccesResponse>> = liveData {
+        emit(Result.Loading)
+        try {
+            val response = apiService.deleteStudyMember()
+            if (response.isSuccessful) {
+                emit(Result.Success(response.body()!!))
+            } else {
+                emit(Result.Error("Gagal menghapus study member: ${response.errorBody()?.string()}"))
+                Timber.e("Gagal menghapus study member: ${response.errorBody()?.string()}")
+            }
+        } catch (e: Exception) {
+            Log.e("Delete study", "Error: ${e.message}")
+            emit(Result.Error("Terjadi kesalahan: ${e.message}"))
         }
     }
 

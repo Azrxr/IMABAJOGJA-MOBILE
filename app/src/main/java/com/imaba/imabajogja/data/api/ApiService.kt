@@ -8,6 +8,7 @@ import com.imaba.imabajogja.data.response.ProfileResponse
 import com.imaba.imabajogja.data.response.ProfileUpdateResponse
 import com.imaba.imabajogja.data.response.RegisterAdminResponse
 import com.imaba.imabajogja.data.response.RegisterResponse
+import com.imaba.imabajogja.data.response.StudyMemberResponse
 import com.imaba.imabajogja.data.response.StudyPlansResponse
 import com.imaba.imabajogja.data.response.StudyResponse
 import com.imaba.imabajogja.data.response.SuccesResponse
@@ -194,4 +195,17 @@ interface ApiService {
         @Path("id") id: Int
     ): Response<SuccesResponse>
 
+    @GET("member/studyMember")
+    suspend fun getStudyMember(): Response<StudyMemberResponse>
+
+    @FormUrlEncoded
+    @POST("member/updateStudyMember")
+    suspend fun updateStudyMember(
+        @Field("university_id") universityId: Int,
+        @Field("faculty_id") facultyId: Int,
+        @Field("program_study_id") programStudyId: Int
+    ): Response<SuccesResponse>
+
+    @DELETE("member/deleteStudyMember")
+    suspend fun deleteStudyMember(): Response<SuccesResponse>
 }

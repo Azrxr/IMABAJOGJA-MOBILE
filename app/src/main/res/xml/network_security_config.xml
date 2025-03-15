@@ -11,5 +11,6 @@
         <domain includeSubdomains="true">10.0.2.2:8000</domain> <!-- local -->
         <domain includeSubdomains="true">10.0.2.2</domain> <!-- local -->
         <domain includeSubdomains="true">192.168.77.251</domain> <!-- hostpot [poco -->
+        <domain includeSubdomains="true">192.168.31.44</domain> <!-- leha leha -->
     </domain-config>
 </network-security-config>

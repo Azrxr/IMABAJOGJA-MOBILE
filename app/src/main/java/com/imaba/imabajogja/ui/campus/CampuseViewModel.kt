@@ -1,15 +1,16 @@
 package com.imaba.imabajogja.ui.campus
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import com.imaba.imabajogja.data.repository.MemberRepository
 import com.imaba.imabajogja.data.response.DocumentsResponse
 import com.imaba.imabajogja.data.response.StudyItem
+import com.imaba.imabajogja.data.response.StudyMemberResponse
 import com.imaba.imabajogja.data.response.StudyPlans
 import com.imaba.imabajogja.data.response.SuccesResponse
 import com.imaba.imabajogja.data.utils.Result
 import dagger.hilt.android.lifecycle.HiltViewModel
-import okhttp3.MultipartBody
 import java.io.File
 import javax.inject.Inject
 
@@ -55,5 +56,17 @@ class CampuseViewModel @Inject constructor(private val repository: MemberReposit
 
     fun deleteHomePhoto(id: Int): LiveData<Result<SuccesResponse>> {
         return repository.deleteHomePhoto(id)
+    }
+
+    fun getStudyMember(): LiveData<Result<StudyMemberResponse>> =
+        repository.getStudyMember()
+
+    fun deleteStudyMember(): LiveData<Result<SuccesResponse>> {
+        return repository.deleteStudyMember()
+    }
+
+    fun updateStudyMember(universityId: Int, facultyId: Int, programStudyId: Int): LiveData<Result<SuccesResponse>> {
+        Log.d("ViewModel", "Memanggil updateStudyMember() dengan universityId=$universityId, facultyId=$facultyId, programStudyId=$programStudyId")
+        return repository.updateStudyMember(universityId, facultyId, programStudyId)
     }
 }

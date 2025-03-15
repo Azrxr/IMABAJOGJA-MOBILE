@@ -9,6 +9,7 @@ import android.util.Log
 import android.view.View
 import android.widget.EditText
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -25,6 +26,7 @@ import com.imaba.imabajogja.data.utils.uriToFile
 import com.imaba.imabajogja.data.utils.uriToFilePdf
 import com.imaba.imabajogja.databinding.ActivityDokumenCampuseBinding
 import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
 import java.io.File
 
 @AndroidEntryPoint
@@ -116,11 +118,12 @@ class DokumenCampuseActivity : AppCompatActivity() {
         )
         // Debugging: Cetak data dokumen
         documentData.forEach { (name, url) ->
-            Log.d("DocumentData", "Nama Dokumen: $name, URL: $url")
+            Timber.d("Nama Dokumen: $name, URL: $url")
         }
         photoDocData.forEach { (name, url) ->
-            Log.d("DocumentData", "Nama Dokumen: $name, URL: $url")
+            Timber.d("Nama Dokumen: $name, URL: $url")
         }
+
         documentAdapter = DocumentAdapter(
             documentList = documentData + photoDocData,
             onAddClick = { docType -> pickDocument(docType) },
@@ -175,14 +178,9 @@ class DokumenCampuseActivity : AppCompatActivity() {
         }
         selectedDocumentType = fileType
         startActivityForResult(Intent.createChooser(intent, "Pilih Dokumen"), REQUEST_PICK_DOCUMENT)
-
-
-//        val intent = Intent(Intent.ACTION_GET_CONTENT)
-//        intent.type = if(docType.contains("Foto")) "image/*" else  "application/pdf"
-//        startActivityForResult(Intent.createChooser(intent, "Pilih Dokumen"), REQUEST_PICK_DOCUMENT)
-//        selectedDocumentType = fileType // Simpan tipe dokumen yang dipilih
     }
 
+   @Deprecated("This method has been deprecated in favor of using the Activity Result API\n      which brings increased type safety via an {@link ActivityResultContract} and the prebuilt\n      contracts for common intents available in\n      {@link androidx.activity.result.contract.ActivityResultContracts}, provides hooks for\n      testing, and allow receiving results in separate, testable classes independent from your\n      activity. Use\n      {@link #registerForActivityResult(ActivityResultContract, ActivityResultCallback)}\n      with the appropriate {@link ActivityResultContract} and handling the result in the\n      {@link ActivityResultCallback#onActivityResult(Object) callback}.")
    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
@@ -202,23 +200,6 @@ class DokumenCampuseActivity : AppCompatActivity() {
                }
            }
        }
-
-//        if (requestCode == REQUEST_PICK_DOCUMENT && resultCode == Activity.RESULT_OK) {
-//            data?.data?.let { uri ->
-//                val fileType = selectedDocumentType
-//
-//                if (fileType.contains("Foto")){
-//                    val photoDoc = uriToFile(uri, this)
-//                    uploadPhotoDoc(selectedDocumentType, photoDoc)
-//                }
-//                else {
-//                    // 🔥 Kompresi PDF jika lebih dari 2MB
-//                    val pdfFile = uriToFilePdf(uri, this)
-//                    val compressedFile = compressPdf(pdfFile)
-//                    uploadDocument(fileType, compressedFile)
-//                }
-//            }
-//        }
 
        if (requestCode == REQUEST_PICK_IMAGE && resultCode == Activity.RESULT_OK) {
            val uri = data?.data
@@ -255,23 +236,20 @@ class DokumenCampuseActivity : AppCompatActivity() {
     }
 
     private fun uploadPhotoDoc(documentType: String, file: File) {
-        Log.d(
-            "UploadDocument",
-            "Mengunggah dokumen dengan field API: $documentType, Nama file: ${file.name}"
-        )
+        Timber.tag("UploadDocument").d("Mengunggah dokumen dengan field API: $documentType, Nama file: ${file.name}")
 
         viewModel.uploadPhotoDoc(documentType, file).observe(this) { result ->
             when (result) {
                 is Result.Loading -> showToast("Mengunggah dokumen...")
                 is Result.Success -> {
                     showToast("Dokumen berhasil diunggah!")
-                    Log.d("UploadDocument", "Berhasil: ${result.data}")
+                    Timber.d("Berhasil: ${result.data}")
                     loadDocuments() // 🔄 Refresh daftar dokumen setelah upload
                 }
 
                 is Result.Error -> {
                     showToast("Gagal mengupload: ${result.message}")
-                    Log.e("UploadDocument", "Error: ${result.message}")
+                    Timber.e("Error: ${result.message}")
                 }
             }
         }
@@ -289,23 +267,23 @@ class DokumenCampuseActivity : AppCompatActivity() {
             .setPositiveButton("Ya") { _, _ ->
                 binding.progressIndicator.visibility = View.VISIBLE
 
-                Log.d("DeleteDocument", "🗑 Menghapus dokumen: $field")
+                Timber.d("🗑 Menghapus dokumen: $field")
 
                 viewModel.deleteDocument(fileType).observe(this) { result ->
                     when (result) {
                         is Result.Loading -> {
                             binding.progressIndicator.visibility = View.VISIBLE
-                            Log.d("DeleteDocument", "⏳ Menghapus dokumen...")
+                            Timber.d("⏳ Menghapus dokumen...")
                         }
 
                         is Result.Success -> {
-                            Log.d("DeleteDocument", "✅ Berhasil menghapus: $field")
+                            Timber.d("✅ Berhasil menghapus: %s", field)
                             showToast("Dokumen berhasil dihapus!")
                             loadDocuments() // 🔄 Refresh daftar dokumen setelah delete
                         }
 
                         is Result.Error -> {
-                            Log.e("DeleteDocument", "❌ Gagal menghapus: ${result.message}")
+                            Timber.e("❌ Gagal menghapus: %s", result.message)
                             showToast("Gagal menghapus: ${result.message}")
                         }
                     }
@@ -332,7 +310,7 @@ class DokumenCampuseActivity : AppCompatActivity() {
                 when (result) {
                     is Result.Success -> {
                         showToast("Foto rumah berhasil diunggah!")
-                        Log.d("UploadPhoto", "Berhasil: ${result.data}")
+                        Timber.d("Berhasil: %s", result.data)
                         loadDocuments() // 🔄 Refresh list setelah berhasil
                     }
 

@@ -11,7 +11,6 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import com.imaba.imabajogja.R
 import com.imaba.imabajogja.data.utils.Result
 import com.imaba.imabajogja.data.utils.showToast
 import com.imaba.imabajogja.databinding.ActivityAddStudyPlanBinding

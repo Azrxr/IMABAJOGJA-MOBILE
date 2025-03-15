@@ -92,4 +92,6 @@
     <string name="delete">Hapus</string>
     <string name="home_photo">Foto Rumah</string>
     <string name="btn_home_photo">Tambah Foto Rumah</string>
+    <string name="edit">Edit</string>
+    <string name="kosongkan_pendidikan_saat_ini">Kosongkan Pendidikan Saat Ini</string>
 </resources>

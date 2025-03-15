@@ -68,7 +68,18 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:paddingEnd="8dp"
-                        android:text="Simpan"
+                        android:text="@string/save"
+                        android:visibility="gone"
+                        android:textSize="14sp"
+                        tools:ignore="RtlSymmetry" />
+
+                    <TextView
+                        android:id="@+id/tvEditCampusCurrent"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingEnd="8dp"
+                        android:text="@string/edit"
+                        android:visibility="visible"
                         android:textSize="14sp"
                         tools:ignore="RtlSymmetry" />
                 </LinearLayout>
@@ -125,7 +136,16 @@
                         android:maxLines="1" />
                 </com.google.android.material.textfield.TextInputLayout>
 
+                <TextView
+                    style="@style/textBodyS"
+                    android:id="@+id/btnDelete"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="@string/kosongkan_pendidikan_saat_ini"/>
+
             </LinearLayout>
+
         </androidx.cardview.widget.CardView>
 
         <TextView

@@ -186,7 +186,7 @@ fun showLoading(view: View, state: Boolean) {
     view.visibility = if (state) View.VISIBLE else View.GONE
 }
 
-fun Context.showToast(message: String) {
+infix fun Context.showToast(message: String) {
     Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
 }
 

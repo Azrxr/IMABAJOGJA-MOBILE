@@ -50,7 +50,7 @@ class CampuseViewModel @Inject constructor(private val repository: MemberReposit
         return repository.uploadHomePhoto(photoTitle, homePhoto)
     }
     fun uploadPhotoDoc(photoType: String, file: File): LiveData<Result<SuccesResponse>> {
-        return repository.uploadHomePhoto(photoType, file)
+        return repository.uploadPhotoDoc(photoType, file)
     }
 
     fun deleteHomePhoto(id: Int): LiveData<Result<SuccesResponse>> {

@@ -169,34 +169,66 @@ class DokumenCampuseActivity : AppCompatActivity() {
             return
         }
         val intent = Intent(Intent.ACTION_GET_CONTENT)
-        intent.type = "application/pdf"
+        intent.type = when (fileType) {
+            "photo_3x4_path", "foto_keluarga_path" -> "image/*" // 📸 Jika kategori foto
+            else -> "application/pdf" // 📄 Jika kategori dokumen
+        }
+        selectedDocumentType = fileType
         startActivityForResult(Intent.createChooser(intent, "Pilih Dokumen"), REQUEST_PICK_DOCUMENT)
-        selectedDocumentType = fileType // Simpan tipe dokumen yang dipilih
+
+
+//        val intent = Intent(Intent.ACTION_GET_CONTENT)
+//        intent.type = if(docType.contains("Foto")) "image/*" else  "application/pdf"
+//        startActivityForResult(Intent.createChooser(intent, "Pilih Dokumen"), REQUEST_PICK_DOCUMENT)
+//        selectedDocumentType = fileType // Simpan tipe dokumen yang dipilih
     }
 
-    @Deprecated("This method has been deprecated in favor of using the Activity Result API\n      which brings increased type safety via an {@link ActivityResultContract} and the prebuilt\n      contracts for common intents available in\n      {@link androidx.activity.result.contract.ActivityResultContracts}, provides hooks for\n      testing, and allow receiving results in separate, testable classes independent from your\n      activity. Use\n      {@link #registerForActivityResult(ActivityResultContract, ActivityResultCallback)}\n      with the appropriate {@link ActivityResultContract} and handling the result in the\n      {@link ActivityResultCallback#onActivityResult(Object) callback}.")
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+   override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        if (requestCode == REQUEST_PICK_DOCUMENT && resultCode == Activity.RESULT_OK) {
-            data?.data?.let { uri ->
-                val file = uriToFilePdf(uri, this)
+       if (requestCode == REQUEST_PICK_DOCUMENT && resultCode == Activity.RESULT_OK) {
+           data?.data?.let { uri ->
+               val fileType = selectedDocumentType
 
-                // 🔥 Kompresi PDF jika lebih dari 2MB
-                val compressedFile = compressPdf(file)
+               if (fileType == "photo_3x4_path" || fileType == "foto_keluarga_path") {
+                   // 📸 Jika kategori foto, gunakan `uriToFile()`
+                   val photoFile = uriToFile(uri, this)
+                   uploadPhotoDoc(fileType, photoFile) // 🔥 Upload Foto
+               } else {
+                   // 📄 Jika kategori dokumen, gunakan `uriToFilePdf()`
+                   val pdfFile = uriToFilePdf(uri, this)
+                   val compressedFile = compressPdf(pdfFile) // 🔥 Kompres PDF jika >2MB
+                   uploadDocument(fileType, compressedFile) // 🔥 Upload Dokumen
+               }
+           }
+       }
 
-                uploadDocument(selectedDocumentType, compressedFile)
-            }
-        }
-        if (requestCode == REQUEST_PICK_IMAGE && resultCode == Activity.RESULT_OK) {
-            val uri = data?.data
-            if (uri != null) {
-                selectedImageFile = uriToFile(uri, this) // 🔥 Konversi URI ke File
-                showPhotoTitleDialog() // 🔥 Setelah pilih foto, minta title
-            } else {
-                showToast("Gagal mengambil gambar, coba lagi.")
-            }
-        }
+//        if (requestCode == REQUEST_PICK_DOCUMENT && resultCode == Activity.RESULT_OK) {
+//            data?.data?.let { uri ->
+//                val fileType = selectedDocumentType
+//
+//                if (fileType.contains("Foto")){
+//                    val photoDoc = uriToFile(uri, this)
+//                    uploadPhotoDoc(selectedDocumentType, photoDoc)
+//                }
+//                else {
+//                    // 🔥 Kompresi PDF jika lebih dari 2MB
+//                    val pdfFile = uriToFilePdf(uri, this)
+//                    val compressedFile = compressPdf(pdfFile)
+//                    uploadDocument(fileType, compressedFile)
+//                }
+//            }
+//        }
+
+       if (requestCode == REQUEST_PICK_IMAGE && resultCode == Activity.RESULT_OK) {
+           val uri = data?.data
+           if (uri != null) {
+               selectedImageFile = uriToFile(uri, this) // 🔥 Konversi URI ke File
+               showPhotoTitleDialog() // 🔥 Setelah pilih foto, minta title
+           } else {
+               showToast("Gagal mengambil gambar, coba lagi.")
+           }
+       }
     }
 
     private fun uploadDocument(documentType: String, file: File) {
@@ -206,6 +238,29 @@ class DokumenCampuseActivity : AppCompatActivity() {
         )
 
         viewModel.uploadDocument(documentType, file).observe(this) { result ->
+            when (result) {
+                is Result.Loading -> showToast("Mengunggah dokumen...")
+                is Result.Success -> {
+                    showToast("Dokumen berhasil diunggah!")
+                    Log.d("UploadDocument", "Berhasil: ${result.data}")
+                    loadDocuments() // 🔄 Refresh daftar dokumen setelah upload
+                }
+
+                is Result.Error -> {
+                    showToast("Gagal mengupload: ${result.message}")
+                    Log.e("UploadDocument", "Error: ${result.message}")
+                }
+            }
+        }
+    }
+
+    private fun uploadPhotoDoc(documentType: String, file: File) {
+        Log.d(
+            "UploadDocument",
+            "Mengunggah dokumen dengan field API: $documentType, Nama file: ${file.name}"
+        )
+
+        viewModel.uploadPhotoDoc(documentType, file).observe(this) { result ->
             when (result) {
                 is Result.Loading -> showToast("Mengunggah dokumen...")
                 is Result.Success -> {

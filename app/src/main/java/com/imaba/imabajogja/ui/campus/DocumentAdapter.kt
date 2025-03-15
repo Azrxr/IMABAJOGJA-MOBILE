@@ -7,7 +7,11 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.imaba.imabajogja.R
 import com.imaba.imabajogja.databinding.ItemDocumentMinimalBinding
 
 class DocumentAdapter(
@@ -17,7 +21,16 @@ class DocumentAdapter(
     private val context: Context
 ) : RecyclerView.Adapter<DocumentAdapter.ViewHolder>() {
 
-    inner class ViewHolder(private val binding: ItemDocumentMinimalBinding) :
+    companion object {
+        private const val TYPE_DOCUMENT = 1
+        private const val TYPE_PHOTO = 2
+    }
+
+    override fun getItemViewType(position: Int): Int {
+        return if (documentList[position].first.contains("Foto")) TYPE_PHOTO else TYPE_DOCUMENT
+    }
+
+    inner class ViewHolder(private val binding: ItemDocumentMinimalBinding, private val viewType: Int) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(doc: Pair<String, String?>) {
             binding.tvTitle.text = doc.first
@@ -27,8 +40,12 @@ class DocumentAdapter(
                 binding.btnAddDoc.visibility = View.GONE
                 binding.tvDescription.text = "✅ Sudah diunggah"
                 Log.d("DocumentAdapter", "Document: ${doc.first}, URL: ${doc.second}")
+
                 binding.root.setOnClickListener{
+                    if (viewType == TYPE_DOCUMENT)
                     openPdf(doc.second!!)
+                    else (viewType == TYPE_PHOTO)
+                    showFullImage(doc.second!!)
                 }
 
             } else {
@@ -52,11 +69,26 @@ class DocumentAdapter(
             intent.flags = Intent.FLAG_ACTIVITY_NO_HISTORY
             context.startActivity(intent)
         }
+        private fun showFullImage(url: String) {
+            val dialogView = LayoutInflater.from(context).inflate(R.layout.dialog_full_image, null)
+            val photoView = dialogView.findViewById<ImageView>(R.id.photoView)
+
+            Glide.with(context)
+                .load(url)
+                .placeholder(R.drawable.ic_image_broken)
+                .into(photoView)
+
+            AlertDialog.Builder(context)
+                .setView(dialogView)
+                .setPositiveButton("Tutup") { dialog, _ -> dialog.dismiss() }
+                .show()
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding = ItemDocumentMinimalBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return ViewHolder(binding)
+        return ViewHolder(binding, viewType)
+
     }
 
     override fun getItemCount(): Int = documentList.size

@@ -184,7 +184,6 @@ interface ApiService {
 
     @Multipart
     @POST("member/uploadHomePhoto")
-    @Headers ("Content-Type: multipart/form-data")
     suspend fun uploadHomePhoto(
         @Part photoImg: MultipartBody.Part,
         @Part ("photo_title") photoTitle: RequestBody,

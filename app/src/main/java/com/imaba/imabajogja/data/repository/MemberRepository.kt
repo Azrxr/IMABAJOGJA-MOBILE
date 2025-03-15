@@ -15,8 +15,6 @@ import com.imaba.imabajogja.data.response.ProfileResponse
 import com.imaba.imabajogja.data.response.ProfileUpdateResponse
 import com.imaba.imabajogja.data.response.StudyItem
 import com.imaba.imabajogja.data.response.StudyPlans
-import com.imaba.imabajogja.data.response.StudyPlansResponse
-import com.imaba.imabajogja.data.response.StudyResponse
 import com.imaba.imabajogja.data.response.SuccesResponse
 import com.imaba.imabajogja.data.response.WilayahItem
 import com.imaba.imabajogja.data.utils.Result
@@ -296,10 +294,8 @@ class MemberRepository @Inject constructor(private val apiService: ApiService) {
                     return@liveData
                 }
 
-                val docTypeRequestBody =
-                    documentType.toRequestBody("text/plain".toMediaTypeOrNull())
-                val requestFile =
-                    compressedFile.asRequestBody("application/pdf".toMediaTypeOrNull())
+                val docTypeRequestBody = documentType.toRequestBody("text/plain".toMediaTypeOrNull())
+                val requestFile = compressedFile.asRequestBody("application/pdf".toMediaTypeOrNull())
                 val filePart = MultipartBody.Part.createFormData(
                     documentType,
                     compressedFile.name,
@@ -351,7 +347,6 @@ class MemberRepository @Inject constructor(private val apiService: ApiService) {
                 val requestFile = compressedFile.asRequestBody("image/jpeg".toMediaTypeOrNull())
 
                 val filePart = MultipartBody.Part.createFormData(documentType, compressedFile.name, requestFile)
-
                 val photoType = documentType.toRequestBody("text/plain".toMediaTypeOrNull())
 
                 // 🔥 Panggil API

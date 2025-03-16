@@ -17,6 +17,7 @@ import com.imaba.imabajogja.data.utils.Result
 import com.imaba.imabajogja.data.utils.showToast
 import com.imaba.imabajogja.databinding.FragmentProfileBinding
 import com.imaba.imabajogja.ui.MainViewModel
+import com.imaba.imabajogja.ui.authentication.UpdatePasswordActivity
 import com.imaba.imabajogja.ui.welcome.WelcomeActivity
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -86,6 +87,9 @@ class ProfileFragment : Fragment() {
         binding.btnLogout.setOnClickListener {
             mainViewModel.logout()
             startActivity(Intent(requireContext(), WelcomeActivity::class.java))
+        }
+        binding.btnChangePassword.setOnClickListener {
+            startActivity(Intent(requireContext(), UpdatePasswordActivity::class.java))
         }
     }
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

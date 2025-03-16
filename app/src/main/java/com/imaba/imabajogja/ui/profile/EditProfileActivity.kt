@@ -80,18 +80,21 @@ class EditProfileActivity : AppCompatActivity() {
         binding.etEmail.setTextOrPlaceholder(profile.email, "Masukkan email")
 
         binding.etProvince.setTextOrPlaceholder(profile.province, "Provinsi")
+        selectedProvinceId = profile.provinceId
         binding.etCity.setTextOrPlaceholder(profile.regency, "kota")
+        selectedRegencyId = profile.regencyId
         binding.etDistrict.setTextOrPlaceholder(profile.district, "kecamatan")
+        selectedDistrictId = profile.districtId
 
         binding.etFullname.setTextOrPlaceholder(profile.fullname, "Masukkan nama lengkap")
         binding.etPhoneNumber.setTextOrPlaceholder(profile.phoneNumber?.toString(), "Masukkan nomor telepon")
         binding.etFullAddress.setTextOrPlaceholder(profile.fullAddress, "Masukkan alamat lengkap")
         binding.etPostalCode.setTextOrPlaceholder(profile.kodePos?.toString(), "Masukkan kode pos")
-        binding.etReligion.setTextOrPlaceholder(profile.agama, "Masukkan agama")
+        setupReligionDropDown(profile.agama)
         binding.etNisn.setTextOrPlaceholder(profile.nisn?.toString(), "Masukkan NISN")
         binding.etBirthPlace.setTextOrPlaceholder(profile.tempat, "Masukkan tempat lahir")
         binding.etBirthDate.setTextOrPlaceholder(profile.tanggalLahir?.toString(), "Masukkan tanggal lahir")
-        binding.etGender.setTextOrPlaceholder(profile.gender, "Pilih jenis kelamin")
+        setupGenderDropDown(profile.gender)
         binding.etSchoolOrigin.setTextOrPlaceholder(profile.schollOrigin?.toString(), "Masukkan asal sekolah")
         binding.etGraduationYear.setTextOrPlaceholder(profile.tahunLulus?.toString(), "Masukkan tahun lulus")
 
@@ -100,7 +103,6 @@ class EditProfileActivity : AppCompatActivity() {
             .placeholder(R.drawable.ic_user) // 🔥 Set placeholder jika gambar kosong
             .error(R.drawable.ic_image_broken) // 🔥 Jika gagal load, tampilkan default
             .into(binding.ivProfile)
-
     }
 
     private fun pickImageFromGallery() {
@@ -112,6 +114,7 @@ class EditProfileActivity : AppCompatActivity() {
 
     }
 
+    @Deprecated("This method has been deprecated in favor of using the Activity Result API\n      which brings increased type safety via an {@link ActivityResultContract} and the prebuilt\n      contracts for common intents available in\n      {@link androidx.activity.result.contract.ActivityResultContracts}, provides hooks for\n      testing, and allow receiving results in separate, testable classes independent from your\n      activity. Use\n      {@link #registerForActivityResult(ActivityResultContract, ActivityResultCallback)}\n      with the appropriate {@link ActivityResultContract} and handling the result in the\n      {@link ActivityResultCallback#onActivityResult(Object) callback}.")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
@@ -132,16 +135,27 @@ class EditProfileActivity : AppCompatActivity() {
         }
     }
 
-    private fun setupGenderDropDown() {
+    private fun setupGenderDropDown(selectedGender : String? = null) {
         val genderOptions = listOf("Laki-laki", "Perempuan")
         val adapter = ArrayAdapter(this, android.R.layout.simple_dropdown_item_1line, genderOptions)
         binding.etGender.setAdapter(adapter)
+
+        selectedGender?.let {
+            if (genderOptions.contains(it)){
+                binding.etGender.setText(it, false)
+            }
+        }
     }
 
-    private fun setupReligionDropDown() {
+    private fun setupReligionDropDown(selectedReligion : String? = null) {
         val religionOptions = listOf("Islam", "Kristen", "Katolik", "Hindu", "Budha", "Konghucu", "Lainnya")
         val adapter = ArrayAdapter(this, android.R.layout.simple_dropdown_item_1line, religionOptions)
-        binding.etGender.setAdapter(adapter)
+        binding.etReligion.setAdapter(adapter)
+
+        selectedReligion?.let { apiReligion ->
+            val matchedReligion = religionOptions.find { it.equals(apiReligion, ignoreCase = true) }
+            matchedReligion?.let { binding.etReligion.setText(it, false) }
+        }
     }
 
     private fun setupProvinceDropdown() {

@@ -206,14 +206,18 @@
                     android:id="@+id/tilReligion"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:focusable="true"
+                    app:endIconMode="dropdown_menu"
                     android:layout_marginBottom="4dp">
 
-                    <com.google.android.material.textfield.TextInputEditText
+                    <AutoCompleteTextView
                         android:id="@+id/etReligion"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:hint="@string/religion"
-                        android:inputType="text"
+                        android:inputType="none"
+                        android:padding="16dp"
                         android:maxLines="1" />
                 </com.google.android.material.textfield.TextInputLayout>
 

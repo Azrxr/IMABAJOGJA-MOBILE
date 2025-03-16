@@ -9,6 +9,7 @@ import com.imaba.imabajogja.data.api.ApiService
 import com.imaba.imabajogja.data.model.UserModel
 import com.imaba.imabajogja.data.model.UserPreference
 import com.imaba.imabajogja.data.response.LoginResponse
+import com.imaba.imabajogja.data.response.ProfileUpdateResponse
 import com.imaba.imabajogja.data.response.RegisterAdminResponse
 import com.imaba.imabajogja.data.response.RegisterResponse
 import com.imaba.imabajogja.data.utils.Result
@@ -83,6 +84,32 @@ class LoginRepository @Inject constructor(
 
     suspend fun getUserToken(): String {
         return userPreference.getToken()
+    }
+
+    fun updatePassword(
+        currentPassword: String,
+        newPassword: String,
+        passwordConfirmation: String
+    ): LiveData<Result<ProfileUpdateResponse>> {
+        return liveData {
+            try {
+                val response = apiService.updatePassword(
+                    currentPassword, newPassword, passwordConfirmation
+                )
+                if (response.isSuccessful) {
+                    response.body()?.let {
+                        emit(Result.Success(it))
+                    } ?: emit(Result.Error("Response body kosong"))
+                } else {
+                    val errorMessage = response.errorBody()?.string() ?: "Terjadi kesalahan"
+                    emit(Result.Error("Error ${response.code()}: $errorMessage"))
+                }
+            } catch (e: Exception) {
+
+                Log.d("data", "error MemberRepository: ${e.message}")
+                emit(Result.Error(e.message.toString()))
+            }
+        }
     }
 
     companion object {

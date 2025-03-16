@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.imaba.imabajogja.data.model.UserModel
 import com.imaba.imabajogja.data.repository.LoginRepository
 import com.imaba.imabajogja.data.response.LoginResponse
+import com.imaba.imabajogja.data.response.ProfileUpdateResponse
 import com.imaba.imabajogja.data.response.RegisterAdminResponse
 import com.imaba.imabajogja.data.response.RegisterResponse
 import com.imaba.imabajogja.data.utils.Result
@@ -43,6 +44,14 @@ class AuthViewModel @Inject constructor(
         viewModelScope.launch {
             loginRepository.saveSession(user)
         }
+    }
+
+    fun updatePassword(
+        currentPassword: String, newPassword: String, passwordConfirmation: String,
+    ): LiveData<Result<ProfileUpdateResponse>> {
+        return loginRepository.updatePassword(
+            currentPassword, newPassword, passwordConfirmation,
+        )
     }
 
 }

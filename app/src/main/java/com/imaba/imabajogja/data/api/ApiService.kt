@@ -110,7 +110,7 @@ interface ApiService {
     suspend fun updatePassword(
         @Field("current_password") currentPassword: String,
         @Field("new_password") newPassword: String,
-        @Field("password_confirmation") passwordConfirmation: String,
+        @Field("new_password_confirmation") passwordConfirmation: String,
     ): Response<ProfileUpdateResponse>
 
     @GET("province")

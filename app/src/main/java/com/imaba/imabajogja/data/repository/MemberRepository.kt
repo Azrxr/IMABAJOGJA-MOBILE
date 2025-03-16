@@ -148,31 +148,6 @@ class MemberRepository @Inject constructor(private val apiService: ApiService) {
         }
     }
 
-    fun updatePassword(
-        currentPassword: String,
-        newPassword: String,
-        passwordConfirmation: String
-    ): LiveData<Result<ProfileUpdateResponse>> {
-        return liveData {
-            try {
-                val response = apiService.updatePassword(
-                    currentPassword, newPassword, passwordConfirmation
-                )
-                if (response.isSuccessful) {
-                    response.body()?.let {
-                        emit(Result.Success(it))
-                    } ?: emit(Result.Error("Response body kosong"))
-                } else {
-                    val errorMessage = response.errorBody()?.string() ?: "Terjadi kesalahan"
-                    emit(Result.Error("Error ${response.code()}: $errorMessage"))
-                }
-            } catch (e: Exception) {
-
-                Log.d("data", "error MemberRepository: ${e.message}")
-                emit(Result.Error(e.message.toString()))
-            }
-        }
-    }
 
     fun getProvinces(): LiveData<Result<List<WilayahItem>>> = liveData {
         emit(Result.Loading)

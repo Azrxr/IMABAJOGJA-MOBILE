@@ -71,8 +71,8 @@ object ApiConfig {
     @Singleton
     fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit {
 //        val url = "http://192.168.100.7:8000/api/"
-        val url = "http://192.168.31.44:8000/api/"
-//        val url = "http://10.0.2.2:8000/api/"
+//        val url = "http://192.168.31.44:8000/api/"
+        val url = "http://10.0.2.2:8000/api/"
 //        val url = "http://192.168.77.251:8000/api/"
 
         val gson = GsonBuilder()

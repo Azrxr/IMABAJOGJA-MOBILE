@@ -39,14 +39,6 @@ class ProfileViewModel @Inject constructor(private val repository: MemberReposit
         return repository.updatePhotoProfile(photoFile)
     }
 
-    fun updatePassword(
-        currentPassword: String, newPassword: String, passwordConfirmation: String,
-    ): LiveData<Result<ProfileUpdateResponse>> {
-        return repository.updatePassword(
-            currentPassword, newPassword, passwordConfirmation,
-        )
-    }
-
     fun getProvinces(): LiveData<Result<List<WilayahItem>>> = repository.getProvinces()
 
     fun getRegencies(provinceId: Int, search: String? = null): LiveData<Result<List<WilayahItem>>> =

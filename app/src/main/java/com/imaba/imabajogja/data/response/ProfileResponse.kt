@@ -43,6 +43,8 @@ data class ProfileUser(
 
 	@field:SerializedName("regency")
 	val regency: String? = null,
+	@field:SerializedName("regency_id")
+	val regencyId: Int? = null,
 
 	@field:SerializedName("full_address")
 	val fullAddress: String? = null,
@@ -52,6 +54,8 @@ data class ProfileUser(
 
 	@field:SerializedName("province")
 	val province: String? = null,
+	@field:SerializedName("province_id")
+	val provinceId: Int? = null,
 
 	@field:SerializedName("id")
 	val id: Int? = null,
@@ -97,6 +101,8 @@ data class ProfileUser(
 
 	@field:SerializedName("district")
 	val district: String? = null,
+	@field:SerializedName("district_id")
+	val districtId: Int? = null,
 
 	@field:SerializedName("phone_number")
 	val phoneNumber: String? = null,

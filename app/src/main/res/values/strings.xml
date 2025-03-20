@@ -95,4 +95,5 @@
     <string name="edit">Edit</string>
     <string name="kosongkan_pendidikan_saat_ini">Kosongkan Pendidikan Saat Ini</string>
     <string name="title_ganti_password">Ganti Password</string>
+    <string name="filter">Filter</string>
 </resources>

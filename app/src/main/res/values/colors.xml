@@ -13,6 +13,15 @@
     <color name="text_night">#F7F7F7</color>
 
     <color name="orange">#FF5722</color>
-
+    <!-- Warna Abu-abu (Gray) -->
+    <color name="gray100">#F5F5F5</color> <!-- Abu-abu sangat muda (Lightest) -->
+    <color name="gray200">#EEEEEE</color> <!-- Abu-abu muda -->
+    <color name="gray300">#E0E0E0</color> <!-- Abu-abu muda sedang -->
+    <color name="gray400">#BDBDBD</color> <!-- Abu-abu sedang -->
+    <color name="gray500">#9E9E9E</color> <!-- Abu-abu sedang gelap -->
+    <color name="gray600">#757575</color> <!-- Abu-abu gelap -->
+    <color name="gray700">#616161</color> <!-- Abu-abu gelap sedang -->
+    <color name="gray800">#424242</color> <!-- Abu-abu sangat gelap -->
+    <color name="gray900">#212121</color> <!-- Abu-abu paling gelap (Darkest) -->
 
 </resources>

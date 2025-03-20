@@ -67,8 +67,11 @@ interface ApiService {
     suspend fun getHomeData(): Response<HomeResponse>
 
     //List member
-    @POST("member/members")
+    @GET("member/members")
     suspend fun getMembers(
+        @Query("search") search: String? = null,
+        @Query("generation[]") generation: List<String>? = null,
+        @Query("member_type[]") memberType: List<String>? = null,
     ): MembersResponse
 
     @GET("member/profile")

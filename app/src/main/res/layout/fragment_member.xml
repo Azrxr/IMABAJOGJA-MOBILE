@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:fitsSystemWindows="true"
     tools:context=".ui.member.MemberFragment">
 
@@ -17,16 +17,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <com.google.android.material.progressindicator.LinearProgressIndicator
-        android:id="@+id/progressBottom"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:indeterminate="true"
-        android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/swipeRefreshLayout" />
-
     <View
         android:id="@+id/view2"
         android:layout_width="match_parent"
@@ -36,24 +26,25 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/progressBar" />
 
-    <com.google.android.material.search.SearchBar
+    <androidx.appcompat.widget.SearchView
+        style="@style/Widget.Custom.SearchView"
         android:id="@+id/searchBar"
         android:layout_width="0dp"
-        android:layout_height="40dp"
-        android:layout_marginHorizontal="16dp"
-        android:hint="@string/search_hint"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        app:iconifiedByDefault="false"
         app:layout_constraintEnd_toStartOf="@+id/btnFilter"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageButton
         android:id="@+id/btnFilter"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginEnd="14dp"
-        android:background="@android:color/transparent"
+        android:background="?attr/selectableItemBackgroundBorderless"
         android:contentDescription="@string/profile"
-        android:src="@drawable/ic_filter"
+        android:src="@drawable/ic_filter_off"
         app:layout_constraintBottom_toBottomOf="@+id/searchBar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/searchBar" />
@@ -72,20 +63,21 @@
         app:layout_constraintTop_toBottomOf="@+id/view2" />
 
     <TextView
-        style="@style/textBodyL_bold"
         android:id="@+id/tvEmpty"
+        style="@style/textBodyL_bold"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Tidak ada Members"
+        android:textAlignment="center"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView"/>
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swipeRefreshLayout"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="8dp"
         android:clipChildren="false"
@@ -97,12 +89,10 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvMemberList"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView"
+            android:clipToPadding="false"
+            android:padding="0dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             tools:listitem="@layout/item_members" />
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

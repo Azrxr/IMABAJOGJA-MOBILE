@@ -311,7 +311,6 @@ class EditProfileActivity : AppCompatActivity() {
                 }
             }
         }
-
     }
 
     companion object {
@@ -325,5 +324,4 @@ class EditProfileActivity : AppCompatActivity() {
             }
         }
     }
-
 }

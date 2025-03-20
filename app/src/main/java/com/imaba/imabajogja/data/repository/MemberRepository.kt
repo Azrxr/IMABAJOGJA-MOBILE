@@ -58,13 +58,13 @@ class MemberRepository @Inject constructor(private val apiService: ApiService) {
         }
     }
 
-    fun getMembers(): Flow<PagingData<DataItemMember>> {
+    fun getMembers(search: String?, generation: List<String>?, memberType: List<String>?): Flow<PagingData<DataItemMember>> {
         return Pager(
             config = PagingConfig(
                 pageSize = 10,  // Jumlah item per halaman
                 enablePlaceholders = false
             ),
-            pagingSourceFactory = { MemberPagingSource(apiService) }
+            pagingSourceFactory = { MemberPagingSource(apiService, search, generation, memberType) }
         ).flow
     }
 

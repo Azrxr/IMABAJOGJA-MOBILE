@@ -11,12 +11,18 @@ import retrofit2.HttpException
 
 class MemberPagingSource(
     private val apiService: ApiService,
+    private val search: String?,
+    private val generation: List<String>?,
+    private val memberType: List<String>?
 ): PagingSource<Int, DataItemMember>() {
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, DataItemMember> {
         return try{
             val currentPage = params.key ?: 1
-            val response = apiService.getMembers()
+            val response = apiService.getMembers(
+                search = search,
+                generation = generation,
+                memberType = memberType)
             Log.d("Members", "paging: API Response: ${response.data.data}") // ✅ Debugging
 
 

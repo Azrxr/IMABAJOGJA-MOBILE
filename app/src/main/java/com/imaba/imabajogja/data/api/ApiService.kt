@@ -66,6 +66,33 @@ interface ApiService {
     @GET("home")
     suspend fun getHomeData(): Response<HomeResponse>
 
+    //editOrganisasiProfile
+    @FormUrlEncoded
+    @POST("imaba/profileUpdate")
+    suspend fun updateOrganizationProfile(
+        @Field("title") title: String,
+        @Field("description") description: String,
+        @Field("vision") vision: String,
+        @Field("mission") mission: String,
+        @Field("address") address: String,
+        @Field("contact_email") contactEmail: String,
+        @Field("contact_phone") contactPhone: String,
+        @Field("contact_phone2") contactPhone2: String,
+    ): Response<SuccesResponse>
+
+    @Multipart
+    @POST("imaba/addFile")
+    suspend fun addFileOrganization(
+        @Part("file_path") file: RequestBody,
+        @Part("title") title: String,
+        @Part("description") description: String,
+    ): Response<SuccesResponse>
+
+    @DELETE("imaba/deleteFile/{id}")
+    suspend fun deleteFileOrganization(
+        @Path("id") id: Int
+    ): Response<SuccesResponse>
+
     //List member
     @GET("member/members")
     suspend fun getMembers(
@@ -177,7 +204,7 @@ interface ApiService {
     @DELETE("member/deleteDocument/{field}")
     suspend fun deleteDocument(
         @Path("field") field: String
-    ) : Response<SuccesResponse>
+    ): Response<SuccesResponse>
 
     @Multipart
     @POST("member/uploadDocument")
@@ -190,7 +217,7 @@ interface ApiService {
     @POST("member/uploadHomePhoto")
     suspend fun uploadHomePhoto(
         @Part photoImg: MultipartBody.Part,
-        @Part ("photo_title") photoTitle: RequestBody,
+        @Part("photo_title") photoTitle: RequestBody,
     ): Response<SuccesResponse>
 
     @DELETE("member/deleteHomePhoto/{id}")

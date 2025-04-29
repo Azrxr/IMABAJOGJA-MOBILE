@@ -176,11 +176,11 @@
                         android:id="@+id/etBirthDate"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:padding="16dp"
                         android:focusable="false"
                         android:hint="@string/birth_date"
                         android:inputType="none"
-                        android:maxLines="1" />
+                        android:maxLines="1"
+                        android:padding="16dp" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -206,10 +206,10 @@
                     android:id="@+id/tilReligion"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="4dp"
                     android:clickable="true"
                     android:focusable="true"
-                    app:endIconMode="dropdown_menu"
-                    android:layout_marginBottom="4dp">
+                    app:endIconMode="dropdown_menu">
 
                     <AutoCompleteTextView
                         android:id="@+id/etReligion"
@@ -217,8 +217,8 @@
                         android:layout_height="match_parent"
                         android:hint="@string/religion"
                         android:inputType="none"
-                        android:padding="16dp"
-                        android:maxLines="1" />
+                        android:maxLines="1"
+                        android:padding="16dp" />
                 </com.google.android.material.textfield.TextInputLayout>
 
             </LinearLayout>
@@ -264,58 +264,58 @@
                         android:maxLines="1" />
                 </com.google.android.material.textfield.TextInputLayout>
 
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/tilProvince"
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tilProvince"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="4dp"
+                    android:layout_weight="1"
+                    app:endIconMode="dropdown_menu">
+
+                    <AutoCompleteTextView
+                        android:id="@+id/etProvince"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="4dp"
-                        android:layout_weight="1"
-                        app:endIconMode="dropdown_menu">
+                        android:hint="@string/province"
+                        android:inputType="none"
+                        android:maxLines="2"
+                        android:padding="16dp" />
+                </com.google.android.material.textfield.TextInputLayout>
 
-                        <AutoCompleteTextView
-                            android:id="@+id/etProvince"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:hint="@string/province"
-                            android:inputType="none"
-                            android:padding="16dp"
-                            android:maxLines="2" />
-                    </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tilCity"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="4dp"
+                    android:layout_weight="1"
+                    app:endIconMode="dropdown_menu">
 
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/tilCity"
+                    <AutoCompleteTextView
+                        android:id="@+id/etCity"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="4dp"
-                        android:layout_weight="1"
-                        app:endIconMode="dropdown_menu">
+                        android:hint="@string/regency"
+                        android:inputType="none"
+                        android:maxLines="2"
+                        android:padding="16dp" />
+                </com.google.android.material.textfield.TextInputLayout>
 
-                        <AutoCompleteTextView
-                            android:id="@+id/etCity"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:hint="@string/regency"
-                            android:inputType="none"
-                            android:padding="16dp"
-                            android:maxLines="2" />
-                    </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tilDistrict"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    app:endIconMode="dropdown_menu">
 
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/tilDistrict"
+                    <AutoCompleteTextView
+                        android:id="@+id/etDistrict"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        app:endIconMode="dropdown_menu">
-
-                        <AutoCompleteTextView
-                            android:id="@+id/etDistrict"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:padding="16dp"
-                            android:hint="@string/district"
-                            android:inputType="none"
-                            android:maxLines="2" />
-                    </com.google.android.material.textfield.TextInputLayout>
+                        android:hint="@string/district"
+                        android:inputType="none"
+                        android:maxLines="2"
+                        android:padding="16dp" />
+                </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/tilFullAddress"

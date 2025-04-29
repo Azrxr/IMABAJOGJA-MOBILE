@@ -96,4 +96,11 @@
     <string name="kosongkan_pendidikan_saat_ini">Kosongkan Pendidikan Saat Ini</string>
     <string name="title_ganti_password">Ganti Password</string>
     <string name="filter">Filter</string>
+    <string name="title_placeholder">Masukkan Title</string>
+    <string name="description_placeholder">Masukkan Deskripsi Organisasi</string>
+    <string name="email_placeholder">Masukkan Email Organisasi</string>
+    <string name="vision_placeholder">Masukkan Visi</string>
+    <string name="mission_placeholder">Masukkan Misi</string>
+    <string name="phone_placeholder">Nomor Hp Organisasi</string>
+    <string name="address_placeholder">Masukkan Alamat</string>
 </resources>

@@ -30,7 +30,7 @@
         style="@style/textHeaderS_bold"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/background"
+        android:background="@drawable/bg_rounded15"
         android:padding="8dp"
         android:text="IMABA Title"
         android:textAlignment="center"
@@ -87,7 +87,7 @@
                             android:text="IMABA Jogja" />
 
                         <TextView
-                            android:id="@+id/tvSave"
+                            android:id="@+id/btnSave"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:paddingEnd="8dp"
@@ -97,7 +97,7 @@
                             tools:ignore="RtlSymmetry" />
 
                         <TextView
-                            android:id="@+id/tvEdit"
+                            android:id="@+id/btnEdit"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:paddingEnd="8dp"
@@ -108,13 +108,28 @@
                     </LinearLayout>
 
                     <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/tilTitle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="4dp">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/etTitle"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="Title apa kek"
+                            android:inputType="text"
+                            android:maxLines="5" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/tilDesk"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="4dp">
 
                         <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/etUsername"
+                            android:id="@+id/etDesk"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:hint="Deskripsi apa kek"
@@ -195,6 +210,21 @@
                             android:hint="Nomor HP 2"
                             android:inputType="text"
                             android:maxLines="3" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/tilAdress"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="4dp">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/etAddress"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="Alamat"
+                            android:inputType="text"
+                            android:maxLines="5" />
                     </com.google.android.material.textfield.TextInputLayout>
                 </LinearLayout>
             </androidx.cardview.widget.CardView>

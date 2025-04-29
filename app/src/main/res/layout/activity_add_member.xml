@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.admin.member.AddMemberActivity">
+
+    <com.google.android.material.progressindicator.LinearProgressIndicator
+        android:id="@+id/progressBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:indeterminate="true"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/btnSave"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        android:text="Simpan"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnImportMassal"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Import Massal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnSave" />
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Template Import"
+        app:layout_constraintEnd_toEndOf="@+id/btnImportMassal"
+        app:layout_constraintStart_toStartOf="@+id/btnImportMassal"
+        app:layout_constraintTop_toBottomOf="@+id/btnImportMassal" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnExportExcel"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Export Exel"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/btnImportMassal"
+        app:layout_constraintTop_toTopOf="@+id/btnImportMassal" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

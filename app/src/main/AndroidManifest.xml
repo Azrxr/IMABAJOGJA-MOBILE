@@ -23,6 +23,9 @@
         android:theme="@style/Theme.IMABAJogja"
         tools:targetApi="31">
         <activity
+            android:name=".ui.authentication.AdmUpdatePasswordActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.admin.member.AddMemberActivity"
             android:exported="false" />
         <activity

@@ -1,5 +1,6 @@
 package com.imaba.imabajogja.data.api
 
+import com.imaba.imabajogja.data.response.AdmProfileResponse
 import com.imaba.imabajogja.data.response.DocumentsResponse
 import com.imaba.imabajogja.data.response.HomeResponse
 import com.imaba.imabajogja.data.response.LoginResponse
@@ -103,8 +104,11 @@ interface ApiService {
 
     @GET("member/profile")
     suspend fun getProfile(
-
     ): Response<ProfileResponse>
+
+@GET("admin/profile")
+    suspend fun getAdmProfile(
+    ): Response<AdmProfileResponse>
 
     @FormUrlEncoded
     @POST("member/profileUpdate")
@@ -129,11 +133,32 @@ interface ApiService {
         @Field("tahun_lulus") tahunLulus: Int,
     ): Response<ProfileUpdateResponse>
 
+    @FormUrlEncoded
+    @POST("admin/updateProfile")
+    suspend fun updateAdmProfile(
+        @Field("username") username: String,
+        @Field("email") email: String,
+
+        @Field("fullname") fullname: String,
+        @Field("phone_number") phoneNumber: String,
+
+        @Field("provincy_id") provinceId: Int,
+        @Field("regency_id") regencyId: Int,
+        @Field("district_id") districtId: Int,
+        @Field("full_address") fullAddress: String,
+    ): Response<SuccesResponse>
+
     @Multipart
     @POST("member/profileUpdate")
     suspend fun updatePhotoProfile(
         @Part profileImg: MultipartBody.Part
     ): Response<ProfileUpdateResponse>
+
+    @Multipart
+    @POST("admin/updateProfile")
+    suspend fun updateAdmPhotoProfile(
+        @Part profileImg: MultipartBody.Part
+    ): Response<SuccesResponse>
 
     @FormUrlEncoded
     @POST("member/profileUpdate")
@@ -142,6 +167,14 @@ interface ApiService {
         @Field("new_password") newPassword: String,
         @Field("new_password_confirmation") passwordConfirmation: String,
     ): Response<ProfileUpdateResponse>
+
+    @FormUrlEncoded
+    @POST("admin/updateProfile")
+    suspend fun updateAdmPassword(
+        @Field("current_password") currentPassword: String,
+        @Field("new_password") newPassword: String,
+        @Field("new_password_confirmation") passwordConfirmation: String,
+    ): Response<SuccesResponse>
 
     @GET("province")
     suspend fun getProvinces(): WilayahResponse

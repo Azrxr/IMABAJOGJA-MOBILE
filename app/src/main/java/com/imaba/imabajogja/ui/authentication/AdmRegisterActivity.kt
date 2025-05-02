@@ -16,7 +16,9 @@ import androidx.core.view.WindowInsetsCompat
 import com.imaba.imabajogja.R
 import com.imaba.imabajogja.data.utils.Result
 import com.imaba.imabajogja.databinding.ActivityAdmRegisterBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class AdmRegisterActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityAdmRegisterBinding

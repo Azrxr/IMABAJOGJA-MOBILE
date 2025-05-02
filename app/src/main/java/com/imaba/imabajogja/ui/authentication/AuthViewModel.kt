@@ -11,6 +11,7 @@ import com.imaba.imabajogja.data.response.LoginResponse
 import com.imaba.imabajogja.data.response.ProfileUpdateResponse
 import com.imaba.imabajogja.data.response.RegisterAdminResponse
 import com.imaba.imabajogja.data.response.RegisterResponse
+import com.imaba.imabajogja.data.response.SuccesResponse
 import com.imaba.imabajogja.data.utils.Result
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -50,6 +51,14 @@ class AuthViewModel @Inject constructor(
         currentPassword: String, newPassword: String, passwordConfirmation: String,
     ): LiveData<Result<ProfileUpdateResponse>> {
         return loginRepository.updatePassword(
+            currentPassword, newPassword, passwordConfirmation,
+        )
+    }
+
+    fun admUpdatePassword(
+        currentPassword: String, newPassword: String, passwordConfirmation: String,
+    ): LiveData<Result<SuccesResponse>> {
+        return loginRepository.admUpdatePassword(
             currentPassword, newPassword, passwordConfirmation,
         )
     }

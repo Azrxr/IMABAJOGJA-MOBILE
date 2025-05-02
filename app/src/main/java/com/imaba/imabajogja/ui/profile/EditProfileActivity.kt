@@ -12,26 +12,19 @@ import android.widget.ArrayAdapter
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.imaba.imabajogja.R
-import com.imaba.imabajogja.data.api.ApiService
 import com.imaba.imabajogja.data.response.ProfileUser
 import com.imaba.imabajogja.data.utils.Result
-import com.imaba.imabajogja.data.utils.createCustomTempFile
 import com.imaba.imabajogja.data.utils.reduceFileImage
 import com.imaba.imabajogja.data.utils.setTextOrPlaceholder
 import com.imaba.imabajogja.data.utils.showToast
 import com.imaba.imabajogja.data.utils.uriToFile
 import com.imaba.imabajogja.databinding.ActivityEditProfileBinding
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
 import java.io.File
-import java.io.FileOutputStream
-import java.io.InputStream
 import java.util.Calendar
 
 @AndroidEntryPoint

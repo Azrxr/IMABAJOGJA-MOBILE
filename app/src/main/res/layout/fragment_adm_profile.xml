@@ -57,6 +57,17 @@
             android:src="@drawable/ic_user" />
     </androidx.cardview.widget.CardView>
 
+    <ImageButton
+        android:id="@+id/btnReplacePhoto"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:background="@drawable/ic_camera_plus"
+        android:contentDescription="replace photo"
+        app:layout_constraintBottom_toBottomOf="@+id/cardView2"
+        app:layout_constraintEnd_toEndOf="@+id/cardView2"
+        app:layout_constraintStart_toEndOf="@+id/cardView2"
+        app:layout_constraintTop_toBottomOf="@+id/cardView2" />
+
     <TextView
         android:id="@+id/tvName"
         style="@style/textBodyL_bold"
@@ -88,6 +99,16 @@
         app:layout_constraintEnd_toEndOf="@+id/tvEmail"
         app:layout_constraintStart_toStartOf="@+id/tvEmail"
         app:layout_constraintTop_toBottomOf="@+id/tvEmail" />
+
+    <TextView
+        android:id="@+id/tvFullAddress"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:maxLines="3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/tvPhoneNumber"
+        app:layout_constraintTop_toBottomOf="@+id/tvPhoneNumber" />
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/scrollableContent"
@@ -159,6 +180,7 @@
                     </LinearLayout>
 
                     <TextView
+                        android:id="@+id/tvAccount"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
@@ -305,7 +327,7 @@
             </androidx.cardview.widget.CardView>
 
             <Button
-                android:id="@+id/btnGantiPassword"
+                android:id="@+id/btnChangePassword"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
@@ -314,6 +336,7 @@
                 android:text="@string/title_ganti_password"/>
 
             <Button
+                android:id="@+id/btnLogout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"

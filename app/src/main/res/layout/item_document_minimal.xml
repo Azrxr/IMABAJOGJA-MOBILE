@@ -51,6 +51,7 @@
             android:layout_width="40dp"
             android:layout_height="60dp"
             android:layout_marginEnd="8dp"
+            android:contentDescription="delete document"
             android:src="@drawable/ic_delete"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="@+id/tvDescription"

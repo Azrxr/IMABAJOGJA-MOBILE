@@ -84,9 +84,9 @@ interface ApiService {
     @Multipart
     @POST("imaba/addFile")
     suspend fun addFileOrganization(
-        @Part("file_path") file: RequestBody,
-        @Part("title") title: String,
-        @Part("description") description: String,
+        @Part("title") title: RequestBody,
+        @Part("description") description: RequestBody,
+        @Part file: MultipartBody.Part
     ): Response<SuccesResponse>
 
     @DELETE("imaba/deleteFile/{id}")

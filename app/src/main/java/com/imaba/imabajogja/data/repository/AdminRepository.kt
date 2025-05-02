@@ -11,9 +11,12 @@ import com.imaba.imabajogja.data.response.ProfileUpdateResponse
 import com.imaba.imabajogja.data.response.SuccesResponse
 import com.imaba.imabajogja.data.response.WilayahItem
 import com.imaba.imabajogja.data.utils.Result
+import com.imaba.imabajogja.data.utils.compressPdf
+import com.itextpdf.io.IOException
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
 import timber.log.Timber
 import java.io.File
 import javax.inject.Inject
@@ -157,6 +160,64 @@ class AdminRepository @Inject constructor(private val apiService: ApiService) {
                 Timber.tag("data").d("error AdminRepository: ${e.message}")
                 emit(Result.Error(e.message.toString()))
             }
+        }
+    }
+
+    fun uploadDocumentOrganization(
+        file: File,
+        title: String,
+        description: String,
+    ): LiveData<Result<SuccesResponse>> =
+        liveData {
+            emit(Result.Loading)
+            try {
+                // 📝 Cek apakah file perlu dikompres
+                val compressedFile = try {
+                    compressPdf(file) // 🔥 Kompres PDF sebelum upload
+                } catch (e: IOException) {
+                    Log.e("UploadDocument", "❌ Gagal mengompres PDF: ${e.message}")
+                    emit(Result.Error("Gagal mengompres PDF: ${e.message}"))
+                    return@liveData
+                }
+
+                val titlePart = title.toRequestBody("text/plain".toMediaTypeOrNull())
+                val descriptionPart = description.toRequestBody("text/plain".toMediaTypeOrNull())
+                val requestFile = compressedFile.asRequestBody("application/pdf".toMediaTypeOrNull())
+                val filePart = MultipartBody.Part.createFormData(
+                    "file_path", compressedFile.name, requestFile
+                )
+
+                // 🔥 Panggil API Service
+                val response = apiService.addFileOrganization(titlePart, descriptionPart, filePart)
+
+
+                Log.d("UploadDocument", "📤 Nama file: ${compressedFile.name}")
+                Log.d("UploadDocument", "📝 Title: $title, Description: $description")
+
+                if (response.isSuccessful) {
+                    emit(Result.Success(response.body()!!))
+                    Log.d("UploadDocument", "✅ Berhasil upload!")
+                } else {
+                    emit(Result.Error("❌ Gagal: ${response.message()}"))
+                }
+            } catch (e: Exception) {
+                Log.e("UploadDocument", "❌ Terjadi kesalahan: ${e.message}")
+                emit(Result.Error("Terjadi kesalahan: ${e.message}"))
+            }
+        }
+
+    fun deleteDocumentOrganization(fileId: Int): LiveData<Result<SuccesResponse>> = liveData {
+        emit(Result.Loading)
+        try {
+            val response = apiService.deleteFileOrganization(fileId)
+            if (response.isSuccessful) {
+                emit(Result.Success(response.body()!!))
+            } else {
+                emit(Result.Error("Gagal menghapus dokumen: ${response.errorBody()?.string()}"))
+            }
+        } catch (e: Exception) {
+            Log.e("DeleteDoc", "Error: ${e.message}")
+            emit(Result.Error("Terjadi kesalahan: ${e.message}"))
         }
     }
 }

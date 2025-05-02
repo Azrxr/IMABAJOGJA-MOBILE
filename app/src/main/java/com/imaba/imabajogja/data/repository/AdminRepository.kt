@@ -3,9 +3,15 @@ package com.imaba.imabajogja.data.repository
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.liveData
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
 import com.imaba.imabajogja.data.api.ApiService
+import com.imaba.imabajogja.data.pagging.MemberPagingSource
 import com.imaba.imabajogja.data.response.AdmProfileResponse
+import com.imaba.imabajogja.data.response.DataItemMember
 import com.imaba.imabajogja.data.response.HomeResponse
+import com.imaba.imabajogja.data.response.MembersResponse
 import com.imaba.imabajogja.data.response.ProfileResponse
 import com.imaba.imabajogja.data.response.ProfileUpdateResponse
 import com.imaba.imabajogja.data.response.SuccesResponse
@@ -13,6 +19,7 @@ import com.imaba.imabajogja.data.response.WilayahItem
 import com.imaba.imabajogja.data.utils.Result
 import com.imaba.imabajogja.data.utils.compressPdf
 import com.itextpdf.io.IOException
+import kotlinx.coroutines.flow.Flow
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
@@ -220,4 +227,30 @@ class AdminRepository @Inject constructor(private val apiService: ApiService) {
             emit(Result.Error("Terjadi kesalahan: ${e.message}"))
         }
     }
+
+    fun listMembers(search: String?, generation: List<String>?, memberType: List<String>?): Flow<PagingData<DataItemMember>> {
+        return Pager(
+            config = PagingConfig(
+                pageSize = 10,  // Jumlah item per halaman
+                enablePlaceholders = false
+            ),
+            pagingSourceFactory = { MemberPagingSource(apiService, search, generation, memberType) }
+        ).flow
+    }
+
+    fun getMemberSummary(): LiveData<Result<MembersResponse>> = liveData {
+        emit(Result.Loading)
+        try {
+            val response = apiService.getMemberSummary()
+            if (response.isSuccessful && response.body() != null) {
+                emit(Result.Success(response.body()!!))
+            } else {
+                emit(Result.Error("Gagal memuat summary anggota"))
+            }
+        } catch (e: Exception) {
+            emit(Result.Error(e.message ?: "Terjadi kesalahan"))
+        }
+    }
+
+
 }

@@ -14,86 +14,110 @@ data class MembersResponse(
 	val error: Boolean,
 
 	@field:SerializedName("message")
-	val message: String
+	val message: String,
+
+	@field:SerializedName("total_member")
+	val totalMember: Int,
+
+	@field:SerializedName("total_member_regular")
+	val totalMemberRegular: Int,
+
+	@field:SerializedName("total_member_demissioner")
+	val totalMemberDemissioner: Int,
+
+	@field:SerializedName("total_member_prospective")
+	val totalMemberProspective: Int,
+
+	@field:SerializedName("total_member_management")
+	val totalMemberManagement: Int,
+
+	@field:SerializedName("total_member_special")
+	val totalMemberSpecial: Int,
 ) : Parcelable
 
 @Parcelize
 data class DataItemMember(
 
 	@field:SerializedName("member_type")
-	val memberType: String,
+	val memberType: String? = null,
 
 	@field:SerializedName("gender")
-	val gender: String,
+	val gender: String? = null,
 
 	@field:SerializedName("is_studyng")
 	val isStudyng: Int,
 
 	@field:SerializedName("agama")
-	val agama: String,
+	val agama: String? = null,
 
 	@field:SerializedName("tahun_lulus")
-	val tahunLulus: Int,
+	val tahunLulus: Int? = null,
 
 	@field:SerializedName("regency")
-	val regency: String,
+	val regency: String? = null,
+	@field:SerializedName("regencyId")
+	val regencyId: Int? = null,
 
 	@field:SerializedName("created_at")
-	val createdAt: String,
+	val createdAt: String? = null,
 
 	@field:SerializedName("full_address")
-	val fullAddress: String,
+	val fullAddress: String? = null,
 
 	@field:SerializedName("province")
-	val province: String,
+	val province: String? = null,
+	@field:SerializedName("provinceId")
+	val provinceId: Int? = null,
 
 	@field:SerializedName("updated_at")
-	val updatedAt: String,
+	val updatedAt: String? = null,
 
 	@field:SerializedName("id")
-	val id: Int,
+	val id: Int? = null,
 
 	@field:SerializedName("tanggal_lahir")
-	val tanggalLahir: String,
+	val tanggalLahir: String? = null,
 
 	@field:SerializedName("profile_img_url")
-	val profileImgUrl: String,
+	val profileImgUrl: String? = null,
 
 	@field:SerializedName("no_member")
-	val noMember: String,
+	val noMember: String? = null,
 
 	@field:SerializedName("study_members")
-	val studyMembers: List<StudyMembersItem>,
+	val studyMembers: List<StudyMembersItem>? = null,
 
 	@field:SerializedName("angkatan")
-	val angkatan: String,
+	val angkatan: String? = null,
 
 	@field:SerializedName("nisn")
-	val nisn: Int,
+	val nisn: Int? = null,
 
 	@field:SerializedName("kode_pos")
-	val kodePos: Int,
+	val kodePos: Int? = null,
 
 	@field:SerializedName("scholl_origin")
-	val schollOrigin: String,
+	val schollOrigin: String? = null,
 
 	@field:SerializedName("tempat")
-	val tempat: String,
+	val tempat: String? = null,
 
 	@field:SerializedName("user_id")
-	val userId: Int,
+	val userId: Int? = null,
 
 	@field:SerializedName("district")
-	val district: String,
+	val district: String? = null,
+	@field:SerializedName("districtId")
+	val districtId: Int? = null,
 
 	@field:SerializedName("phone_number")
-	val phoneNumber: String,
+	val phoneNumber: String? = null,
 
 	@field:SerializedName("fullname")
-	val fullname: String,
+	val fullname: String? = null,
 
 	@field:SerializedName("study_plans")
-	val studyPlans: List<StudyPlansItem>
+	val studyPlans: List<StudyPlansItem>? = null,
 ) : Parcelable
 
 @Parcelize
@@ -140,24 +164,34 @@ data class Data(
 data class StudyPlansItem(
 
 	@field:SerializedName("program_study")
-	val programStudy: String,
+	val programStudy: String? = null,
+	@field:SerializedName("program_studyId")
+	val programStudyId: Int? = null,
 
 	@field:SerializedName("university")
-	val university: String,
+	val university: String? = null,
+	@field:SerializedName("universityI")
+	val universityId: Int? = null,
 
 	@field:SerializedName("status")
-	val status: String
+	val status: String? = null
 ) : Parcelable
 
 @Parcelize
 data class StudyMembersItem(
 
 	@field:SerializedName("program_study")
-	val programStudy: String,
+	val programStudy: String? = null,
+	@field:SerializedName("program_studyId")
+	val programStudyId: Int? = null,
 
 	@field:SerializedName("university")
-	val university: String,
+	val university: String? = null,
+	@field:SerializedName("universityId")
+	val universityId: Int? = null,
 
+	@field:SerializedName("facultyId")
+	val facultyId: Int? = null,
 	@field:SerializedName("faculty")
-	val faculty: String
+	val faculty: String? = null
 ) : Parcelable

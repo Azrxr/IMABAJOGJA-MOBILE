@@ -37,53 +37,86 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/tvMemberCount"
+        android:id="@+id/tvTotalMember"
         style="@style/textBodyM_bold"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="@drawable/bg_rounded10"
         android:layout_marginTop="16dp"
+        android:background="@drawable/bg_rounded10"
         android:padding="8dp"
-        android:text="Jumlah anggota"
-        app:layout_constraintEnd_toEndOf="@+id/btnFilter"
+        android:text="Total Anggota : "
+        app:layout_constraintEnd_toStartOf="@+id/tvTotalPengurus"
         app:layout_constraintStart_toStartOf="@+id/searchBar"
         app:layout_constraintTop_toBottomOf="@+id/searchBar" />
 
-
     <TextView
-        android:id="@+id/tvDemissionerCount"
-        android:layout_width="0dp"
+        android:id="@+id/tvTotalPengurus"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/bg_rounded10"
-        android:layout_marginTop="4dp"
         android:padding="8dp"
-        android:text="Demissioner : "
-        app:layout_constraintStart_toStartOf="@+id/tvMemberCount"
-        app:layout_constraintTop_toBottomOf="@+id/tvMemberCount" />
+        android:text="Pengurus : "
+        app:layout_constraintBottom_toBottomOf="@+id/tvTotalMember"
+        app:layout_constraintEnd_toEndOf="@+id/btnFilter"
+        app:layout_constraintTop_toTopOf="@+id/tvTotalMember" />
 
     <TextView
-        android:id="@+id/tvActiveCount"
-        android:layout_width="0dp"
+        android:id="@+id/tvTotalDemissioner"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/bg_rounded10"
         android:layout_marginTop="4dp"
         android:layout_marginStart="4dp"
+        android:background="@drawable/bg_rounded10"
+        android:padding="8dp"
+        android:text="Demissioner : "
+        app:layout_constraintStart_toEndOf="@+id/tvTotalCamaba"
+        app:layout_constraintTop_toBottomOf="@+id/tvTotalMember" />
+
+   <TextView
+        android:id="@+id/tvTotalCamaba"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_rounded10"
+        android:layout_marginTop="4dp"
+       android:layout_marginStart="4dp"
+        android:padding="8dp"
+        android:text="Camaba : "
+        app:layout_constraintStart_toStartOf="@+id/tvTotalMember"
+        app:layout_constraintTop_toBottomOf="@+id/tvTotalMember" />
+
+    <TextView
+        android:id="@+id/tvTotalActive"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginEnd="4dp"
+        android:background="@drawable/bg_rounded10"
         android:padding="8dp"
         android:text="Aktif : "
-        app:layout_constraintEnd_toEndOf="@+id/tvMemberCount"
-        app:layout_constraintStart_toEndOf="@+id/tvDemissionerCount"
-        app:layout_constraintTop_toBottomOf="@+id/tvMemberCount" />
+        app:layout_constraintEnd_toStartOf="@+id/tvTotalIstimewa"
+        app:layout_constraintStart_toEndOf="@+id/tvTotalDemissioner"
+        app:layout_constraintTop_toTopOf="@+id/tvTotalDemissioner" />
+
+    <TextView
+        android:id="@+id/tvTotalIstimewa"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_rounded10"
+        android:padding="8dp"
+        android:text="Istimewa : "
+        app:layout_constraintEnd_toEndOf="@+id/btnFilter"
+        app:layout_constraintTop_toTopOf="@+id/tvTotalActive" />
 
     <Button
         android:id="@+id/btnAdd"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:backgroundTint="@color/gray300"
         android:layout_marginTop="4dp"
+        android:backgroundTint="@color/gray300"
         android:text="Tambah Anggota"
-        app:layout_constraintEnd_toEndOf="@+id/tvMemberCount"
-        app:layout_constraintStart_toStartOf="@+id/tvDemissionerCount"
-        app:layout_constraintTop_toBottomOf="@+id/tvDemissionerCount" />
+        app:layout_constraintEnd_toEndOf="@+id/btnFilter"
+        app:layout_constraintStart_toStartOf="@+id/tvTotalMember"
+        app:layout_constraintTop_toBottomOf="@+id/tvTotalDemissioner" />
 
     <ImageButton
         android:id="@+id/btnFilter"

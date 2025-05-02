@@ -99,6 +99,16 @@
             android:text="Sistem Informasi"
             card_view:layout_constraintStart_toStartOf="@+id/rvUniversity"
             card_view:layout_constraintTop_toBottomOf="@+id/rvUniversity" />
+
+        <TextView
+            android:id="@+id/btnDelete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/delete"
+            android:visibility="gone"
+            android:textColor="@color/design_default_color_error"
+            card_view:layout_constraintBottom_toBottomOf="parent"
+            card_view:layout_constraintEnd_toEndOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.cardview.widget.CardView>

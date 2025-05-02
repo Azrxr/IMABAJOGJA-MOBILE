@@ -103,4 +103,5 @@
     <string name="mission_placeholder">Masukkan Misi</string>
     <string name="phone_placeholder">Nomor Hp Organisasi</string>
     <string name="address_placeholder">Masukkan Alamat</string>
+    <string name="loading">loading...</string>
 </resources>

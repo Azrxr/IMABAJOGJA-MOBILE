@@ -102,6 +102,10 @@ interface ApiService {
         @Query("member_type[]") memberType: List<String>? = null,
     ): MembersResponse
 
+    @GET("member/members")
+    suspend fun getMemberSummary(): Response<MembersResponse>
+
+
     @GET("member/profile")
     suspend fun getProfile(
     ): Response<ProfileResponse>

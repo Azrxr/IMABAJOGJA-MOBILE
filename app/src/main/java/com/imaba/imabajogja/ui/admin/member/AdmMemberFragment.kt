@@ -156,16 +156,6 @@ class AdmMemberFragment : Fragment() {
                 intent.putExtra(AdmMemberDetailActivity.EXTRA_MEMBER, member)
                 startActivity(intent)
             },
-            onDeleteClicked = { member ->
-                // Handle delete action here
-                Toast.makeText(
-                    requireContext(),
-                    "Delete clicked for ${member.fullname}",
-                    Toast.LENGTH_SHORT
-                ).show()
-                getMemberSummary()
-            },
-            isDeleteVisible = true
         )
 
         binding.rvMemberList.layoutManager = LinearLayoutManager(requireContext())
@@ -214,7 +204,7 @@ class AdmMemberFragment : Fragment() {
         requireContext().showToast("Menampilkan semua tipe member")
     }
 
-    private fun getMemberSummary(){
+    private fun getMemberSummary() {
         viewModel.getMemberSummary().observe(viewLifecycleOwner) { result ->
             when (result) {
                 is Result.Success -> {
@@ -259,6 +249,7 @@ class AdmMemberFragment : Fragment() {
                     }
 
                 }
+
                 is Result.Error -> requireContext().showToast("Gagal memuat summary: ${result.message}")
                 is Result.Loading -> Unit
             }

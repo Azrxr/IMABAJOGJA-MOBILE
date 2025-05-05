@@ -252,5 +252,75 @@ class AdminRepository @Inject constructor(private val apiService: ApiService) {
         }
     }
 
+    fun deleteMember(memberId: Int): LiveData<Result<SuccesResponse>> = liveData {
+        emit(Result.Loading)
+        try {
+            val response = apiService.deleteMember(memberId)
+            if (response.isSuccessful) {
+                emit(Result.Success(response.body()!!))
+            } else {
+                emit(Result.Error("Gagal menghapus anggota: ${response.errorBody()?.string()}"))
+            }
+        } catch (e: Exception) {
+            Log.e("DeleteMember", "Error: ${e.message}")
+            emit(Result.Error("Terjadi kesalahan: ${e.message}"))
+        }
 
+    }
+
+    fun updateMemberAdm( memberId: Int,
+        fullname: String, phoneNumber: String,
+        provinceId: Int, regencyId: Int, districtId: Int, fullAddres: String, kodePos: String,
+        agama: String, nisn: String, tempat: String, tanggalLahir: String, gender: String,
+        schollOrigin: String, tahunLulus: Int, angkatan: Int, memberType: String
+    ): LiveData<Result<SuccesResponse>> {
+        return liveData {
+            emit(Result.Loading)
+            try {
+                val response = apiService.updateMemberAdm( memberId,
+                    fullname, phoneNumber,
+                    provinceId, regencyId, districtId, fullAddres, kodePos,
+                    agama, nisn, tempat, tanggalLahir, gender,
+                    schollOrigin, tahunLulus, angkatan, memberType
+                )
+                if (response.isSuccessful) {
+                    response.body()?.let {
+                        emit(Result.Success(it))
+                    } ?: emit(Result.Error("Response body kosong"))
+                } else {
+                    val errorMessage = response.errorBody()?.string() ?: "Terjadi kesalahan"
+                    emit(Result.Error("Error ${response.code()}: $errorMessage"))
+                }
+            } catch (e: Exception) {
+
+                Log.d("data", "error MemberRepository: ${e.message}")
+                emit(Result.Error(e.message.toString()))
+            }
+        }
+    }
+
+    fun updateMemberPhotoProfileAdm(memberId: Int, photoFile: File): LiveData<Result<SuccesResponse>> {
+        return liveData {
+            emit(Result.Loading)
+            try {
+                // 🔥 Konversi file menjadi Multipart
+                val requestFile = photoFile.asRequestBody("image/jpeg".toMediaTypeOrNull())
+                val body = MultipartBody.Part.createFormData(
+                    "profile_img_path",
+                    photoFile.name,
+                    requestFile
+                )
+                // 🔥 Panggil API
+                val response = apiService.updateMemberPhotoProfileAdm(memberId, body)
+
+                if (response.isSuccessful) {
+                    emit(Result.Success(response.body()!!))
+                } else {
+                    emit(Result.Error("Gagal mengupload foto: ${response.message()}"))
+                }
+            } catch (e: Exception) {
+                emit(Result.Error(e.message.toString()))
+            }
+        }
+    }
 }

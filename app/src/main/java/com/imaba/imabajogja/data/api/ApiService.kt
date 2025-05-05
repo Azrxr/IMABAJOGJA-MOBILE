@@ -105,12 +105,16 @@ interface ApiService {
     @GET("member/members")
     suspend fun getMemberSummary(): Response<MembersResponse>
 
+    @DELETE("admin/deleteMember/{id}")
+    suspend fun deleteMember(
+        @Path("id") id: Int
+    ): Response<SuccesResponse>
 
     @GET("member/profile")
     suspend fun getProfile(
     ): Response<ProfileResponse>
 
-@GET("admin/profile")
+    @GET("admin/profile")
     suspend fun getAdmProfile(
     ): Response<AdmProfileResponse>
 
@@ -138,6 +142,30 @@ interface ApiService {
     ): Response<ProfileUpdateResponse>
 
     @FormUrlEncoded
+    @POST("admin/updateMember/{id}")
+    suspend fun updateMemberAdm(
+
+        @Path("id") id: Int,
+        @Field("fullname") fullname: String,
+        @Field("phone_number") phoneNumber: String,
+        @Field("province_id") provinceId: Int,
+        @Field("regency_id") regencyId: Int,
+        @Field("district_id") districtId: Int,
+        @Field("full_address") fullAddress: String,
+        @Field("kode_pos") kodePos: String,
+        @Field("agama") agama: String,
+        @Field("nisn") nisn: String,
+        @Field("tempat") tempat: String,
+        @Field("tanggal_lahir") tanggalLahir: String,
+        @Field("gender") gender: String,
+        @Field("scholl_origin") schollOrigin: String,
+        @Field("tahun_lulus") tahunLulus: Int,
+
+        @Field("angkatan") angkatan: Int,
+        @Field("member_type") memberType: String,
+    ): Response<SuccesResponse>
+
+    @FormUrlEncoded
     @POST("admin/updateProfile")
     suspend fun updateAdmProfile(
         @Field("username") username: String,
@@ -157,6 +185,13 @@ interface ApiService {
     suspend fun updatePhotoProfile(
         @Part profileImg: MultipartBody.Part
     ): Response<ProfileUpdateResponse>
+
+    @Multipart
+    @POST("admin/updateMember/photo/{id}")
+    suspend fun updateMemberPhotoProfileAdm(
+        @Path ("id") id: Int,
+        @Part profileImg: MultipartBody.Part
+    ): Response<SuccesResponse>
 
     @Multipart
     @POST("admin/updateProfile")
@@ -275,4 +310,6 @@ interface ApiService {
 
     @DELETE("member/deleteStudyMember")
     suspend fun deleteStudyMember(): Response<SuccesResponse>
+
+
 }

@@ -2,7 +2,6 @@ package com.imaba.imabajogja.ui.admin.member
 
 import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
@@ -14,8 +13,6 @@ import com.imaba.imabajogja.databinding.ItemMembersBinding
 
 class AdmMemberAdapter(
     private val onItemClick: (DataItemMember) -> Unit,
-    private val onDeleteClicked: (DataItemMember) -> Unit,
-    private val isDeleteVisible: Boolean = false
 ) : PagingDataAdapter<DataItemMember, AdmMemberAdapter.MemberViewHolder>(DIFF_CALLBACK) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MemberViewHolder {
@@ -56,14 +53,7 @@ class AdmMemberAdapter(
             binding.root.setOnClickListener {
                 onItemClick(member)
             }
-            if (isDeleteVisible) {
-                binding.btnDelete.visibility = View.VISIBLE
-                binding.btnDelete.setOnClickListener {
-                    onDeleteClicked(member)
-                }
-            } else {
-                binding.btnDelete.visibility = View.GONE
-            }
+
         }
     }
 

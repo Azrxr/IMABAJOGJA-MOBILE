@@ -118,6 +118,22 @@ data class DataItemMember(
 
 	@field:SerializedName("study_plans")
 	val studyPlans: List<StudyPlansItem>? = null,
+
+	@field:SerializedName("documents")
+	val documents: List<DataDocument?>? = null,
+
+	@field:SerializedName("berkas_progress")
+	val berkasProgress: String? = null,
+
+	@field:SerializedName("has_home_photos")
+	val hasHomePhotos: Boolean? = null,
+
+	@field:SerializedName("berkas_lengkap")
+	val berkasLengkap: Boolean? = null,
+
+	@field:SerializedName("status_kuliah")
+	val statusKuliah: String? = null,
+
 ) : Parcelable
 
 @Parcelize
@@ -163,6 +179,11 @@ data class Data(
 @Parcelize
 data class StudyPlansItem(
 
+	@field:SerializedName("member_id")
+	val memberId: Int? = null,
+	@field:SerializedName("study_plan_id")
+	val studyPlanId: Int? = null,
+
 	@field:SerializedName("program_study")
 	val programStudy: String? = null,
 	@field:SerializedName("program_studyId")
@@ -179,6 +200,11 @@ data class StudyPlansItem(
 
 @Parcelize
 data class StudyMembersItem(
+
+	@field:SerializedName("member_id")
+	val memberId: Int? = null,
+	@field:SerializedName("study_member_id")
+	val studyMemberId: Int? = null,
 
 	@field:SerializedName("program_study")
 	val programStudy: String? = null,

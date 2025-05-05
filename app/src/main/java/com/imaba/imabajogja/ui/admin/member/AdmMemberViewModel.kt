@@ -6,11 +6,14 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
 import com.imaba.imabajogja.data.repository.AdminRepository
 import com.imaba.imabajogja.data.response.MembersResponse
+import com.imaba.imabajogja.data.response.ProfileUpdateResponse
+import com.imaba.imabajogja.data.response.SuccesResponse
 import com.imaba.imabajogja.data.utils.Result
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapLatest
+import java.io.File
 import javax.inject.Inject
 
 @HiltViewModel
@@ -73,6 +76,29 @@ class AdmMemberViewModel @Inject constructor(
 
     fun getMemberSummary(): LiveData<Result<MembersResponse>> {
         return repository.getMemberSummary()
+    }
+
+    fun deleteMember(memberId: Int): LiveData<Result<SuccesResponse>> {
+        return repository.deleteMember(memberId)
+    }
+
+    fun updateMemberAdm( memberId: Int,
+        fullname: String, phoneNumber: String,
+        provinceId: Int, regencyId: Int, districtId: Int, fullAddress: String, kodePos: String,
+        agama: String, nisn: String, tempat: String, tanggalLahir: String, gender: String,
+        schollOrigin: String, tahunLulus: Int, angkatan: Int, memberType: String
+    ): LiveData<Result<SuccesResponse>> {
+        return repository.updateMemberAdm( memberId,
+            fullname, phoneNumber,
+            provinceId, regencyId, districtId, fullAddress, kodePos,
+            agama, nisn, tempat, tanggalLahir, gender,
+            schollOrigin, tahunLulus, angkatan, memberType
+        )
+
+    }
+
+    fun updateMemberPhotoProfile(memberId: Int, photoFile: File): LiveData<Result<SuccesResponse>> {
+        return repository.updateMemberPhotoProfileAdm(memberId, photoFile)
     }
 
 }

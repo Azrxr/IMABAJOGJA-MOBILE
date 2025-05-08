@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:layout_marginStart="32dp"
+    android:layout_marginTop="4dp"
+    android:layout_marginEnd="32dp"
+    android:layout_marginBottom="4dp"
+    card_view:cardCornerRadius="8dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:visibility="gone"/>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:padding="16dp"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/textView8"
+            style="@style/textBodyL_bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:visibility="gone"
+            android:text="Tambah rencana studi anggota"
+            card_view:layout_constraintEnd_toEndOf="parent"
+            card_view:layout_constraintStart_toStartOf="parent"
+            card_view:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilCampusNamePlan"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:endIconMode="dropdown_menu"
+            android:layout_marginTop="16dp"
+            app:startIconDrawable="@drawable/ic_university"
+            card_view:layout_constraintEnd_toEndOf="parent"
+            card_view:layout_constraintStart_toStartOf="parent"
+            card_view:layout_constraintTop_toBottomOf="@id/textView8">
+
+            <AutoCompleteTextView
+                android:id="@+id/etCampusNamePlan"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="@string/nama_perguruan_tinggi"
+                android:inputType="text"
+                android:maxLines="1"
+                android:padding="8dp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilProdiPlan"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:endIconMode="dropdown_menu"
+            app:startIconDrawable="@drawable/ic_study"
+            card_view:layout_constraintEnd_toEndOf="parent"
+            card_view:layout_constraintStart_toStartOf="parent"
+            card_view:layout_constraintTop_toBottomOf="@+id/tilCampusNamePlan">
+
+            <AutoCompleteTextView
+                android:id="@+id/etProdiPlan"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="@string/program_studi"
+                android:inputType="text"
+                android:maxLines="1"
+                android:padding="8dp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/btnSave"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:visibility="gone"
+            android:text="@string/save"
+            card_view:layout_constraintEnd_toEndOf="parent"
+            card_view:layout_constraintTop_toBottomOf="@+id/tilProdiPlan" />
+
+        <TextView
+            android:id="@+id/btnCancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:visibility="gone"
+            android:layout_marginEnd="16dp"
+            android:text="@string/cancel"
+            card_view:layout_constraintEnd_toStartOf="@+id/btnSave"
+            card_view:layout_constraintTop_toBottomOf="@+id/tilProdiPlan" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.cardview.widget.CardView>

@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/card_view"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:layout_marginStart="8dp"
+    android:layout_marginTop="4dp"
+    android:layout_marginEnd="8dp"
+    android:layout_marginBottom="4dp"
+    card_view:cardCornerRadius="8dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="8dp">
+
+        <com.google.android.material.circularreveal.cardview.CircularRevealCardView
+            android:id="@+id/circularRevealCardView"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:contentDescription="profile image"
+            card_view:layout_constraintBottom_toBottomOf="parent"
+            card_view:layout_constraintEnd_toEndOf="parent"
+            card_view:layout_constraintHorizontal_bias="0.0"
+            card_view:layout_constraintStart_toStartOf="parent"
+            card_view:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/rv_image"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:contentDescription="profile image"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_user" />
+
+        </com.google.android.material.circularreveal.cardview.CircularRevealCardView>
+
+        <TextView
+            android:id="@+id/rvFullname"
+            style="@style/textBodyS_bold"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:textAlignment="textStart"
+            android:maxLines="1"
+            android:text="Fullname"
+            card_view:layout_constraintEnd_toStartOf="@+id/tvStudy"
+            card_view:layout_constraintStart_toEndOf="@+id/circularRevealCardView"
+            card_view:layout_constraintTop_toTopOf="@+id/circularRevealCardView" />
+
+        <TextView
+            android:id="@+id/tvStudy"
+            style="@style/textBodyS"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="4dp"
+            android:text="Studi: "
+            card_view:layout_constraintEnd_toStartOf="@+id/rvStatusStudy"
+            card_view:layout_constraintTop_toTopOf="@+id/rvFullname" />
+
+        <TextView
+            style="@style/textBodyS"
+            android:id="@+id/rvStatusStudy"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="@drawable/bg_rounded10"
+            android:padding="4dp"
+            android:text="rencana"
+            card_view:layout_constraintBottom_toBottomOf="@+id/tvStudy"
+            card_view:layout_constraintEnd_toEndOf="parent"
+            card_view:layout_constraintTop_toTopOf="@+id/tvStudy" />
+
+        <TextView
+            android:id="@+id/rvType"
+            style="@style/textBodyS"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Anggota Aktif"
+            card_view:layout_constraintStart_toStartOf="@+id/rvFullname"
+            card_view:layout_constraintTop_toBottomOf="@+id/rvFullname" />
+
+        <TextView
+            android:id="@+id/rvPhone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="081234567890"
+            card_view:layout_constraintStart_toStartOf="@+id/rvType"
+            card_view:layout_constraintTop_toBottomOf="@+id/rvType" />
+
+        <TextView
+            style="@style/textBodyS_bold"
+            android:id="@+id/rvUniversity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Universitas Alma Ata"
+            card_view:layout_constraintStart_toStartOf="@+id/rvPhone"
+            card_view:layout_constraintTop_toBottomOf="@+id/rvPhone" />
+
+        <TextView
+            style="@style/textBodyS"
+            android:id="@+id/tvBerkas"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Persyaratan: "
+            card_view:layout_constraintStart_toStartOf="@+id/rvUniversity"
+            card_view:layout_constraintTop_toBottomOf="@+id/rvUniversity" />
+
+        <TextView
+            style="@style/textBodyS"
+            android:id="@+id/rvStatusBerkas"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tidak"
+            card_view:layout_constraintBottom_toBottomOf="@+id/tvBerkas"
+            card_view:layout_constraintStart_toEndOf="@+id/tvBerkas" />
+
+        <TextView
+            style="@style/textBodyS"
+            android:id="@+id/tvProgress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="Progres: "
+            card_view:layout_constraintBottom_toBottomOf="@+id/rvStatusBerkas"
+            card_view:layout_constraintStart_toEndOf="@+id/rvStatusBerkas" />
+
+        <TextView
+            android:id="@+id/rvProgressDoc"
+            style="@style/textBodyS"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:background="@drawable/bg_rounded10"
+            android:padding="4dp"
+            android:text="24/24"
+            card_view:layout_constraintBottom_toBottomOf="@+id/tvProgress"
+            card_view:layout_constraintEnd_toEndOf="parent"
+            card_view:layout_constraintStart_toEndOf="@+id/tvProgress"
+            card_view:layout_constraintTop_toTopOf="@+id/tvProgress" />
+
+        <TextView
+            android:id="@+id/btnDelete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/delete"
+            android:visibility="gone"
+            android:textColor="@color/design_default_color_error"
+            card_view:layout_constraintBottom_toBottomOf="parent"
+            card_view:layout_constraintEnd_toEndOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.cardview.widget.CardView>

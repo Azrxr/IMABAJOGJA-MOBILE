@@ -72,7 +72,7 @@ class DokumenCampuseActivity : AppCompatActivity() {
     private fun setupAdapter(data: DataDocument) {
 
         homePhotoAdapter = HomePhotoAdapter(
-            homePhotos = data.homePhoto,
+            homePhotos = data.homePhoto ?: emptyList(),
             onDeleteClick = { photo -> deleteHomePhoto(photo.id) }
         )
         binding.rvHomePhoto.adapter = homePhotoAdapter

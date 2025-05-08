@@ -6,9 +6,11 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.imaba.imabajogja.data.response.StudyPlans
+import com.imaba.imabajogja.data.response.StudyPlansItem
 import com.imaba.imabajogja.databinding.ItemStudyPlansBinding
 
 class StudyPlansAdapter(
+
     private val onDeleteClick: (Int) -> Unit
 ) : ListAdapter<StudyPlans, StudyPlansAdapter.ViewHolder>(DIFF_CALLBACK) {
 

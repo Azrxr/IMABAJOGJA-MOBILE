@@ -30,7 +30,10 @@ class DocumentAdapter(
         return if (documentList[position].first.contains("Foto")) TYPE_PHOTO else TYPE_DOCUMENT
     }
 
-    inner class ViewHolder(private val binding: ItemDocumentMinimalBinding, private val viewType: Int) :
+    inner class ViewHolder(
+        private val binding: ItemDocumentMinimalBinding,
+        private val viewType: Int
+    ) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(doc: Pair<String, String?>) {
             binding.tvTitle.text = doc.first
@@ -41,11 +44,12 @@ class DocumentAdapter(
                 binding.tvDescription.text = "✅ Sudah diunggah"
                 Log.d("DocumentAdapter", "Document: ${doc.first}, URL: ${doc.second}")
 
-                binding.root.setOnClickListener{
-                    if (viewType == TYPE_DOCUMENT)
-                    openPdf(doc.second!!)
-                    else (viewType == TYPE_PHOTO)
-                    showFullImage(doc.second!!)
+                binding.root.setOnClickListener {
+                    if (viewType == TYPE_DOCUMENT) {
+                        openPdf(doc.second!!)
+                    } else if (viewType == TYPE_PHOTO) {
+                        showFullImage(doc.second!!)
+                    }
                 }
 
             } else {
@@ -63,12 +67,14 @@ class DocumentAdapter(
                 onDeleteClick(doc.first)
             }
         }
+
         private fun openPdf(url: String) {
             val intent = Intent(Intent.ACTION_VIEW)
             intent.setDataAndType(Uri.parse(url), "application/pdf")
             intent.flags = Intent.FLAG_ACTIVITY_NO_HISTORY
             context.startActivity(intent)
         }
+
         private fun showFullImage(url: String) {
             val dialogView = LayoutInflater.from(context).inflate(R.layout.dialog_full_image, null)
             val photoView = dialogView.findViewById<ImageView>(R.id.photoView)
@@ -86,7 +92,8 @@ class DocumentAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val binding = ItemDocumentMinimalBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding =
+            ItemDocumentMinimalBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ViewHolder(binding, viewType)
 
     }

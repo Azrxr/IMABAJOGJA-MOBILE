@@ -120,7 +120,8 @@ data class DataItemMember(
 	val studyPlans: List<StudyPlansItem>? = null,
 
 	@field:SerializedName("documents")
-	val documents: List<DataDocument?>? = null,
+	val documents: List<DataDocument>? = null,
+//	val documents: DataDocument? = null,
 
 	@field:SerializedName("berkas_progress")
 	val berkasProgress: String? = null,
@@ -191,11 +192,11 @@ data class StudyPlansItem(
 
 	@field:SerializedName("university")
 	val university: String? = null,
-	@field:SerializedName("universityI")
+	@field:SerializedName("universityId")
 	val universityId: Int? = null,
 
 	@field:SerializedName("status")
-	val status: String? = null
+    var status: String? = null
 ) : Parcelable
 
 @Parcelize

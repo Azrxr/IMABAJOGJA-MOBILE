@@ -36,7 +36,7 @@ data class DataDocument(
 	val id: Int,
 
 	@field:SerializedName("home_photo")
-	val homePhoto: List<HomePhotoItem>
+	val homePhoto: List<HomePhotoItem>? = null
 ) : Parcelable
 
 @Parcelize

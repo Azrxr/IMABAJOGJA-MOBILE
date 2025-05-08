@@ -105,4 +105,9 @@
     <string name="address_placeholder">Masukkan Alamat</string>
     <string name="loading">loading...</string>
     <string name="cancel">Batal</string>
+    <string name="lengkap">Lengkap</string>
+    <string name="tidak_lengkap">Tidak lengkap</string>
+    <string name="title_rencana_studi">Rencana Studi</string>
+    <string name="add">Tambah</string>
+    <string name="progress">Progress: </string>
 </resources>

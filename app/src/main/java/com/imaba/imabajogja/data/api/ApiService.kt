@@ -4,6 +4,7 @@ import com.imaba.imabajogja.data.response.AdmProfileResponse
 import com.imaba.imabajogja.data.response.DocumentsResponse
 import com.imaba.imabajogja.data.response.HomeResponse
 import com.imaba.imabajogja.data.response.LoginResponse
+import com.imaba.imabajogja.data.response.MemberDetailResponse
 import com.imaba.imabajogja.data.response.MembersResponse
 import com.imaba.imabajogja.data.response.ProfileResponse
 import com.imaba.imabajogja.data.response.ProfileUpdateResponse
@@ -311,5 +312,53 @@ interface ApiService {
     @DELETE("member/deleteStudyMember")
     suspend fun deleteStudyMember(): Response<SuccesResponse>
 
+    @GET("admin/memberDetail/{memberId}")
+    suspend fun getMemberDetailAdm(
+        @Path("memberId") memberId: Int
+    ): Response<MemberDetailResponse>
+
+    @FormUrlEncoded
+    @POST("admin/study/{memberId}/PlaneAdd")
+    suspend fun addStudyPlanAdm(
+        @Path("memberId") memberId: Int,
+        @Field("university_id") universityId: Int,
+        @Field("program_study_id") programStudyId: Int
+    ): Response<SuccesResponse>
+
+    @FormUrlEncoded
+    @POST("admin/study/{memberId}/planeUpdate/{studyPlanId}")
+    suspend fun updateStudyPlanAdm(
+        @Path("memberId") memberId: Int,
+        @Path("studyPlanId") studyPlanId: Int,
+        @Field("status") status: String,
+    ): Response<SuccesResponse>
+
+    @DELETE("admin/document/{memberId}/delete/{field}")
+    suspend fun deleteDocumentAdm(
+        @Path("memberId") memberId: Int,
+        @Path("field") field: String
+    ): Response<SuccesResponse>
+
+    @DELETE("admin/document/{Id}/deleteHome")
+    suspend fun deleteHomePhotoAdm(
+        @Path("Id") id: Int
+    ): Response<SuccesResponse>
+
+    @Multipart
+    @POST("admin/document/{memberId}/upload/{docId}")
+    suspend fun uploadDocumentAdm(
+        @Path("memberId") memberId: Int,
+        @Path("docId") docId: Int,
+        @Part("documentType") documentType: RequestBody,
+        @Part file: MultipartBody.Part // File dokumen
+    ): Response<SuccesResponse>
+
+    @Multipart
+    @POST("admin/document/{memberId}/uploadHome")
+    suspend fun uploadHomePhotoAdm(
+        @Path("memberId") memberId: Int,
+        @Part photoImg: MultipartBody.Part,
+        @Part("photo_title") photoTitle: RequestBody,
+    ): Response<SuccesResponse>
 
 }

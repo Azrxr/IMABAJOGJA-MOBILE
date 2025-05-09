@@ -4,19 +4,20 @@ import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.Context
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.imaba.imabajogja.R
 import com.imaba.imabajogja.data.response.HomePhotoItem
+import com.imaba.imabajogja.data.response.StudyPlansItem
 import com.imaba.imabajogja.databinding.ItemPhotoBinding
 
 class HomePhotoAdapter(
     private var homePhotos: List<HomePhotoItem>,
     private val onDeleteClick: (HomePhotoItem) -> Unit
 ) : RecyclerView.Adapter<HomePhotoAdapter.HomePhotoViewHolder>() {
-
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HomePhotoViewHolder {
         val binding = ItemPhotoBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -45,6 +46,7 @@ class HomePhotoAdapter(
             binding.ivPhoto.setOnClickListener {
                 showFullImageDialog(binding.root.context, photo.photoImgUrl)
             }
+
 
             // 🗑️ Hapus foto
             binding.btnDelete.setOnClickListener {

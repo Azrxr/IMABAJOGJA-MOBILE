@@ -33,6 +33,25 @@ data class MembersResponse(
 
 	@field:SerializedName("total_member_special")
 	val totalMemberSpecial: Int,
+
+	@field:SerializedName("total_study_plan")
+	val totalStudyPlan: Int,
+
+	@field:SerializedName("total_plan_pending")
+	val totalPlanPending: Int,
+
+	@field:SerializedName("total_plan_accepted")
+	val totalPlanAccepted: Int,
+
+	@field:SerializedName("total_plan_rejected")
+	val totalPlanRejected: Int,
+
+	@field:SerializedName("total_plan_active")
+	val totalPlanActive: Int,
+
+	@field:SerializedName("total_univ_plan")
+	val totalUnivPlanSelect: Int,
+
 ) : Parcelable
 
 @Parcelize

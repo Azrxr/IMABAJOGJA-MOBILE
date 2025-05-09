@@ -1,5 +1,6 @@
 package com.imaba.imabajogja.ui.admin.campuse
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import androidx.fragment.app.viewModels
 import android.os.Bundle
@@ -16,6 +17,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.imaba.imabajogja.R
+import com.imaba.imabajogja.data.utils.Result
 import com.imaba.imabajogja.data.utils.showToast
 import com.imaba.imabajogja.databinding.FragmentAdmCampuseBinding
 import com.imaba.imabajogja.ui.admin.member.AdmMemberDetailActivity
@@ -60,8 +62,67 @@ class AdmCampuseFragment : Fragment() {
         setupSearch()
         setupFilterButton()
         setupListStudyMember()
+        getMemberSummary()
     }
 
+
+    private fun getMemberSummary() {
+        memberViewModel.getMemberSummary().observe(viewLifecycleOwner) { result ->
+            when (result) {
+                is com.imaba.imabajogja.data.utils.Result.Success -> {
+                    val data = result.data
+                    binding.tvTotalMember.text = "Total rencana studi : ${data.totalStudyPlan}"
+                    binding.tvStatusPending.text = "Pending : ${data.totalPlanPending}"
+                    binding.tvStatusAccepted.text = "Diterima : ${data.totalPlanAccepted}"
+                    binding.tvStatusRejected.text = "Ditolak : ${data.totalPlanRejected}"
+                    binding.tvStatusActive.text = "Aktif : ${data.totalPlanActive}"
+                    binding.tvStatusTotalUnivSelect.text = "Total perguruan tinggi dipilih : ${data.totalUnivPlanSelect}"
+
+                    // klik untuk filter
+                    binding.tvTotalMember.setOnClickListener {
+                        clearMemberTypeAndRefresh()
+                    }
+
+                    binding.tvStatusPending.setOnClickListener {
+                        memberViewModel.clearMemberTypeFilters()
+                        memberViewModel.addMemberTypeFilter("Anggota") // pastikan sesuai nama dari API
+                        adapter.refresh()
+                    }
+
+                    binding.tvStatusAccepted.setOnClickListener {
+                        memberViewModel.clearMemberTypeFilters()
+                        memberViewModel.addMemberTypeFilter("Demissioner")
+                        adapter.refresh()
+                    }
+                    binding.tvStatusRejected.setOnClickListener {
+                        memberViewModel.clearMemberTypeFilters()
+                        memberViewModel.addMemberTypeFilter("Camaba")
+                        adapter.refresh()
+                    }
+                    binding.tvStatusActive.setOnClickListener {
+                        memberViewModel.clearMemberTypeFilters()
+                        memberViewModel.addMemberTypeFilter("Pengurus")
+                        adapter.refresh()
+                    }
+                    binding.tvStatusTotalUnivSelect.setOnClickListener {
+                        memberViewModel.clearMemberTypeFilters()
+                        memberViewModel.addMemberTypeFilter("Istimewa")
+                        adapter.refresh()
+                    }
+
+                }
+
+                is com.imaba.imabajogja.data.utils.Result.Error -> requireContext().showToast("Gagal memuat summary: ${result.message}")
+                is Result.Loading -> Unit
+            }
+        }
+
+    }
+    private fun clearMemberTypeAndRefresh() {
+        memberViewModel.clearMemberTypeFilters()
+        adapter.refresh()
+        requireContext().showToast("Menampilkan semua tipe member")
+    }
     private fun setupListStudyMember() {
 
         adapter = AdmStudyAdapter(
@@ -149,7 +210,7 @@ class AdmCampuseFragment : Fragment() {
     }
 
     private fun showGenerationFilterDialog() {
-        val generations = (2015..2025).map { it.toString() }
+        val generations = (2015..2030).map { it.toString() }
         val currentSelections = memberViewModel.getCurrentGenerationFilters()
         val selectedItems = generations.map { currentSelections.contains(it) }.toBooleanArray()
 

@@ -170,13 +170,13 @@
                         app:layout_constraintTop_toTopOf="@+id/textView7" />
 
                     <TextView
-                        style="@style/ShapeAppearanceOverlay.Material3.Button"
                         android:id="@+id/btnAdd"
+                        style="@style/ShapeAppearanceOverlay.Material3.Button"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="16dp"
-                        android:visibility="visible"
                         android:text="@string/add"
+                        android:visibility="visible"
                         app:layout_constraintEnd_toStartOf="@+id/btnEdit"
                         app:layout_constraintTop_toTopOf="@+id/btnEdit" />
 
@@ -184,9 +184,9 @@
                         android:id="@+id/btnCancel"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/design_default_color_error"
-                        android:text="@string/cancel"
                         android:layout_marginEnd="16dp"
+                        android:text="@string/cancel"
+                        android:textColor="@color/design_default_color_error"
                         android:visibility="gone"
                         app:layout_constraintEnd_toStartOf="@+id/btnAdd"
                         app:layout_constraintTop_toTopOf="@+id/textView7" />
@@ -244,37 +244,6 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="@+id/tvTitlePersyaratan" />
 
-                    <TextView
-                        android:id="@+id/btnEditDoc"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/edit"
-                        android:layout_marginEnd="16dp"
-                        app:layout_constraintBottom_toBottomOf="@+id/tvStatusDoc"
-                        app:layout_constraintEnd_toStartOf="@+id/tvStatusDoc"
-                        app:layout_constraintTop_toTopOf="@+id/tvStatusDoc" />
-
-                    <TextView
-                        android:id="@+id/btnSaveDoc"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/save"
-                        android:layout_marginEnd="16dp"
-                        android:visibility="gone"
-                        app:layout_constraintBottom_toBottomOf="@+id/tvStatusDoc"
-                        app:layout_constraintEnd_toStartOf="@+id/tvStatusDoc"
-                        app:layout_constraintTop_toTopOf="@+id/tvStatusDoc" />
-
-                    <TextView
-                        android:id="@+id/btnCancelDoc"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/save"
-                        android:layout_marginEnd="16dp"
-                        android:visibility="gone"
-                        app:layout_constraintBottom_toBottomOf="@+id/tvStatusDoc"
-                        app:layout_constraintEnd_toStartOf="@+id/btnEditDoc"
-                        app:layout_constraintTop_toTopOf="@+id/tvStatusDoc" />
 
                     <TextView
                         android:id="@+id/tvProgress"
@@ -305,10 +274,10 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
-                        tools:listitem="@layout/item_document_minimal"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/tvProgress" />
+                        app:layout_constraintTop_toBottomOf="@+id/tvProgress"
+                        tools:listitem="@layout/item_document_minimal" />
 
                     <TextView
                         android:id="@+id/tvTitleFotoRumah"

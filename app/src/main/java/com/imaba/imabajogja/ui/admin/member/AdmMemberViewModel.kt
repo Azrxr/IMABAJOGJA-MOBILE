@@ -23,13 +23,15 @@ class AdmMemberViewModel @Inject constructor(
     private val searchQuery = MutableStateFlow<String?>(null)
     private val generationFilters = MutableStateFlow<Set<String>>(emptySet())
     private val memberTypeFilters = MutableStateFlow<Set<String>>(emptySet())
+    private val planStatus = MutableStateFlow<String?>(null)
 
     val members = combine(
         searchQuery, generationFilters, memberTypeFilters
     ) { search, generations, memberTypes ->
         Triple(search, generations, memberTypes)
     }.flatMapLatest { (search, generations, memberTypes) ->
-        repository.listMembers(search, generations.toList(), memberTypes.toList())
+        repository.listMembers(search, generations.toList(), memberTypes.toList(),
+        )
     }.cachedIn(viewModelScope)
 
     fun setSearchQuery(query: String?) {

@@ -101,6 +101,13 @@ interface ApiService {
         @Query("search") search: String? = null,
         @Query("generation[]") generation: List<String>? = null,
         @Query("member_type[]") memberType: List<String>? = null,
+//        @Query("study_plan_status") planStatus: String? = null,
+    ): MembersResponse
+    //List member Study
+    @GET("member/members")
+    suspend fun getMembersStudy(
+        @Query("search") search: String? = null,
+        @Query("study_plan_status") planStatus: String? = null,
     ): MembersResponse
 
     @GET("member/members")

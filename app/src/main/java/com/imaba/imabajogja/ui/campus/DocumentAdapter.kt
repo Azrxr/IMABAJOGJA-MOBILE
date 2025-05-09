@@ -12,6 +12,9 @@ import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.imaba.imabajogja.R
+import com.imaba.imabajogja.data.response.DataDocument
+import com.imaba.imabajogja.data.response.DocumentsItem
+import com.imaba.imabajogja.data.response.StudyPlansItem
 import com.imaba.imabajogja.databinding.ItemDocumentMinimalBinding
 
 class DocumentAdapter(

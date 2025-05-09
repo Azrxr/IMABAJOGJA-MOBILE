@@ -13,7 +13,7 @@ class MemberPagingSource(
     private val apiService: ApiService,
     private val search: String?,
     private val generation: List<String>?,
-    private val memberType: List<String>?
+    private val memberType: List<String>?,
 ): PagingSource<Int, DataItemMember>() {
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, DataItemMember> {

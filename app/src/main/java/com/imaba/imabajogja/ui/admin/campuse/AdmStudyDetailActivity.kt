@@ -22,6 +22,7 @@ import com.imaba.imabajogja.data.response.StudyPlansItem
 import com.imaba.imabajogja.data.response.documentFieldMap
 import com.imaba.imabajogja.data.utils.Result
 import com.imaba.imabajogja.data.utils.compressPdf
+import com.imaba.imabajogja.data.utils.showLoading
 import com.imaba.imabajogja.data.utils.showToast
 import com.imaba.imabajogja.data.utils.uriToFile
 import com.imaba.imabajogja.data.utils.uriToFilePdf
@@ -70,13 +71,13 @@ class AdmStudyDetailActivity : AppCompatActivity() {
     }
 
     private fun showMemberDetail() {
-        //document
         val member = intent.getParcelableExtra<DataItemMember>(AdmMemberDetailActivity.EXTRA_MEMBER)
         member?.let {
             binding.tvFullname.text = it.fullname
-            binding.tvUniversityCurrent.text = it.studyMembers?.get(0)?.university
-            binding.tvFacultyCurrent.text = it.studyMembers?.get(0)?.faculty
-            binding.tvProgramCurrent.text = it.studyMembers?.get(0)?.programStudy
+
+            binding.tvUniversityCurrent.text = it.studyMembers?.firstOrNull()?.university ?: "Belum ada"
+            binding.tvFacultyCurrent.text = it.studyMembers?.firstOrNull()?.faculty ?: "Belum ada"
+            binding.tvProgramCurrent.text = it.studyMembers?.firstOrNull()?.programStudy ?: "Belum ada"
 
             Glide.with(this)
                 .load(member.profileImgUrl)
@@ -95,9 +96,9 @@ class AdmStudyDetailActivity : AppCompatActivity() {
                     binding.progressBar.visibility = View.GONE
                     val data = result.data.data
                     binding.tvFullname.text = data?.fullname
-                    binding.tvUniversityCurrent.text = data?.studyMembers?.get(0)?.university
-                    binding.tvFacultyCurrent.text = data?.studyMembers?.get(0)?.faculty
-                    binding.tvProgramCurrent.text = data?.studyMembers?.get(0)?.programStudy
+                    binding.tvUniversityCurrent.text = data?.studyMembers?.firstOrNull()?.university ?: "Belum ada"
+                    binding.tvFacultyCurrent.text = data?.studyMembers?.firstOrNull()?.faculty ?: "Belum ada"
+                    binding.tvProgramCurrent.text = data?.studyMembers?.firstOrNull()?.programStudy ?: "Belum ada"
 
                     Glide.with(this)
                         .load(data?.profileImgUrl)
@@ -146,11 +147,13 @@ class AdmStudyDetailActivity : AppCompatActivity() {
         binding.btnEdit.setOnClickListener {
             studyPlanAdapter.setEditingPositions(true)
             binding.btnCancel.visibility = View.VISIBLE
+            binding.btnEdit.visibility = View.GONE
         }
 
         binding.btnCancel.setOnClickListener {
             studyPlanAdapter.setEditingPositions(false)
             binding.btnCancel.visibility = View.GONE
+            binding.btnEdit.visibility = View.VISIBLE
         }
     }
 
@@ -201,6 +204,7 @@ class AdmStudyDetailActivity : AppCompatActivity() {
     }
 
     private fun documents(data: List<DataDocument>?) {
+
         val homePhoto = data?.flatMap { it.homePhoto ?: emptyList() } ?: emptyList()
         homePhotoAdapter = HomePhotoAdapter(
             homePhotos = homePhoto,
@@ -319,17 +323,21 @@ class AdmStudyDetailActivity : AppCompatActivity() {
             "UploadDocument",
             "Mengunggah dokumen dengan field API: $documentType, Nama file: ${file.name}"
         )
-
         viewModel.uploadDocument(memberId ?:0, documentId ?:0, documentType, file).observe(this) { result ->
             when (result) {
-                is Result.Loading -> showToast("Mengunggah dokumen...")
+                is Result.Loading -> {
+                    binding.progressBar.visibility = View.VISIBLE
+                    showToast("Mengunggah dokumen...")
+                }
                 is Result.Success -> {
+                    binding.progressBar.visibility = View.GONE
                     showToast("Dokumen berhasil diunggah!")
                     Log.d("UploadDocument", "Berhasil: ${result.data}")
                     getMemberDetail(memberId ?: 0) // 🔄 Refresh daftar dokumen setelah upload
                 }
 
                 is Result.Error -> {
+                    binding.progressBar.visibility = View.GONE
                     showToast("Gagal mengupload: ${result.message}")
                     Log.e("UploadDocument", "Error: ${result.message}")
                 }
@@ -342,14 +350,19 @@ class AdmStudyDetailActivity : AppCompatActivity() {
 
         viewModel.uploadPhotoDoc(memberId ?:0, documentId ?:0, documentType, file).observe(this) { result ->
             when (result) {
-                is Result.Loading -> showToast("Mengunggah dokumen...")
+                is Result.Loading -> {
+                    binding.progressBar.visibility = View.VISIBLE
+                    showToast("Mengunggah dokumen...")
+                }
                 is Result.Success -> {
+                    binding.progressBar.visibility = View.GONE
                     showToast("Dokumen berhasil diunggah!")
                     Timber.d("Berhasil: ${result.data}")
                     getMemberDetail(memberId ?: 0) // 🔄 Refresh daftar dokumen setelah upload
                 }
 
                 is Result.Error -> {
+                    binding.progressBar.visibility = View.GONE
                     showToast("Gagal mengupload: ${result.message}")
                     Log.e("UploadDocument", "Error: ${result.message}")
                 }
@@ -382,17 +395,22 @@ class AdmStudyDetailActivity : AppCompatActivity() {
             viewModel.uploadHomePhoto(memberId ?:0, photoTitle, file).observe(this) { result ->
                 when (result) {
                     is Result.Success -> {
+                        binding.progressBar.visibility = View.GONE
                         showToast("Foto rumah berhasil diunggah!")
                         Timber.d("Berhasil: %s", result.data)
                         getMemberDetail(memberId ?:0) // 🔄 Refresh list setelah berhasil
                     }
 
                     is Result.Error -> {
+                        binding.progressBar.visibility = View.GONE
                         showToast("Gagal mengupload foto: ${result.message}")
                         Log.e("UploadPhoto", "Error: ${result.message}")
                     }
 
-                    is Result.Loading -> showToast("Mengunggah foto rumah...")
+                    is Result.Loading -> {
+                        binding.progressBar.visibility = View.VISIBLE
+                        showToast("Mengunggah foto rumah...")
+                    }
                 }
             }
         } ?: showToast("Pilih gambar terlebih dahulu") // 🔥 Mencegah error jika file belum dipilih

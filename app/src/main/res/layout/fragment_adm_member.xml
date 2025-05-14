@@ -113,9 +113,20 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
         android:backgroundTint="@color/gray300"
+        android:layout_marginEnd="8dp"
         android:text="Tambah Anggota"
-        app:layout_constraintEnd_toEndOf="@+id/btnFilter"
+        app:layout_constraintEnd_toStartOf="@+id/btnExport"
         app:layout_constraintStart_toStartOf="@+id/tvTotalMember"
+        app:layout_constraintTop_toBottomOf="@+id/tvTotalDemissioner" />
+
+    <Button
+        android:id="@+id/btnExport"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:backgroundTint="@color/gray300"
+        android:text="Export Anggota"
+        app:layout_constraintEnd_toEndOf="@+id/btnFilter"
         app:layout_constraintTop_toBottomOf="@+id/tvTotalDemissioner" />
 
     <ImageButton

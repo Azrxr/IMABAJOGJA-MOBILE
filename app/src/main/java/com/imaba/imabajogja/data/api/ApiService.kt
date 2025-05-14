@@ -3,6 +3,7 @@ package com.imaba.imabajogja.data.api
 import com.imaba.imabajogja.data.response.AdmProfileResponse
 import com.imaba.imabajogja.data.response.DocumentsResponse
 import com.imaba.imabajogja.data.response.HomeResponse
+import com.imaba.imabajogja.data.response.ImportMemberResponse
 import com.imaba.imabajogja.data.response.LoginResponse
 import com.imaba.imabajogja.data.response.MemberDetailResponse
 import com.imaba.imabajogja.data.response.MembersResponse
@@ -14,12 +15,11 @@ import com.imaba.imabajogja.data.response.StudyMemberResponse
 import com.imaba.imabajogja.data.response.StudyPlansResponse
 import com.imaba.imabajogja.data.response.StudyResponse
 import com.imaba.imabajogja.data.response.SuccesResponse
-import com.imaba.imabajogja.data.response.WilayahItem
 import com.imaba.imabajogja.data.response.WilayahResponse
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
+import okhttp3.ResponseBody
 import retrofit2.Response
-import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
@@ -30,7 +30,7 @@ import retrofit2.http.POST
 import retrofit2.http.Part
 import retrofit2.http.Path
 import retrofit2.http.Query
-import java.io.File
+import retrofit2.http.Streaming
 
 interface ApiService {
 
@@ -367,5 +367,18 @@ interface ApiService {
         @Part photoImg: MultipartBody.Part,
         @Part("photo_title") photoTitle: RequestBody,
     ): Response<SuccesResponse>
+
+    @Multipart
+    @POST("admin/member/import-excel")
+    suspend fun importMember(
+        @Part file: MultipartBody.Part
+    ): Response<ImportMemberResponse>
+
+    @GET("admin/member/export-excel")
+    @Streaming
+    suspend fun exportMembers(
+        @Query("angkatan[]") generations: List<String>?,
+        @Query("member_type[]") memberTypes: List<String>?
+    ): Response<ResponseBody>
 
 }

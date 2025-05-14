@@ -10,6 +10,7 @@ import android.net.Uri
 import android.os.Build
 import android.os.Environment
 import android.provider.MediaStore
+import android.provider.OpenableColumns
 import android.util.Log
 import android.view.View
 import android.widget.EditText
@@ -21,6 +22,7 @@ import com.itextpdf.kernel.pdf.PdfDocument
 import com.itextpdf.kernel.pdf.PdfReader
 import com.itextpdf.kernel.pdf.PdfWriter
 import com.itextpdf.kernel.pdf.canvas.parser.PdfCanvasProcessor
+import okhttp3.ResponseBody
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileOutputStream
@@ -124,6 +126,55 @@ fun uriToFile(imageUri: Uri, context: Context): File {
     inputStream.close()
     return myFile
 }
+
+fun saveExcelToFile(context: Context, body: ResponseBody, filename: String): File {
+    val file = File(context.getExternalFilesDir(null), filename)
+    body.byteStream().use { input ->
+        FileOutputStream(file).use { output ->
+            input.copyTo(output)
+        }
+    }
+    return file
+}
+
+fun uriToExcel(context: Context, uri: Uri): File {
+    val contentResolver = context.contentResolver
+
+    // Ambil nama file dari uri
+    val fileName = getFileNameFromUri(context, uri) ?: "upload_excel_temp.xlsx"
+
+    val inputStream = contentResolver.openInputStream(uri)!!
+    val tempFile = File(context.cacheDir, fileName)
+
+    inputStream.use { input ->
+        FileOutputStream(tempFile).use { output ->
+            input.copyTo(output)
+        }
+    }
+
+    Log.d("uriToExcel", "File dibuat: ${tempFile.absolutePath}, Ukuran: ${tempFile.length()} bytes")
+    return tempFile
+}
+fun getFileNameFromUri(context: Context, uri: Uri): String? {
+    var result: String? = null
+    if (uri.scheme == "content") {
+        val cursor = context.contentResolver.query(uri, null, null, null, null)
+        cursor?.use {
+            if (it.moveToFirst()) {
+                result = it.getString(it.getColumnIndexOrThrow(OpenableColumns.DISPLAY_NAME))
+            }
+        }
+    }
+    if (result == null) {
+        result = uri.path
+        val cut = result?.lastIndexOf('/')
+        if (cut != null && cut != -1) {
+            result = result?.substring(cut + 1)
+        }
+    }
+    return result
+}
+
 
 fun uriToFilePdf(uri: Uri, context: Context): File {
     val myFile = File(context.cacheDir, "temp_document.pdf")

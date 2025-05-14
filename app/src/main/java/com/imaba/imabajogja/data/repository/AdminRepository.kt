@@ -1,5 +1,7 @@
 package com.imaba.imabajogja.data.repository
 
+import android.content.Context
+import android.os.Environment
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.liveData
@@ -11,6 +13,7 @@ import com.imaba.imabajogja.data.pagging.MemberPagingSource
 import com.imaba.imabajogja.data.response.AdmProfileResponse
 import com.imaba.imabajogja.data.response.DataItemMember
 import com.imaba.imabajogja.data.response.HomeResponse
+import com.imaba.imabajogja.data.response.ImportMemberResponse
 import com.imaba.imabajogja.data.response.MemberDetailResponse
 import com.imaba.imabajogja.data.response.MembersResponse
 import com.imaba.imabajogja.data.response.ProfileResponse
@@ -21,6 +24,7 @@ import com.imaba.imabajogja.data.response.WilayahItem
 import com.imaba.imabajogja.data.utils.Result
 import com.imaba.imabajogja.data.utils.compressPdf
 import com.imaba.imabajogja.data.utils.reduceFileImage
+import com.imaba.imabajogja.data.utils.saveExcelToFile
 import com.itextpdf.io.IOException
 import kotlinx.coroutines.flow.Flow
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -29,6 +33,7 @@ import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import timber.log.Timber
 import java.io.File
+import java.io.FileOutputStream
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -192,7 +197,8 @@ class AdminRepository @Inject constructor(private val apiService: ApiService) {
 
                 val titlePart = title.toRequestBody("text/plain".toMediaTypeOrNull())
                 val descriptionPart = description.toRequestBody("text/plain".toMediaTypeOrNull())
-                val requestFile = compressedFile.asRequestBody("application/pdf".toMediaTypeOrNull())
+                val requestFile =
+                    compressedFile.asRequestBody("application/pdf".toMediaTypeOrNull())
                 val filePart = MultipartBody.Part.createFormData(
                     "file_path", compressedFile.name, requestFile
                 )
@@ -231,7 +237,11 @@ class AdminRepository @Inject constructor(private val apiService: ApiService) {
         }
     }
 
-    fun listMembers(search: String?, generation: List<String>?, memberType: List<String>?): Flow<PagingData<DataItemMember>> {
+    fun listMembers(
+        search: String?,
+        generation: List<String>?,
+        memberType: List<String>?
+    ): Flow<PagingData<DataItemMember>> {
         return Pager(
             config = PagingConfig(
                 pageSize = 10,  // Jumlah item per halaman
@@ -271,7 +281,8 @@ class AdminRepository @Inject constructor(private val apiService: ApiService) {
 
     }
 
-    fun updateMemberAdm( memberId: Int,
+    fun updateMemberAdm(
+        memberId: Int,
         fullname: String, phoneNumber: String,
         provinceId: Int, regencyId: Int, districtId: Int, fullAddres: String, kodePos: String,
         agama: String, nisn: String, tempat: String, tanggalLahir: String, gender: String,
@@ -280,7 +291,8 @@ class AdminRepository @Inject constructor(private val apiService: ApiService) {
         return liveData {
             emit(Result.Loading)
             try {
-                val response = apiService.updateMemberAdm( memberId,
+                val response = apiService.updateMemberAdm(
+                    memberId,
                     fullname, phoneNumber,
                     provinceId, regencyId, districtId, fullAddres, kodePos,
                     agama, nisn, tempat, tanggalLahir, gender,
@@ -302,7 +314,10 @@ class AdminRepository @Inject constructor(private val apiService: ApiService) {
         }
     }
 
-    fun updateMemberPhotoProfileAdm(memberId: Int, photoFile: File): LiveData<Result<SuccesResponse>> {
+    fun updateMemberPhotoProfileAdm(
+        memberId: Int,
+        photoFile: File
+    ): LiveData<Result<SuccesResponse>> {
         return liveData {
             emit(Result.Loading)
             try {
@@ -373,7 +388,11 @@ class AdminRepository @Inject constructor(private val apiService: ApiService) {
         }
     }
 
-    fun updateStudyPlaneAdm(memberId: Int, studyPlanId: Int, status: String,): LiveData<Result<SuccesResponse>>{
+    fun updateStudyPlaneAdm(
+        memberId: Int,
+        studyPlanId: Int,
+        status: String,
+    ): LiveData<Result<SuccesResponse>> {
         return liveData {
             emit(Result.Loading)
             try {
@@ -396,7 +415,12 @@ class AdminRepository @Inject constructor(private val apiService: ApiService) {
         }
     }
 
-    fun uploadDocument(memberId: Int, docId : Int, documentType: String, file: File): LiveData<Result<SuccesResponse>> =
+    fun uploadDocument(
+        memberId: Int,
+        docId: Int,
+        documentType: String,
+        file: File
+    ): LiveData<Result<SuccesResponse>> =
         liveData {
             emit(Result.Loading)
             try {
@@ -420,7 +444,8 @@ class AdminRepository @Inject constructor(private val apiService: ApiService) {
                 )
 
                 // 🔥 Panggil API Service
-                val response = apiService.uploadDocumentAdm(memberId, docId, docTypeRequestBody, filePart)
+                val response =
+                    apiService.uploadDocumentAdm(memberId, docId, docTypeRequestBody, filePart)
 
                 Log.d("UploadDocument", "Mengunggah dokumen: $documentType")
                 Log.d("UploadDocument", "Nama file: ${file.name}, Ukuran: ${file.length()} bytes")
@@ -454,7 +479,12 @@ class AdminRepository @Inject constructor(private val apiService: ApiService) {
     }
 
     // Upload foto rumah dengan title
-    fun uploadPhotoDoc(memberId: Int, docId: Int, documentType: String, file: File): LiveData<Result<SuccesResponse>> =
+    fun uploadPhotoDoc(
+        memberId: Int,
+        docId: Int,
+        documentType: String,
+        file: File
+    ): LiveData<Result<SuccesResponse>> =
         liveData {
 
             emit(Result.Loading)
@@ -485,7 +515,11 @@ class AdminRepository @Inject constructor(private val apiService: ApiService) {
         }
 
     // Upload foto rumah dengan title
-    fun uploadHomePhoto(memberId: Int, photoTitle: String, photoFile: File): LiveData<Result<SuccesResponse>> =
+    fun uploadHomePhoto(
+        memberId: Int,
+        photoTitle: String,
+        photoFile: File
+    ): LiveData<Result<SuccesResponse>> =
         liveData {
 
             emit(Result.Loading)
@@ -528,6 +562,62 @@ class AdminRepository @Inject constructor(private val apiService: ApiService) {
         } catch (e: Exception) {
             Log.e("DeletePhoto", "Error: ${e.message}")
             emit(Result.Error("Terjadi kesalahan: ${e.message}"))
+        }
+    }
+
+    fun importMember(file: File): LiveData<Result<ImportMemberResponse>> =
+        liveData {
+            emit(Result.Loading)
+            try {
+                val requestFile =
+                    file.asRequestBody("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet".toMediaTypeOrNull())
+                val body = MultipartBody.Part.createFormData("file", file.name, requestFile)
+                val response = apiService.importMember(body)
+
+                if (response.isSuccessful && response.body() != null) {
+                    Log.d("ImportMember", "Respons sukses: ${response.body()}")
+                    val bodyString = response.body()?.toString()
+                    Log.d("ImportCheck", "Body: $bodyString")
+                    emit(Result.Success(response.body()!!))
+                } else {
+                    val errorMessage = response.errorBody()?.string() ?: "Terjadi kesalahan"
+                    Log.e("ImportMember", "Respons gagal: $errorMessage")
+                    emit(Result.Error("Gagal mengupload file: $errorMessage"))
+                }
+            } catch (e: Exception) {
+                Log.e("ImportMember", "Exception: ${e.message}")
+                emit(Result.Error("Exception: ${e.localizedMessage ?: "Unknown error"}"))
+            }
+        }
+
+    suspend fun exportMembers(
+        generations: List<String>?,
+        memberTypes: List<String>?
+    ): Result<File> {
+        return try {
+            val response = apiService.exportMembers(generations, memberTypes)
+
+            if (!response.isSuccessful) {
+                val errorBody = response.errorBody()?.string() ?: "Unknown error"
+                return Result.Error("Export failed: $errorBody")
+            }
+
+            val body = response.body() ?: return Result.Error("Empty response body")
+
+            // Simpan file ke external storage
+            val fileName = "members_${System.currentTimeMillis()}.xlsx"
+            val downloadsDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
+            val file = File(downloadsDir, fileName)
+
+            body.byteStream().use { input ->
+                FileOutputStream(file).use { output ->
+                    input.copyTo(output)
+                }
+            }
+
+            Result.Success(file)
+        } catch (e: Exception) {
+            Result.Error("Export error: ${e.localizedMessage ?: "Unknown error"}")
         }
     }
 

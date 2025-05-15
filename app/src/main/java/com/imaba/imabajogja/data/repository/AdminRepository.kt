@@ -1,6 +1,5 @@
 package com.imaba.imabajogja.data.repository
 
-import android.content.Context
 import android.os.Environment
 import android.util.Log
 import androidx.lifecycle.LiveData
@@ -16,21 +15,17 @@ import com.imaba.imabajogja.data.response.HomeResponse
 import com.imaba.imabajogja.data.response.ImportMemberResponse
 import com.imaba.imabajogja.data.response.MemberDetailResponse
 import com.imaba.imabajogja.data.response.MembersResponse
-import com.imaba.imabajogja.data.response.ProfileResponse
-import com.imaba.imabajogja.data.response.ProfileUpdateResponse
-import com.imaba.imabajogja.data.response.StudyPlans
 import com.imaba.imabajogja.data.response.SuccesResponse
-import com.imaba.imabajogja.data.response.WilayahItem
 import com.imaba.imabajogja.data.utils.Result
 import com.imaba.imabajogja.data.utils.compressPdf
 import com.imaba.imabajogja.data.utils.reduceFileImage
-import com.imaba.imabajogja.data.utils.saveExcelToFile
 import com.itextpdf.io.IOException
 import kotlinx.coroutines.flow.Flow
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
+import okhttp3.ResponseBody
 import timber.log.Timber
 import java.io.File
 import java.io.FileOutputStream
@@ -590,10 +585,11 @@ class AdminRepository @Inject constructor(private val apiService: ApiService) {
             }
         }
 
+
     suspend fun exportMembers(
         generations: List<String>?,
         memberTypes: List<String>?
-    ): Result<File> {
+    ): Result<ResponseBody> {
         return try {
             val response = apiService.exportMembers(generations, memberTypes)
 
@@ -604,21 +600,11 @@ class AdminRepository @Inject constructor(private val apiService: ApiService) {
 
             val body = response.body() ?: return Result.Error("Empty response body")
 
-            // Simpan file ke external storage
-            val fileName = "members_${System.currentTimeMillis()}.xlsx"
-            val downloadsDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
-            val file = File(downloadsDir, fileName)
-
-            body.byteStream().use { input ->
-                FileOutputStream(file).use { output ->
-                    input.copyTo(output)
-                }
-            }
-
-            Result.Success(file)
+            Result.Success(body)
         } catch (e: Exception) {
             Result.Error("Export error: ${e.localizedMessage ?: "Unknown error"}")
         }
     }
+
 
 }

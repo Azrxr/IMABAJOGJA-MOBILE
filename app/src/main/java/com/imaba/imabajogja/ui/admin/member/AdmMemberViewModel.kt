@@ -1,9 +1,7 @@
 package com.imaba.imabajogja.ui.admin.member
 
-import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
 import com.imaba.imabajogja.data.repository.AdminRepository
@@ -12,11 +10,11 @@ import com.imaba.imabajogja.data.response.MembersResponse
 import com.imaba.imabajogja.data.response.SuccesResponse
 import com.imaba.imabajogja.data.utils.Result
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapLatest
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.runBlocking
+import okhttp3.ResponseBody
 import java.io.File
 import javax.inject.Inject
 
@@ -113,12 +111,11 @@ class AdmMemberViewModel @Inject constructor(
         return repository.importMember(file)
     }
 
-    fun exportMembers(generations: List<String>?, memberTypes: List<String>?) = liveData {
-        emit(Result.Loading)
-        val result = withContext(Dispatchers.IO) {
+    fun exportMembersRaw(generations: List<String>, memberTypes: List<String>): Result<ResponseBody> {
+        return runBlocking {
             repository.exportMembers(generations, memberTypes)
         }
-        emit(result)
     }
+
 
 }

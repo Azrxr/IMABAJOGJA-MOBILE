@@ -6,6 +6,7 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Matrix
+import android.media.MediaScannerConnection
 import android.net.Uri
 import android.os.Build
 import android.os.Environment
@@ -35,6 +36,30 @@ import java.util.Locale
 private const val FILENAME_FORMAT = "yyyyMMdd_HHmmss"
 private val timeStamp: String = SimpleDateFormat(FILENAME_FORMAT, Locale.US).format(Date())
 private const val MAXIMAL_SIZE = 2_000_000 // 🔥 Maksimum 2MB
+
+fun saveToDownloadImaba(context: Context, filename: String, inputStream: InputStream): File {
+    val downloadsDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
+    val imabaDir = File(downloadsDir, "IMABA")
+    if (!imabaDir.exists()) imabaDir.mkdirs()
+
+    val file = File(imabaDir, filename)
+
+    inputStream.use { input ->
+        FileOutputStream(file).use { output ->
+            input.copyTo(output)
+        }
+    }
+
+    // Trigger MediaScanner biar file langsung muncul di file manager
+    MediaScannerConnection.scanFile(
+        context,
+        arrayOf(file.absolutePath),
+        arrayOf("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"),
+        null
+    )
+
+    return file
+}
 
 
 fun EditText.setTextOrPlaceholder(value: String?, placeholder: String) {
@@ -125,16 +150,6 @@ fun uriToFile(imageUri: Uri, context: Context): File {
     outputStream.close()
     inputStream.close()
     return myFile
-}
-
-fun saveExcelToFile(context: Context, body: ResponseBody, filename: String): File {
-    val file = File(context.getExternalFilesDir(null), filename)
-    body.byteStream().use { input ->
-        FileOutputStream(file).use { output ->
-            input.copyTo(output)
-        }
-    }
-    return file
 }
 
 fun uriToExcel(context: Context, uri: Uri): File {

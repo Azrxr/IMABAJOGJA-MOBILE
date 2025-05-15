@@ -17,13 +17,27 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_50"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.50"/>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_35"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.35"/>
     <View
         android:id="@+id/background_top"
         android:layout_width="match_parent"
-        android:layout_height="400dp"
+        android:layout_height="0dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:background="@drawable/bg_top"
+        app:layout_constraintBottom_toTopOf="@+id/guideline_50"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/progressIndicator" />
@@ -48,7 +62,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:text="Login"
-        android:textColor="@color/white"
+        android:textColor="?attr/colorOnPrimary"
         android:alpha="0"
         tools:alpha="100"
         app:layout_constraintStart_toStartOf="parent"
@@ -62,98 +76,103 @@
         android:layout_marginStart="32dp"
         android:layout_marginTop="8dp"
         android:text="Masuk untuk melanjutkan"
-        android:textColor="@color/white"
+        android:textColor="?attr/colorOnPrimary"
         android:alpha="0"
         tools:alpha="100"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvLogin" />
 
-    <LinearLayout
-        android:id="@+id/view"
-        android:layout_width="0dp"
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardViewGroup"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="16dp"
         android:layout_marginEnd="32dp"
-        android:background="@drawable/bg_group"
+        android:layout_marginTop="8dp"
         android:elevation="4dp"
-        android:orientation="vertical"
-        android:padding="16dp"
-        app:layout_anchor="@+id/background_top"
-        app:layout_anchorGravity="bottom|center"
+        app:cardCornerRadius="20dp"
+        app:cardElevation="4dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvLoginDesc">
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/tilEmail"
+        <LinearLayout
+            android:id="@+id/view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:alpha="0"
-            android:hint="Masukkan Email Anda"
-            app:startIconDrawable="@drawable/ic_email"
-            tools:alpha="100">
+            android:layout_gravity="center"
+            android:orientation="vertical"
+            android:padding="16dp">
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/edtEmail"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tilEmail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:ems="10"
-                android:inputType="textEmailAddress" />
-        </com.google.android.material.textfield.TextInputLayout>
+                android:layout_marginBottom="16dp"
+                android:alpha="0"
+                android:hint="Masukkan Email Anda"
+                app:startIconDrawable="@drawable/ic_email"
+                tools:alpha="100">
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/tilPassword"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:alpha="0"
-            android:hint="Masukkan Password Anda"
-            app:startIconDrawable="@drawable/ic_password"
-            tools:alpha="100">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edtEmail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:inputType="textEmailAddress" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/edtPassword"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tilPassword"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:ems="10"
-                android:inputType="textPassword"
-                tools:ignore="SpeakableTextPresentCheck" />
-        </com.google.android.material.textfield.TextInputLayout>
+                android:layout_marginBottom="16dp"
+                android:alpha="0"
+                android:hint="Masukkan Password Anda"
+                app:startIconDrawable="@drawable/ic_password"
+                tools:alpha="100">
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnLogin"
-            style="@style/textBodyM"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:alpha="0"
-            android:text="Login"
-            tools:alpha="100" />
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edtPassword"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:inputType="textPassword"
+                    tools:ignore="SpeakableTextPresentCheck" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-        <TextView
-            style="@style/textBodyM"
-            android:id="@+id/btnForgotPassword"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:alpha="0"
-            android:text="Lupa Password ?"
-            android:textAlignment="center"
-            tools:alpha="100" />
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnLogin"
+                style="@style/textBodyM"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:alpha="0"
+                android:textColor="?attr/colorOnPrimary"
+                android:text="Login"
+                tools:alpha="100" />
 
-        <TextView
-            style="@style/textBodyM"
-            android:id="@+id/btnDaftar"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:textAlignment="center"
-            android:alpha="0"
-            tools:alpha="100"
-            android:text="Belum punya akun ? daftar"/>
+            <TextView
+                android:id="@+id/btnForgotPassword"
+                style="@style/textBodyM"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:alpha="0"
+                android:text="Lupa Password ?"
+                android:textAlignment="center"
+                tools:alpha="100" />
 
-    </LinearLayout>
+            <TextView
+                android:id="@+id/btnDaftar"
+                style="@style/textBodyM"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:alpha="0"
+                android:text="Belum punya akun ? daftar"
+                android:textAlignment="center"
+                tools:alpha="100" />
+
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,24 +1,45 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
-    <style name="Base.Theme.IMABAJogja" parent="Theme.Material3.DynamicColors.DayNight.NoActionBar">
-        <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/primary</item>
-        <item name="colorPrimaryVariant">@color/accent</item>
-        <item name="colorOnPrimary">@color/text_night</item>
-        <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/secondary_night</item>
-        <item name="colorSecondaryVariant">@color/accent</item>
-        <item name="colorOnSecondary">@color/black</item>
-        <!-- Status bar color. -->
-        <item name="android:statusBarColor" >?attr/colorPrimaryVariant</item>
-        <!-- Customize your theme here. -->
+<resources>
+
+    <style name="Theme.MyApp" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- 🌈 Warna Brand -->
+        <item name="colorPrimary">@color/maroon_primary_dark</item>
+        <item name="colorPrimaryVariant">@color/maroon_primary_variant_dark</item>
+        <item name="colorOnPrimary">@color/maroon_on_primary_dark</item>
+        <item name="colorSecondary">@color/maroon_secondary_dark</item>
+        <item name="colorOnSecondary">@color/maroon_on_primary_dark</item>
+
+        <!-- 🎨 Latar & Permukaan -->
+        <item name="android:colorBackground">@color/backgroundColor_dark</item>
+        <item name="colorSurface">@color/surfaceColor_dark</item>
+        <item name="colorOnSurface">@color/textColorPrimary_dark</item>
+
+        <!-- 📝 Teks -->
+        <item name="android:textColor">@color/textColorPrimary_dark</item>
+        <item name="android:textColorPrimary">@color/textColorPrimary_dark</item>
+        <item name="android:textColorSecondary">@color/textColorSecondary_dark</item>
+
+        <!-- ⚠️ Error -->
+        <item name="colorError">@color/errorColor_dark</item>
+
+        <!-- 🧱 Status & Navigasi -->
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:navigationBarColor">@android:color/darker_gray</item>
+        <!-- Jika ingin status bar icon terang -->
+        <!--            <item name="android:windowLightStatusBar">true</item>-->
+
+        <!-- 🔤 Font default jika dibutuhkan -->
+        <item name="fontFamily">@font/poppins_regular</item> <!-- Ganti sesuai projectmu -->
     </style>
+
+    <style name="Theme.IMABAJogja" parent="Theme.MyApp" />
 
     <!-- Text Style. -->
     <style name="textHeaderL_bold">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textSize">34sp</item>
+        <item name="android:textColor">@color/textColorPrimary_dark</item>
         <item name="android:fontFamily">@font/poppins_bold</item>
     </style>
 
@@ -26,6 +47,7 @@
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textSize">34sp</item>
+        <item name="android:textColor">@color/textColorPrimary_dark</item>
         <item name="android:fontFamily">@font/poppins_regular</item>
     </style>
 
@@ -33,6 +55,7 @@
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textSize">24sp</item>
+        <item name="android:textColor">@color/textColorPrimary_dark</item>
         <item name="android:fontFamily">@font/poppins_bold</item>
     </style>
 
@@ -40,6 +63,7 @@
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textSize">24sp</item>
+        <item name="android:textColor">@color/textColorPrimary_dark</item>
         <item name="android:fontFamily">@font/poppins_regular</item>
 
     </style>
@@ -49,13 +73,16 @@
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/textColorPrimary_dark</item>
         <item name="android:fontFamily">@font/poppins_bold</item>
 
     </style>
+
     <style name="textHeaderS">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/textColorPrimary_dark</item>
         <item name="android:fontFamily">@font/poppins_regular</item>
 
     </style>
@@ -64,13 +91,16 @@
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/textColorPrimary_dark</item>
         <item name="android:fontFamily">@font/poppins_regular</item>
 
     </style>
+
     <style name="textBodyL_bold">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/textColorPrimary_dark</item>
         <item name="android:fontFamily">@font/poppins_bold</item>
 
     </style>
@@ -79,13 +109,16 @@
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/textColorPrimary_dark</item>
         <item name="android:fontFamily">@font/poppins_regular</item>
 
     </style>
+
     <style name="textBodyM_bold">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/textColorPrimary_dark</item>
         <item name="android:fontFamily">@font/poppins_bold</item>
 
     </style>
@@ -94,12 +127,15 @@
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/textColorPrimary_dark</item>
         <item name="android:fontFamily">@font/poppins_regular</item>
     </style>
+
     <style name="textBodyS_bold">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/textColorPrimary_dark</item>
         <item name="android:fontFamily">@font/poppins_bold</item>
     </style>
 </resources>

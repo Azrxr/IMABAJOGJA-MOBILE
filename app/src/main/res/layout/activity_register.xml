@@ -17,13 +17,28 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_50"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.50" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_35"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.35" />
+
     <View
         android:id="@+id/background_top"
         android:layout_width="match_parent"
-        android:layout_height="400dp"
+        android:layout_height="0dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:background="@drawable/bg_top"
+        app:layout_constraintBottom_toTopOf="@+id/guideline_50"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/progressIndicator" />
@@ -47,12 +62,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
-        android:text="Register"
-        android:textColor="@color/white"
         android:alpha="0"
-        tools:alpha="100"
+        android:text="Register"
+        android:textColor="?attr/colorOnPrimary"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/logo" />
+        app:layout_constraintTop_toBottomOf="@+id/logo"
+        tools:alpha="100" />
 
     <TextView
         android:id="@+id/tvDesc"
@@ -61,136 +76,151 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginTop="8dp"
+        android:alpha="0"
         android:paddingBottom="8dp"
         android:text="daftar untuk melanjutkan"
-        android:textColor="@color/white"
-        android:alpha="0"
-        tools:alpha="100"
+        android:textColor="?attr/colorOnPrimary"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvTitle" />
+        app:layout_constraintTop_toBottomOf="@+id/tvTitle"
+        tools:alpha="100" />
 
-    <LinearLayout
-        android:id="@+id/view"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardViewGroup"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="32dp"
-        android:background="@drawable/bg_group"
+        android:layout_marginBottom="32dp"
         android:elevation="4dp"
-        android:orientation="vertical"
-        android:padding="16dp"
-        app:layout_anchor="@+id/background_top"
-        app:layout_anchorGravity="bottom|center"
+        app:cardCornerRadius="20dp"
+        app:cardElevation="4dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvDesc">
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/tilUsername"
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/nestedScrollView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:alpha="0"
-            android:hint="Username"
-            app:startIconDrawable="@drawable/ic_user"
-            tools:alpha="100">
+            android:layout_height="match_parent"
+            android:clipToPadding="false">
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/edtUsername"
+            <LinearLayout
+                android:id="@+id/view"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:inputType="textEmailAddress" />
-        </com.google.android.material.textfield.TextInputLayout>
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:orientation="vertical"
+                android:padding="16dp">
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/tilEmail"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:alpha="0"
-            android:hint="Masukkan Email Anda"
-            app:startIconDrawable="@drawable/ic_email"
-            tools:alpha="100">
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tilUsername"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    android:alpha="0"
+                    android:hint="Username"
+                    app:startIconDrawable="@drawable/ic_user"
+                    tools:alpha="100">
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/edtEmail"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:inputType="textEmailAddress" />
-        </com.google.android.material.textfield.TextInputLayout>
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edtUsername"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ems="10"
+                        android:inputType="textEmailAddress" />
+                </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/tilPassword"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:alpha="0"
-            android:hint="Masukkan Password Anda"
-            app:startIconDrawable="@drawable/ic_password"
-            tools:alpha="100">
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tilEmail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    android:alpha="0"
+                    android:hint="Masukkan Email Anda"
+                    app:startIconDrawable="@drawable/ic_email"
+                    tools:alpha="100">
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/edtPassword"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:inputType="textPassword"
-                tools:ignore="SpeakableTextPresentCheck" />
-        </com.google.android.material.textfield.TextInputLayout>
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edtEmail"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ems="10"
+                        android:inputType="textEmailAddress" />
+                </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/tilPasswordConfirm"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:alpha="0"
-            android:hint="Masukkan kembali Password Anda"
-            app:startIconDrawable="@drawable/ic_password"
-            tools:alpha="100">
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tilPassword"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    android:alpha="0"
+                    android:hint="Masukkan Password Anda"
+                    app:startIconDrawable="@drawable/ic_password"
+                    tools:alpha="100">
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/edtPasswordConfirm"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:inputType="textPassword"
-                tools:ignore="SpeakableTextPresentCheck" />
-        </com.google.android.material.textfield.TextInputLayout>
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edtPassword"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ems="10"
+                        android:inputType="textPassword"
+                        tools:ignore="SpeakableTextPresentCheck" />
+                </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnDaftar"
-            style="@style/textBodyM"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:alpha="0"
-            android:text="Daftar"
-            tools:alpha="100" />
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tilPasswordConfirm"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    android:alpha="0"
+                    android:hint="Masukkan kembali Password Anda"
+                    app:startIconDrawable="@drawable/ic_password"
+                    tools:alpha="100">
 
-        <TextView
-            android:id="@+id/btnLogin"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:alpha="0"
-            tools:alpha="100"
-            android:text="Sudah punya Akun ? Masuk"
-            android:textAlignment="center"
-            style="@style/textBodyM"/>
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edtPasswordConfirm"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ems="10"
+                        android:inputType="textPassword"
+                        tools:ignore="SpeakableTextPresentCheck" />
+                </com.google.android.material.textfield.TextInputLayout>
 
-        <TextView
-            android:id="@+id/btnRegisterAdmin"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:alpha="0"
-            tools:alpha="100"
-            android:text="daftar sebagai admin"
-            android:textAlignment="center"
-            style="@style/textBodyS"/>
-    </LinearLayout>
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnDaftar"
+                    style="@style/textBodyM"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:alpha="0"
+                    android:text="Daftar"
+                    android:textColor="?attr/colorOnPrimary"
+                    tools:alpha="100" />
+
+                <TextView
+                    android:id="@+id/btnLogin"
+                    style="@style/textBodyM"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:alpha="0"
+                    android:text="Sudah punya Akun ? Masuk"
+                    android:textAlignment="center"
+                    tools:alpha="100" />
+
+                <TextView
+                    android:id="@+id/btnRegisterAdmin"
+                    style="@style/textBodyS"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:alpha="0"
+                    android:text="daftar sebagai admin"
+                    android:textAlignment="center"
+                    tools:alpha="100" />
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+    </androidx.cardview.widget.CardView>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

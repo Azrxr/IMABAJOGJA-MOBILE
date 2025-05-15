@@ -7,13 +7,21 @@
     android:fitsSystemWindows="true"
     tools:context=".ui.welcome.WelcomeActivity">
 
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_50"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintGuide_percent="0.50"
+        android:orientation="horizontal" />
+
     <View
         android:id="@+id/background_top"
         android:layout_width="match_parent"
-        android:layout_height="500dp"
+        android:layout_height="0dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:background="@drawable/bg_top"
+        app:layout_constraintBottom_toTopOf="@id/guideline_50"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -31,108 +39,116 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <View
-        android:id="@+id/view"
-        android:layout_width="0dp"
-        android:layout_height="300dp"
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_35"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.35"/>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardViewGroup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginEnd="32dp"
-        android:background="@drawable/bg_group"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:elevation="4dp"
+        app:cardCornerRadius="20dp"
+        app:cardElevation="4dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/logo" />
+        app:layout_constraintTop_toTopOf="@+id/guideline_35">
 
-    <TextView
-        android:id="@+id/welcomeTitle"
-        style="@style/textHeaderS_bold"
-        android:layout_marginTop="16dp"
-        android:alpha="0"
-        tools:alpha="100"
-        android:text="@string/welcome_title"
-        app:layout_constraintEnd_toEndOf="@+id/view"
-        app:layout_constraintStart_toStartOf="@+id/view"
-        app:layout_constraintTop_toTopOf="@+id/view" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="16dp">
 
-    <TextView
-        android:id="@+id/welcomeDeskription"
-        style="@style/textBodyM"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:alpha="0"
-        tools:alpha="100"
-        android:text="@string/welcome_desc"
-        app:layout_constraintEnd_toEndOf="@+id/view"
-        app:layout_constraintStart_toStartOf="@+id/view"
-        app:layout_constraintTop_toBottomOf="@id/welcomeTitle" />
+            <TextView
+                android:id="@+id/welcomeTitle"
+                style="@style/textHeaderS_bold"
+                android:alpha="0"
+                android:text="@string/welcome_title"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:alpha="100" />
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnLogin"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:alpha="0"
-        tools:alpha="100"
-        app:layout_constraintEnd_toEndOf="@+id/view"
-        app:layout_constraintStart_toStartOf="@+id/view"
-        app:layout_constraintTop_toBottomOf="@id/welcomeDeskription"
-        android:text="@string/sign_in" />
+            <TextView
+                android:id="@+id/welcomeDeskription"
+                style="@style/textBodyM"
+                android:alpha="0"
+                android:text="@string/welcome_desc"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/welcomeTitle"
+                tools:alpha="100" />
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnSignUp"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        style="@style/Widget.Material3.Button.OutlinedButton.Icon"
-        android:layout_marginTop="8dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:alpha="0"
-        tools:alpha="100"
-        app:layout_constraintEnd_toEndOf="@+id/view"
-        app:layout_constraintStart_toStartOf="@+id/view"
-        app:layout_constraintTop_toBottomOf="@id/btnLogin"
-        android:text="@string/sign_up" />
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnLogin"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:alpha="0"
+                android:text="@string/sign_in"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/welcomeDeskription"
+                tools:alpha="100" />
 
-    <TextView
-        android:id="@+id/masuk_dengan"
-        style="@style/textBodyM"
-        android:layout_marginTop="12dp"
-        android:text="@string/masuk_dengan"
-        android:textAlignment="center"
-        app:layout_constraintEnd_toEndOf="@+id/view"
-        app:layout_constraintStart_toStartOf="@+id/view"
-        app:layout_constraintTop_toBottomOf="@id/btnSignUp" />
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnSignUp"
+                style="@style/Widget.Material3.Button.OutlinedButton.Icon"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:alpha="0"
+                android:text="@string/sign_up"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/btnLogin"
+                tools:alpha="100" />
 
-    <LinearLayout
-        android:id="@+id/btnGoogleLogin"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:layout_marginTop="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:orientation="horizontal"
-        android:alpha="0"
-        tools:alpha="100"
-        app:layout_constraintEnd_toEndOf="@+id/view"
-        app:layout_constraintStart_toStartOf="@+id/view"
-        app:layout_constraintTop_toBottomOf="@id/masuk_dengan"
-        android:layout_gravity="center">
+            <TextView
+                android:id="@+id/masuk_dengan"
+                style="@style/textBodyM"
+                android:layout_marginTop="12dp"
+                android:text="@string/masuk_dengan"
+                android:textAlignment="center"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/btnSignUp" />
 
-        <ImageView
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:contentDescription="@string/btnGoogle"
-            android:src="@drawable/ic_google" />
-        <TextView
-            style="@style/textBodyL"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:text="@string/sign_in"/>
-    </LinearLayout>
+            <LinearLayout
+                android:id="@+id/btnGoogleLogin"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:alpha="0"
+                android:gravity="center"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/masuk_dengan"
+                tools:alpha="100">
+
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:contentDescription="@string/btnGoogle"
+                    android:src="@drawable/ic_google" />
+
+                <TextView
+                    style="@style/textBodyL"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:text="@string/sign_in" />
+            </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

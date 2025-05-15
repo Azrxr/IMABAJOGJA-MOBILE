@@ -1,18 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
-    <color name="background">#FFFFFFFF</color>
-    <color name="background_night">#010204</color>
-    <color name="primary">#3398DB</color>
-    <color name="primary_night">#2489CC</color>
-    <color name="secondary">#F5F5F5</color>
-    <color name="secondary_night">#1B1C1D</color>
-    <color name="accent">#46698B</color>
-    <color name="text">#1C1717</color>
-    <color name="text_night">#F7F7F7</color>
 
-    <color name="orange">#FF5722</color>
+    <!-- 🌈 Warna Utama Aplikasi -->
+    <color name="maroon_primary">#7C0911</color> <!-- ➤ Primary -->
+    <color name="maroon_primary_variant">#60070D</color> <!-- ➤ Variant dari primary (darker) -->
+    <color name="maroon_secondary">#A82B3B</color> <!-- ➤ Secondary -->
+    <color name="maroon_on_primary">#FFFFFF</color> <!-- ➤ Warna teks/icon di atas primary -->
+
+    <!-- 🌤️ Warna Latar dan Permukaan -->
+    <color name="backgroundColor">#FAFAFA</color> <!-- ➤ Latar umum -->
+    <color name="surfaceColor">#F6F6F6</color> <!-- ➤ Warna dasar komponen (Card, BottomSheet, dll) -->
+
+    <!-- 📝 Warna Teks -->
+    <color name="textColorPrimary">#212121</color> <!-- ➤ Teks utama -->
+    <color name="textColorSecondary">#757575</color> <!-- ➤ Teks sekunder -->
+
+    <!-- 🟣 Aksen dan Lainnya -->
+    <color name="accentColor">#FF4081</color> <!-- ➤ Optional accent -->
+    <color name="errorColor">#B00020</color> <!-- ➤ Warna untuk error -->
+
+    <!-- theme dark -->
+    <!-- 🌈 Warna Utama Aplikasi -->
+    <color name="maroon_primary_dark">#9C1B24</color> <!-- ➤ Primary -->
+    <color name="maroon_primary_variant_dark">#7C0911</color> <!-- ➤ Variant -->
+    <color name="maroon_secondary_dark">#DA4A5D</color> <!-- ➤ Secondary -->
+    <color name="maroon_on_primary_dark">#FFFFFF</color> <!-- ➤ Teks di atas primary -->
+
+    <!-- 🌙 Warna Latar dan Permukaan -->
+    <color name="backgroundColor_dark">#121212</color> <!-- ➤ Latar utama -->
+    <color name="surfaceColor_dark">#1E1E1E</color> <!-- ➤ Komponen/card background -->
+
+    <!-- 📝 Warna Teks -->
+    <color name="textColorPrimary_dark">#FFFFFF</color> <!-- ➤ Teks utama -->
+    <color name="textColorSecondary_dark">#CCCCCC</color> <!-- ➤ Teks sekunder -->
+
+    <!-- 🟣 Aksen dan Lainnya -->
+    <color name="accentColor_dark">#FF80AB</color>
+    <color name="errorColor_dark">#CF6679</color> <!-- ➤ Error warna dark -->
+
     <!-- Warna Abu-abu (Gray) -->
     <color name="gray100">#F5F5F5</color> <!-- Abu-abu sangat muda (Lightest) -->
     <color name="gray200">#EEEEEE</color> <!-- Abu-abu muda -->

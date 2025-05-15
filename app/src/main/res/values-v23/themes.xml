@@ -1,9 +1,37 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
 
-    <style name="Theme.IMABAJogja" parent="Base.Theme.IMABAJogja">
-        <!-- Transparent system bars for edge-to-edge. -->
-        <item name="android:navigationBarColor">@android:color/transparent</item>
+    <style name="Theme.MyApp" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- 🌈 Warna Brand -->
+        <item name="colorPrimary">@color/maroon_primary</item>
+        <item name="colorPrimaryVariant">@color/maroon_primary_variant</item>
+        <item name="colorOnPrimary">@color/maroon_on_primary</item>
+        <item name="colorSecondary">@color/maroon_secondary</item>
+        <item name="colorOnSecondary">@color/maroon_on_primary</item>
+
+        <!-- 🎨 Latar & Permukaan -->
+        <item name="android:colorBackground">@color/backgroundColor</item>
+        <item name="colorSurface">@color/surfaceColor</item>
+        <item name="colorOnSurface">@color/textColorPrimary</item>
+
+        <!-- 📝 Teks -->
+        <item name="android:textColor">@color/textColorPrimary</item>
+        <item name="android:textColorPrimary">@color/textColorPrimary</item>
+        <item name="android:textColorSecondary">@color/textColorSecondary</item>
+
+        <!-- ⚠️ Error -->
+        <item name="colorError">@color/errorColor</item>
+
+        <!-- 🧱 Status & Navigasi -->
         <item name="android:statusBarColor">@android:color/transparent</item>
-        <item name="android:windowLightStatusBar">?attr/isLightTheme</item>
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:navigationBarColor">@android:color/black</item>
+        <!-- Jika ingin status bar icon terang -->
+        <item name="android:windowLightStatusBar">true</item>
+
+        <!-- 🔤 Font default jika dibutuhkan -->
+        <item name="fontFamily">@font/poppins_regular</item> <!-- Ganti sesuai projectmu -->
     </style>
+
+    <style name="Theme.IMABAJogja" parent="Theme.MyApp" />
+
 </resources>

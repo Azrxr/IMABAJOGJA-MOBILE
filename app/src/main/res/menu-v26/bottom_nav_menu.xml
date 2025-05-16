@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/nav_home"
+        android:title="@string/home"
+        android:iconTint="?attr/colorOnPrimary"
+        android:icon="@drawable/ic_home"
+        app:showAsAction="ifRoom" />
+
+    <item android:title="@string/member"
+        android:icon="@drawable/ic_member"
+        android:id="@+id/nav_member"
+        android:iconTint="?attr/colorOnPrimary"
+        app:showAsAction="ifRoom" />
+    <item
+        android:title="@string/study"
+        android:icon="@drawable/ic_academy"
+        android:id="@+id/nav_study"
+        android:iconTint="?attr/colorOnPrimary"
+        app:showAsAction="ifRoom" />
+    <item
+        android:title="@string/profile"
+        android:icon="@drawable/ic_user"
+        android:id="@+id/nav_profile"
+        android:iconTint="?attr/colorOnPrimary"
+        app:showAsAction="ifRoom" />
+</menu>

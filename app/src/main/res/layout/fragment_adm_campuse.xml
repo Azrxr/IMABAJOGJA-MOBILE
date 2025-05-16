@@ -16,11 +16,19 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.30" />
+
     <View
         android:id="@+id/view2"
         android:layout_width="match_parent"
-        android:layout_height="250dp"
+        android:layout_height="0dp"
         android:background="@drawable/bg_top"
+        app:layout_constraintBottom_toTopOf="@+id/guideline"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/progressBar" />
@@ -32,6 +40,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         app:iconifiedByDefault="false"
+        android:background="@drawable/bg_rounded10"
         app:layout_constraintEnd_toStartOf="@+id/btnFilter"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -45,12 +54,14 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:background="@drawable/bg_rounded10"
+        android:textColor="?attr/colorOnPrimary"
         android:padding="8dp"
         android:text="Total Rencana Studi : "
         app:layout_constraintStart_toStartOf="@+id/searchBar"
         app:layout_constraintTop_toBottomOf="@+id/searchBar" />
 
     <TextView
+        style="@style/textBodyS"
         android:id="@+id/tvStatusRencanaStudi"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -59,6 +70,7 @@
         android:layout_marginEnd="16dp"
         android:paddingBottom="4dp"
         android:text="status rencana studi"
+        android:textColor="?attr/colorOnPrimary"
         android:textAlignment="center"
         app:layout_constraintEnd_toEndOf="@+id/tvTotalMember"
         app:layout_constraintStart_toStartOf="@+id/tvTotalMember"
@@ -73,6 +85,7 @@
         android:background="@drawable/bg_rounded10"
         android:padding="4dp"
         android:text="Pending: "
+        android:textColor="?attr/colorOnPrimary"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvStatusRencanaStudi"
         app:layout_constraintWidth_percent="0.25" />
@@ -85,21 +98,22 @@
         android:background="@drawable/bg_rounded10"
         android:padding="4dp"
         android:text="Disetujui: "
+        android:textColor="?attr/colorOnPrimary"
         app:layout_constraintStart_toEndOf="@+id/tvStatusPending"
         app:layout_constraintTop_toBottomOf="@+id/tvStatusRencanaStudi"
         app:layout_constraintWidth_percent="0.25" />
 
     <TextView
         android:id="@+id/tvStatusRejected"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
         android:background="@drawable/bg_rounded10"
         android:padding="4dp"
         android:text="Ditolak: "
+        android:textColor="?attr/colorOnPrimary"
         app:layout_constraintStart_toEndOf="@+id/tvStatusAccepted"
-        app:layout_constraintTop_toBottomOf="@+id/tvStatusRencanaStudi"
-        app:layout_constraintWidth_percent="0.25" />
+        app:layout_constraintTop_toBottomOf="@+id/tvStatusRencanaStudi" />
 
     <TextView
         android:id="@+id/tvStatusActive"
@@ -110,10 +124,10 @@
         android:background="@drawable/bg_rounded10"
         android:padding="4dp"
         android:text="Aktif: "
+        android:textColor="?attr/colorOnPrimary"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/tvStatusRejected"
-        app:layout_constraintTop_toBottomOf="@+id/tvStatusRencanaStudi"
-        app:layout_constraintWidth_percent="0.25" />
+        app:layout_constraintTop_toBottomOf="@+id/tvStatusRencanaStudi" />
 
     <TextView
         android:id="@+id/tvStatusTotalUnivSelect"
@@ -124,6 +138,7 @@
         android:layout_marginEnd="16dp"
         android:background="@drawable/bg_rounded10"
         android:padding="4dp"
+        android:textColor="?attr/colorOnPrimary"
         android:text="Total perguruan tinggi dipilih: "
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -147,7 +162,6 @@
         style="@style/textHeaderS_bold"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/background"
         android:padding="8dp"
         android:text="@string/title_member"
         android:textAlignment="center"

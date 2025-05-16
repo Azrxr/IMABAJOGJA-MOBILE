@@ -33,6 +33,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:contentDescription="profile image"
+                android:background="?attr/colorSecondary"
                 android:scaleType="centerCrop"
                 android:src="@drawable/ic_user" />
 
@@ -67,6 +68,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:background="@drawable/bg_rounded10"
+            android:textColor="?attr/colorSurface"
             android:padding="4dp"
             android:text="rencana"
             card_view:layout_constraintBottom_toBottomOf="@+id/tvStudy"
@@ -104,6 +106,7 @@
             android:id="@+id/tvBerkas"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:visibility="gone"
             android:text="Persyaratan: "
             card_view:layout_constraintStart_toStartOf="@+id/rvUniversity"
             card_view:layout_constraintTop_toBottomOf="@+id/rvUniversity" />
@@ -114,18 +117,19 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Tidak"
+            android:visibility="gone"
             card_view:layout_constraintBottom_toBottomOf="@+id/tvBerkas"
             card_view:layout_constraintStart_toEndOf="@+id/tvBerkas" />
 
         <TextView
-            style="@style/textBodyS"
             android:id="@+id/tvProgress"
+            style="@style/textBodyS"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:text="Progres: "
-            card_view:layout_constraintBottom_toBottomOf="@+id/rvStatusBerkas"
-            card_view:layout_constraintStart_toEndOf="@+id/rvStatusBerkas" />
+            card_view:layout_constraintBottom_toBottomOf="parent"
+            card_view:layout_constraintStart_toEndOf="@+id/circularRevealCardView" />
 
         <TextView
             android:id="@+id/rvProgressDoc"
@@ -134,6 +138,8 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
             android:background="@drawable/bg_rounded10"
+            android:textColor="?attr/colorSurface"
+            android:textAlignment="center"
             android:padding="4dp"
             android:text="24/24"
             card_view:layout_constraintBottom_toBottomOf="@+id/tvProgress"

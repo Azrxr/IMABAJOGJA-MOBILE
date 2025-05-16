@@ -16,11 +16,19 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.30" />
+
     <View
         android:id="@+id/view2"
         android:layout_width="match_parent"
         android:layout_height="250dp"
         android:background="@drawable/bg_top"
+        app:layout_constraintBottom_toTopOf="@+id/guideline"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/progressBar" />
@@ -30,6 +38,7 @@
         style="@style/Widget.Custom.SearchView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:background="@drawable/bg_rounded10"
         android:layout_margin="16dp"
         app:iconifiedByDefault="false"
         app:layout_constraintEnd_toStartOf="@+id/btnFilter"
@@ -43,6 +52,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:background="@drawable/bg_rounded10"
+        android:textColor="?attr/colorSurface"
         android:padding="8dp"
         android:text="Total Anggota : "
         app:layout_constraintEnd_toStartOf="@+id/tvTotalPengurus"
@@ -55,6 +65,7 @@
         android:layout_height="wrap_content"
         android:background="@drawable/bg_rounded10"
         android:padding="8dp"
+        android:textColor="?attr/colorSurface"
         android:text="Pengurus : "
         app:layout_constraintBottom_toBottomOf="@+id/tvTotalMember"
         app:layout_constraintEnd_toEndOf="@+id/btnFilter"
@@ -66,20 +77,21 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
         android:layout_marginStart="4dp"
+        android:textColor="?attr/colorSurface"
         android:background="@drawable/bg_rounded10"
         android:padding="8dp"
         android:text="Demissioner : "
         app:layout_constraintStart_toEndOf="@+id/tvTotalCamaba"
         app:layout_constraintTop_toBottomOf="@+id/tvTotalMember" />
 
-   <TextView
+    <TextView
         android:id="@+id/tvTotalCamaba"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="@drawable/bg_rounded10"
         android:layout_marginTop="4dp"
-       android:layout_marginStart="4dp"
+        android:background="@drawable/bg_rounded10"
         android:padding="8dp"
+        android:textColor="?attr/colorSurface"
         android:text="Camaba : "
         app:layout_constraintStart_toStartOf="@+id/tvTotalMember"
         app:layout_constraintTop_toBottomOf="@+id/tvTotalMember" />
@@ -92,6 +104,7 @@
         android:layout_marginEnd="4dp"
         android:background="@drawable/bg_rounded10"
         android:padding="8dp"
+        android:textColor="?attr/colorSurface"
         android:text="Aktif : "
         app:layout_constraintEnd_toStartOf="@+id/tvTotalIstimewa"
         app:layout_constraintStart_toEndOf="@+id/tvTotalDemissioner"
@@ -103,6 +116,7 @@
         android:layout_height="wrap_content"
         android:background="@drawable/bg_rounded10"
         android:padding="8dp"
+        android:textColor="?attr/colorSurface"
         android:text="Istimewa : "
         app:layout_constraintEnd_toEndOf="@+id/btnFilter"
         app:layout_constraintTop_toTopOf="@+id/tvTotalActive" />
@@ -112,8 +126,8 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
-        android:backgroundTint="@color/gray300"
         android:layout_marginEnd="8dp"
+        android:textColor="?attr/colorSurface"
         android:text="Tambah Anggota"
         app:layout_constraintEnd_toStartOf="@+id/btnExport"
         app:layout_constraintStart_toStartOf="@+id/tvTotalMember"
@@ -124,7 +138,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
-        android:backgroundTint="@color/gray300"
+        android:textColor="?attr/colorSurface"
         android:text="Export Anggota"
         app:layout_constraintEnd_toEndOf="@+id/btnFilter"
         app:layout_constraintTop_toBottomOf="@+id/tvTotalDemissioner" />
@@ -146,7 +160,6 @@
         style="@style/textHeaderS_bold"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/background"
         android:padding="8dp"
         android:text="@string/title_member"
         android:textAlignment="center"

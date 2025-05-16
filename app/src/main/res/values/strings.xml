@@ -110,4 +110,10 @@
     <string name="title_rencana_studi">Rencana Studi</string>
     <string name="add">Tambah</string>
     <string name="progress">Progress: </string>
+    <string name="hubungi_kami">Hubungi Kami</string>
+    <string name="location_placeholder">alamat</string>
+    <string name="log_out">Keluar</string>
+    <string name="change_password">Ganti Password</string>
+    <string name="about">About</string>
+    <string name="setting">Pengaturan</string>
 </resources>

@@ -118,7 +118,7 @@ class CampuseFragment : Fragment() {
             requireContext().showToast("Data study member tidak tersedia!")
 
             // 🔥 Set warna orange jika data tidak ada
-            val warningColor = ContextCompat.getColor(requireContext(), R.color.orange)
+            val warningColor = ContextCompat.getColor(requireContext(), R.color.errorColor)
 
             binding.etCampusName.setText("Belum ada study")
             binding.tilCampusName.boxStrokeColor = warningColor

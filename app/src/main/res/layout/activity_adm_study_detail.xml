@@ -33,6 +33,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
+        android:textColor="?attr/colorOnPrimary"
         android:padding="4dp"
         android:text="Detail Studi"
         android:textAlignment="center"
@@ -48,6 +49,7 @@
         android:layout_marginBottom="16dp"
         android:contentDescription="profile image"
         app:layout_constraintBottom_toBottomOf="@+id/view2"
+        android:backgroundTint="?attr/colorPrimary"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView6">
 
@@ -66,6 +68,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
+        android:textColor="?attr/colorOnPrimary"
         android:text="@string/name_example"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/circularRevealCardView"
@@ -75,6 +78,7 @@
         android:id="@+id/btnEditCurrentStudy"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textColor="?attr/colorOnPrimary"
         android:layout_marginEnd="16dp"
         android:text="@string/edit"
         app:layout_constraintEnd_toEndOf="parent"
@@ -85,6 +89,7 @@
         style="@style/textBodyS"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:textColor="?attr/colorOnPrimary"
         android:text="Studi Saat ini"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/tvFullname"
@@ -95,6 +100,7 @@
         style="@style/textBodyS_bold"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:textColor="?attr/colorOnPrimary"
         android:text="Universitas"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/tvCurrentStudy"
@@ -105,6 +111,7 @@
         style="@style/textBodyS_bold"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:textColor="?attr/colorOnPrimary"
         android:text="@string/fakultas"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/tvUniversityCurrent"
@@ -115,6 +122,7 @@
         style="@style/textBodyS_bold"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:textColor="?attr/colorOnPrimary"
         android:text="Program Studi"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/tvFacultyCurrent"
@@ -229,21 +237,23 @@
                         style="@style/textBodyM_bold"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
                         android:text="Persyartan"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
+                        style="@style/textBodyS"
                         android:id="@+id/tvStatusDoc"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:background="@drawable/bg_rounded10"
                         android:padding="4dp"
+                        android:textColor="?attr/colorOnPrimary"
                         android:text="Status"
                         app:layout_constraintBottom_toBottomOf="@+id/tvTitlePersyaratan"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="@+id/tvTitlePersyaratan" />
-
 
                     <TextView
                         android:id="@+id/tvProgress"
@@ -263,6 +273,7 @@
                         android:background="@drawable/bg_rounded10"
                         android:padding="4dp"
                         android:text="24/24"
+                        android:textColor="?attr/colorOnPrimary"
                         android:textAlignment="center"
                         app:layout_constraintBottom_toBottomOf="@+id/tvProgress"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -284,7 +295,7 @@
                         style="@style/textBodyM_bold"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
+                        android:layout_marginTop="16dp"
                         android:text="Foto Rumah"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/rvDocuments" />
@@ -292,8 +303,9 @@
                     <ImageButton
                         android:id="@+id/btnAddHomePhoto"
                         style="@style/textBodyM_bold"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@null"
                         android:contentDescription="@string/btn_home_photo"
                         android:src="@drawable/ic_camera_plus"
                         app:layout_constraintBottom_toBottomOf="@+id/tvTitleFotoRumah"

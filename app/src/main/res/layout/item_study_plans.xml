@@ -101,6 +101,7 @@
             android:layout_height="wrap_content"
             android:text="@string/status"
             android:visibility="visible"
+            android:textColor="?attr/colorOnPrimary"
             android:textAlignment="textEnd"
             app:layout_constraintBottom_toBottomOf="@+id/tvJenjang"
             app:layout_constraintEnd_toEndOf="parent" />

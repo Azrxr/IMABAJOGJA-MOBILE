@@ -5,7 +5,6 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp"
     tools:context=".ui.campus.DokumenCampuseActivity">
 
     <com.google.android.material.progressindicator.LinearProgressIndicator
@@ -23,52 +22,68 @@
         style="@style/textBodyL_bold"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Dokumen Pendukung"
+        android:text="@string/dokumen_pendukung"
+        android:layout_marginTop="16dp"
         android:textAlignment="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/progressIndicator" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvDocuments"
-        android:layout_width="0dp"
-        android:layout_height="500dp"
-        tools:listitem="@layout/item_document_minimal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvTitle" />
-
-    <TextView
-        android:id="@+id/tvTitleHomePhoto"
-        style="@style/textBodyL_bold"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:paddingTop="16dp"
-        android:layout_marginTop="16dp"
-        android:text="@string/home_photo"
-        android:textAlignment="textStart"
-        app:layout_constraintEnd_toStartOf="@+id/btnImagePlus"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/rvDocuments" />
-
-    <ImageButton
-        android:id="@+id/btnImagePlus"
-        style="@style/textBodyM_bold"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:contentDescription="@string/btn_home_photo"
-        android:src="@drawable/ic_camera_plus"
-        app:layout_constraintBottom_toBottomOf="@+id/tvTitleHomePhoto"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/tvTitleHomePhoto" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvHomePhoto"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="@+id/btnImagePlus"
-        app:layout_constraintStart_toStartOf="@+id/tvTitleHomePhoto"
-        app:layout_constraintTop_toBottomOf="@+id/tvTitleHomePhoto"
-        tools:listitem="@layout/item_photo"/>
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvTitle" >
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_margin="16dp"
+            android:layout_height="wrap_content">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvDocuments"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:listitem="@layout/item_document_minimal" />
+
+            <TextView
+                android:id="@+id/tvTitleHomePhoto"
+                style="@style/textBodyL_bold"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/home_photo"
+                android:textAlignment="textStart"
+                app:layout_constraintEnd_toStartOf="@+id/btnImagePlus"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/rvDocuments" />
+
+            <ImageButton
+                android:id="@+id/btnImagePlus"
+                style="@style/textBodyM_bold"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:contentDescription="@string/btn_home_photo"
+                android:src="@drawable/ic_camera_plus"
+                android:background="@null"
+                app:layout_constraintBottom_toBottomOf="@+id/tvTitleHomePhoto"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/tvTitleHomePhoto" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvHomePhoto"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                app:layout_constraintEnd_toEndOf="@+id/btnImagePlus"
+                app:layout_constraintStart_toStartOf="@+id/tvTitleHomePhoto"
+                app:layout_constraintTop_toBottomOf="@+id/tvTitleHomePhoto"
+                tools:listitem="@layout/item_photo"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

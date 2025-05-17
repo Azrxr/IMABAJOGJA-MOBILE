@@ -75,12 +75,27 @@ class HomeFragment : Fragment() {
         binding.tvVisi.text = homeResponse.data.vision
         binding.tvMisi.text = homeResponse.data.mission
 
-        val recyclerView = binding.recyclerViewDocuments
-        recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        val adapter = FileAdapter(homeResponse.data.files ?: emptyList()) { file ->
-            openPdf(file.fileUrl)
+        val files = homeResponse.data.files
+        if (files.isNullOrEmpty()) {
+            binding.listEmpty.visibility = View.VISIBLE
+            binding.recyclerViewDocuments.visibility = View.GONE
+        } else {
+            binding.listEmpty.visibility = View.GONE
+            binding.recyclerViewDocuments.visibility = View.VISIBLE
+            val adapter = FileAdapter(files) { file ->
+                openPdf(file.fileUrl)
+            }
+            binding.recyclerViewDocuments.layoutManager = LinearLayoutManager(requireContext())
+            binding.recyclerViewDocuments.adapter = adapter
         }
-        recyclerView.adapter = adapter
+
+//        val recyclerView = binding.recyclerViewDocuments
+//        recyclerView.layoutManager = LinearLayoutManager(requireContext())
+//        val adapter = FileAdapter(homeResponse.data.files) { file ->
+//            openPdf(file.fileUrl)
+//        }
+//        recyclerView.adapter = adapter
+//        binding.listEmpty.visibility = if (homeResponse.data.files.isEmpty()) View.VISIBLE else View.GONE
     }
     private fun openPdf(fileUrl: String) {
         try {

@@ -5,6 +5,7 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.liveData
+import com.google.gson.Gson
 import com.imaba.imabajogja.data.api.ApiService
 import com.imaba.imabajogja.data.model.UserModel
 import com.imaba.imabajogja.data.model.UserPreference
@@ -26,20 +27,34 @@ class LoginRepository @Inject constructor(
     val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> = _isLoading
 
-    fun login(credential: String, password: String) : LiveData<Result<LoginResponse>> {
-        return liveData {
-            emit(Result.Loading)
-            try {
-                val login = apiService.login(credential, password)
-                emit(Result.Success(login))
+    fun login(credential: String, password: String): LiveData<Result<LoginResponse>> = liveData {
+        emit(Result.Loading)
+        try {
+            val response = apiService.login(credential, password)
+            if (response.isSuccessful && response.body() != null) {
+                val body = response.body()!!
+                if (body.error) {
+                    emit(Result.Error(body.message)) // 🔥 error dari server
+                } else {
+                    emit(Result.Success(body)) // ✅ sukses
+                }
+            } else {
+                // Parse JSON dari errorBody
+                val errorBody = response.errorBody()?.string()
+                val parsedError = try {
+                    Gson().fromJson(errorBody, LoginResponse::class.java)
+                } catch (e: Exception) {
+                    null
+                }
 
-            } catch (e: Exception) {
-                Log.e("login","gagal login:  ${e.message.toString()}")
-                emit(Result.Error(e.message.toString()))
+                val errorMessage = parsedError?.message ?: "Terjadi kesalahan: ${response.code()}"
+                emit(Result.Error(errorMessage))
             }
+        } catch (e: Exception) {
+            emit(Result.Error("Terjadi kesalahan: ${e.localizedMessage}"))
         }
-
     }
+
 
     fun register(username: String, email: String, password: String, passwordConfirmation: String) : LiveData<Result<RegisterResponse>> {
         return liveData {

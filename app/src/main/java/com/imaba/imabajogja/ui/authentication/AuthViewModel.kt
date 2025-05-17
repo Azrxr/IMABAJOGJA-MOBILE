@@ -25,11 +25,7 @@ class AuthViewModel @Inject constructor(
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> = _isLoading
 
-    fun login(credential: String, password: String): LiveData<Result<LoginResponse>> {
-        _isLoading.value = true
-        return loginRepository.login(credential, password)
-
-    }
+    fun login(credential: String, password: String) = loginRepository.login(credential, password)
 
     fun register(username: String, email: String, password: String, passwordConfirmation: String): LiveData<Result<RegisterResponse>> {
         _isLoading.value = true

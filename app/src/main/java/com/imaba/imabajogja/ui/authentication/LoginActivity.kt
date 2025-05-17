@@ -13,6 +13,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.lifecycle.lifecycleScope
 import com.imaba.imabajogja.ui.MainActivity
 import com.imaba.imabajogja.R
 import com.imaba.imabajogja.data.model.UserModel
@@ -20,12 +21,13 @@ import com.imaba.imabajogja.data.response.LoginResponse
 import com.imaba.imabajogja.databinding.ActivityLoginBinding
 import com.imaba.imabajogja.data.utils.Result
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class LoginActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityLoginBinding
-    private val viewModel : AuthViewModel by viewModels()
+    private val viewModel: AuthViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,21 +43,33 @@ class LoginActivity : AppCompatActivity() {
         playAnimation()
     }
 
-    private fun intentHandler(){
-        binding.btnLogin.setOnClickListener{
+    private fun intentHandler() {
+        binding.btnLogin.setOnClickListener {
             val credential = binding.edtEmail.text.toString().trim()
             val password = binding.edtPassword.text.toString()
-            if (credential.isEmpty() || password.isEmpty()) {
-                Toast.makeText(this, "Email atau password tidak boleh kosong", Toast.LENGTH_SHORT).show()
+            when {
+                credential.isEmpty() -> {
+                    binding.tilEmail.error = "Email atau username tidak boleh kosong"
+                }
 
-            } else {
-                Log.d("login", "email: $credential")
-                Log.d("login", "password: $password")
-                login(credential, password)
+                password.isEmpty() -> {
+                    binding.tilPassword.error = "Password tidak boleh kosong"
+                }
+
+                password.length < 8 -> {
+                    binding.tilPassword.error = "Password minimal 8 karakter"
+                }
+
+                else -> {
+                    Log.d("login", "email: $credential")
+                    Log.d("login", "password: $password")
+                    login(credential, password)
+                }
             }
 
         }
-        viewModel.isLoading.observe(this){
+        setupTextWatchers()
+        viewModel.isLoading.observe(this) {
             showLoading(it)
         }
 
@@ -69,62 +83,96 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-    private fun login(credential : String, password : String) {
-        viewModel.login( credential, password).observe(this){
-            if (it != null) {
-                when (it) {
-                    is Result.Loading -> {
-                        showLoading(true)
-                    }
-                    is Result.Success -> {
-                        val loginResponse = it.data
-                        saveUserData(loginResponse)
+    private fun goToHome() {
+        AlertDialog.Builder(this).apply {
+            setTitle("Yeah!")
+            setMessage("Anda berhasil login. Sudah tidak sabar ya?")
+            setPositiveButton("Lanjut") { _, _ ->
+                val intent = Intent(context, MainActivity::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+                startActivity(intent)
+                finish()
+            }
+            create()
+            show()
+        }
+    }
 
-                        AlertDialog.Builder(this).apply {
-                            setTitle("Yeah!")
-                            setMessage("Anda berhasil login. Sudah tidak sabar untuk belajar ya?")
-                            setPositiveButton("Lanjut") { _, _ ->
-                                val intent = Intent(context, MainActivity::class.java)
-                                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
-                                startActivity(intent)
-                                finish()
-                            }
-                            create()
-                            show()
+    private fun login(credential: String, password: String) {
+        viewModel.login(credential, password).observe(this) { result ->
+            when (result) {
+                is Result.Loading -> showLoading(true)
+                is Result.Success -> { showLoading(false)
+                    goToHome()
+                    val loginResponse = result.data
+                    saveUserData(loginResponse)
+
+                }
+
+                is Result.Error -> { showLoading(false)
+                    val message = result.message.lowercase()
+                    when {
+                        "incorrect password" in message -> {
+                            binding.tilPassword.error = "password salah"
+                            binding.tilEmail.error = null
+                        }
+
+                        "email not found" in message -> {
+                            binding.tilEmail.error = "email atau username tidak terdaftar"
+                            binding.tilPassword.error = null
+                        }
+
+                        else -> {
+                            // Untuk error lain
+                            binding.tilPassword.error = null
+                            binding.tilEmail.error = null
+                            Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+                            Log.d("login", "Error: ${message}")
                         }
                     }
-                    is Result.Error -> {
-                        showLoading(false)
-                        AlertDialog.Builder(this).apply {
-                            setTitle("Yeah!")
-                            setMessage(it.message)
-//                            setPositiveButton("Lanjut") { _, _ ->
-                            setPositiveButton("OK") { dialog, _ ->
-                                finish()
-                            }
-                            create()
-                            show()
-                        }
-                    }
-
-                    else -> {}
                 }
             }
         }
 
     }
 
-    private  fun saveUserData(dataUser: LoginResponse) {
+    private fun setupTextWatchers() {
+        binding.edtEmail.addTextChangedListener(object : android.text.TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                binding.tilEmail.error = null
+            }
+            override fun afterTextChanged(s: android.text.Editable?) {}
+        })
+        binding.edtPassword.addTextChangedListener(object : android.text.TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                binding.tilPassword.error = null
+            }
+            override fun afterTextChanged(s: android.text.Editable?) {}
+        })
+    }
+
+
+    private fun saveUserData(dataUser: LoginResponse) {
         val credential = binding.edtEmail.text.toString()
 //        val role = dataUser.loginResult.role
         val isLogin = true
-        viewModel.saveSession(UserModel(credential, dataUser.loginResult.token, dataUser.loginResult.role, isLogin ))
+        viewModel.saveSession(
+            UserModel(
+                credential,
+                dataUser.loginResult.token,
+                dataUser.loginResult.role,
+                isLogin
+            )
+        )
 
     }
 
     private fun showLoading(isLoading: Boolean) {
         binding.progressIndicator.visibility = if (isLoading) View.VISIBLE else View.GONE
     }
+
     private fun showToast(message: String) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
@@ -144,7 +192,8 @@ class LoginActivity : AppCompatActivity() {
         val passwordEditTextLayout =
             ObjectAnimator.ofFloat(binding.tilPassword, View.ALPHA, 1f).setDuration(100)
         val login = ObjectAnimator.ofFloat(binding.btnLogin, View.ALPHA, 1f).setDuration(200)
-        val forgotPassword = ObjectAnimator.ofFloat(binding.btnForgotPassword, View.ALPHA, 1f).setDuration(200)
+        val forgotPassword =
+            ObjectAnimator.ofFloat(binding.btnForgotPassword, View.ALPHA, 1f).setDuration(200)
         val btnDaftar = ObjectAnimator.ofFloat(binding.btnDaftar, View.ALPHA, 1f).setDuration(200)
 
         AnimatorSet().apply {

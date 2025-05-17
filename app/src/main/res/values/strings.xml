@@ -117,4 +117,6 @@
     <string name="about">About</string>
     <string name="setting">Pengaturan</string>
     <string name="dokumen_pendukung">Dokumen Pendukung</string>
+    <string name="icon_document">icon document</string>
+    <string name="delete_document">delete document</string>
 </resources>

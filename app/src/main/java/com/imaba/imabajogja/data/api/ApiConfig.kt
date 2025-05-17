@@ -1,9 +1,7 @@
 package com.imaba.imabajogja.data.api
 
-import android.util.Log
 import com.google.gson.GsonBuilder
 import com.imaba.imabajogja.data.model.UserPreference
-import com.imaba.imabajogja.ui.MainActivity
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -12,14 +10,10 @@ import kotlinx.coroutines.runBlocking
 import okhttp3.Authenticator
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
-import okhttp3.Request
-import okhttp3.Response
-import okhttp3.Route
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import timber.log.Timber
 import javax.inject.Singleton
-import kotlin.code
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -28,30 +22,27 @@ object ApiConfig {
     @Singleton
     fun provideAuthInterceptor(userPreference: UserPreference): Interceptor {
         return Interceptor { chain ->
-            val req = chain.request()
-            val token = runBlocking { userPreference.getToken() }
+            val originalRequest = chain.request()
 
-            Timber.tag("Interceptor").d("Menggunakan token: $token") // 🔥 Log untuk cek token
+            val token = try {
+                runBlocking { userPreference.getToken() }
+            } catch (e: Exception) {
+                Timber.e("Gagal mengambil token: ${e.message}")
+                "" // fallback token kosong
+            }
 
-            val requestHeaders = req.newBuilder()
-                .addHeader("Authorization", "Bearer $token") // 🔥 Tambahkan token
-                .addHeader("Accept", "application/json") // 🔥 Pastikan API menerima JSON
+            val requestWithHeaders = originalRequest.newBuilder()
+                .addHeader("Authorization", "Bearer $token")
+                .addHeader("Accept", "application/json")
                 .build()
 
-            chain.proceed(requestHeaders)
+            try {
+                chain.proceed(requestWithHeaders)
+            } catch (e: Exception) {
+                Timber.e("Interceptor error saat melakukan request: ${e.message}")
+                throw e // tetap throw agar Retrofit tahu gagal
+            }
         }
-    }
-
-    @Provides
-    @Singleton
-    fun provideTokenExpiredCallback(
-        tokenExpiredCallbackImpl: TokenExpiredCallbackImpl
-    ): ApiConfig.TokenExpiredCallback {
-        return tokenExpiredCallbackImpl
-    }
-
-    interface TokenExpiredCallback {
-        fun onTokenExpired()
     }
 
     @Provides
@@ -61,31 +52,51 @@ object ApiConfig {
         tokenExpiredCallback: TokenExpiredCallback
     ): Authenticator {
         return Authenticator { _, response ->
-            Log.d("Authenticator", "Token expired, mencoba refresh...") // 🔥 Log jika token expired
+            try {
+                if (response.code == 401) {
+                    Timber.d("Authenticator: Token expired, memicu logout callback")
+                    tokenExpiredCallback.onTokenExpired()
+                    return@Authenticator null
+                }
 
-            if (response.code == 401) { // Token expired
-                Log.d("Authenticator", "Token expired, memicu logout...")
-                tokenExpiredCallback.onTokenExpired()
-                return@Authenticator null
+                val newToken = runBlocking { userPreference.getToken() }
+
+                if (newToken.isBlank()) {
+                    Timber.e("Authenticator: Token kosong, membatalkan autentikasi ulang")
+                    return@Authenticator null
+                }
+
+                return@Authenticator response.request.newBuilder()
+                    .header("Authorization", "Bearer $newToken")
+                    .build()
+
+            } catch (e: Exception) {
+                Timber.e("Authenticator gagal memproses token: ${e.message}")
+                null // gagal refresh, batalkan permintaan
             }
-            null
-
-            val newToken = runBlocking { userPreference.getToken() } // Ambil token baru dari DataStore
-
-            if (newToken.isEmpty()) {
-                Log.e("Authenticator", "Token kosong, logout user!") // 🔥 Jika token kosong, logout user
-                return@Authenticator null
-            }
-
-            response.request.newBuilder()
-                .header("Authorization", "Bearer $newToken") // 🔥 Gunakan token baru
-                .build()
         }
     }
 
+
     @Provides
     @Singleton
-    fun provideOkHttpClient(authenticator: Authenticator, authInterceptor: Interceptor): OkHttpClient {
+    fun provideTokenExpiredCallback(
+        tokenExpiredCallbackImpl: TokenExpiredCallbackImpl
+    ): TokenExpiredCallback {
+        return tokenExpiredCallbackImpl
+    }
+
+    interface TokenExpiredCallback {
+        fun onTokenExpired()
+    }
+
+
+    @Provides
+    @Singleton
+    fun provideOkHttpClient(
+        authenticator: Authenticator,
+        authInterceptor: Interceptor
+    ): OkHttpClient {
         return OkHttpClient.Builder()
             .addInterceptor(authInterceptor)
             .authenticator(authenticator)
@@ -95,9 +106,9 @@ object ApiConfig {
     @Provides
     @Singleton
     fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit {
-//        val url = "http://192.168.100.7:8000/api/"
+        val url = "http://192.168.100.7:8000/api/"
 //        val url = "http://192.168.31.44:8000/api/"
-        val url = "http://192.168.54.254:8000/api/" //bld
+//        val url = "http://192.168.54.254:8000/api/" //bld
 //        val url = "http://10.0.2.2:8000/api/"
 //        val url = "http://192.168.55.183:8000/api/"
 //        val url = "http://192.168.177.251:8000/api/"

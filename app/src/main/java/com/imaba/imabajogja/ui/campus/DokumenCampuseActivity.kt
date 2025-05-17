@@ -21,6 +21,7 @@ import com.imaba.imabajogja.data.response.DataDocument
 import com.imaba.imabajogja.data.response.documentFieldMap
 import com.imaba.imabajogja.data.utils.Result
 import com.imaba.imabajogja.data.utils.compressPdf
+import com.imaba.imabajogja.data.utils.showLoading
 import com.imaba.imabajogja.data.utils.showToast
 import com.imaba.imabajogja.data.utils.uriToFile
 import com.imaba.imabajogja.data.utils.uriToFilePdf
@@ -59,17 +60,33 @@ class DokumenCampuseActivity : AppCompatActivity() {
         viewModel.getDocuments().observe(this) { result ->
             when (result) {
                 is Result.Success -> {
+                    showLoading(binding.progressIndicator, false)
                     val documentsData = result.data.data // 👈 Pastikan ini berisi DataDocument
                     setupAdapter(documentsData) // 👈 Pastikan parameter cocok
                 }
 
-                is Result.Error -> showToast("Gagal mengambil dokumen: ${result.message}")
-                is Result.Loading -> showToast("Memuat dokumen...")
+                is Result.Error -> {
+                    showLoading(binding.progressIndicator, false)
+                    showToast("Gagal mengambil dokumen: ${result.message}")
+                }
+                is Result.Loading -> {
+                    showLoading(binding.progressIndicator, true)
+                }
             }
         }
     }
 
     private fun setupAdapter(data: DataDocument) {
+
+        val homePhotos = data.homePhoto ?: emptyList()
+
+        if (homePhotos.isEmpty()) {
+            binding.listEmpty.visibility = View.VISIBLE
+            binding.rvHomePhoto.visibility = View.GONE
+        } else {
+            binding.listEmpty.visibility = View.GONE
+            binding.rvHomePhoto.visibility = View.VISIBLE
+        }
 
         homePhotoAdapter = HomePhotoAdapter(
             homePhotos = data.homePhoto ?: emptyList(),
@@ -144,16 +161,18 @@ class DokumenCampuseActivity : AppCompatActivity() {
 
                 viewModel.deleteHomePhoto(id).observe(this) { result ->
                     when (result) {
-                        is Result.Loading -> binding.progressIndicator.visibility = View.VISIBLE
+                        is Result.Loading -> {
+                            showLoading(binding.progressIndicator, true)
+                        }
                         is Result.Success -> {
-                            binding.progressIndicator.visibility = View.GONE
+                            showLoading(binding.progressIndicator, false)
                             showToast("Foto berhasil dihapus")
                             Log.d("DeleteHomePhoto", "Berhasil: ${result.data}")
                             loadDocuments() // 🔄 Refresh list setelah berhasil
                         }
 
                         is Result.Error -> {
-                            binding.progressIndicator.visibility = View.GONE
+                            showLoading(binding.progressIndicator, false)
                             Log.e("DeleteHomePhoto", "Error: ${result.message}")
                             showToast("Gagal menghapus: ${result.message}")
                         }
@@ -220,14 +239,17 @@ class DokumenCampuseActivity : AppCompatActivity() {
 
         viewModel.uploadDocument(documentType, file).observe(this) { result ->
             when (result) {
-                is Result.Loading -> showToast("Mengunggah dokumen...")
+                is Result.Loading -> {
+                    showLoading(binding.progressIndicator, true)
+                }
                 is Result.Success -> {
-                    showToast("Dokumen berhasil diunggah!")
+                    showLoading(binding.progressIndicator, false)
                     Log.d("UploadDocument", "Berhasil: ${result.data}")
                     loadDocuments() // 🔄 Refresh daftar dokumen setelah upload
                 }
 
                 is Result.Error -> {
+                    showLoading(binding.progressIndicator, false)
                     showToast("Gagal mengupload: ${result.message}")
                     Log.e("UploadDocument", "Error: ${result.message}")
                 }
@@ -240,14 +262,17 @@ class DokumenCampuseActivity : AppCompatActivity() {
 
         viewModel.uploadPhotoDoc(documentType, file).observe(this) { result ->
             when (result) {
-                is Result.Loading -> showToast("Mengunggah dokumen...")
+                is Result.Loading -> {
+                    showLoading(binding.progressIndicator, true)
+                }
                 is Result.Success -> {
-                    showToast("Dokumen berhasil diunggah!")
+                    showLoading(binding.progressIndicator, false)
                     Timber.d("Berhasil: ${result.data}")
                     loadDocuments() // 🔄 Refresh daftar dokumen setelah upload
                 }
 
                 is Result.Error -> {
+                    showLoading(binding.progressIndicator, true)
                     showToast("Gagal mengupload: ${result.message}")
                     Timber.e("Error: ${result.message}")
                 }
@@ -272,17 +297,18 @@ class DokumenCampuseActivity : AppCompatActivity() {
                 viewModel.deleteDocument(fileType).observe(this) { result ->
                     when (result) {
                         is Result.Loading -> {
-                            binding.progressIndicator.visibility = View.VISIBLE
+                            showLoading(binding.progressIndicator, true)
                             Timber.d("⏳ Menghapus dokumen...")
                         }
 
                         is Result.Success -> {
                             Timber.d("✅ Berhasil menghapus: %s", field)
-                            showToast("Dokumen berhasil dihapus!")
+                            showLoading(binding.progressIndicator, false)
                             loadDocuments() // 🔄 Refresh daftar dokumen setelah delete
                         }
 
                         is Result.Error -> {
+                            showLoading(binding.progressIndicator, false)
                             Timber.e("❌ Gagal menghapus: %s", result.message)
                             showToast("Gagal menghapus: ${result.message}")
                         }
@@ -309,17 +335,21 @@ class DokumenCampuseActivity : AppCompatActivity() {
             viewModel.uploadHomePhoto(photoTitle, file).observe(this) { result ->
                 when (result) {
                     is Result.Success -> {
+                        showLoading(binding.progressIndicator, false)
                         showToast("Foto rumah berhasil diunggah!")
                         Timber.d("Berhasil: %s", result.data)
                         loadDocuments() // 🔄 Refresh list setelah berhasil
                     }
 
                     is Result.Error -> {
+                        showLoading(binding.progressIndicator, false)
                         showToast("Gagal mengupload foto: ${result.message}")
                         Log.e("UploadPhoto", "Error: ${result.message}")
                     }
 
-                    is Result.Loading -> showToast("Mengunggah foto rumah...")
+                    is Result.Loading -> {
+                        showLoading(binding.progressIndicator, true)
+                    }
                 }
             }
         } ?: showToast("Pilih gambar terlebih dahulu") // 🔥 Mencegah error jika file belum dipilih

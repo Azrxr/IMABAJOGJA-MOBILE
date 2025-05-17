@@ -62,7 +62,7 @@ interface ApiService {
     suspend fun login(
         @Field("login") credential: String,
         @Field("password") password: String
-    ): LoginResponse
+    ): Response<LoginResponse> //LoginResponse
 
     //home
     @GET("home")

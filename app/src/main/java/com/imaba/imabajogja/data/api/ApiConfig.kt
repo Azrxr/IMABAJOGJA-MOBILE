@@ -106,12 +106,13 @@ object ApiConfig {
     @Provides
     @Singleton
     fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit {
-        val url = "http://192.168.100.7:8000/api/"
+//        val url = "http://192.168.100.7:8000/api/"
 //        val url = "http://192.168.31.44:8000/api/"
 //        val url = "http://192.168.54.254:8000/api/" //bld
 //        val url = "http://10.0.2.2:8000/api/"
 //        val url = "http://192.168.55.183:8000/api/"
-//        val url = "http://192.168.177.251:8000/api/"
+//        val url = "http://192.168.1.193:8000/api/" //mam
+        val url = "http://webservice.imabayogyakarta.com/api/" //mam
 
         val gson = GsonBuilder()
             .setLenient()

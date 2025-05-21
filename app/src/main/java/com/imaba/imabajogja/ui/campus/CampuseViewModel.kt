@@ -65,7 +65,7 @@ class CampuseViewModel @Inject constructor(private val repository: MemberReposit
         return repository.deleteStudyMember()
     }
 
-    fun updateStudyMember(universityId: Int, facultyId: Int, programStudyId: Int): LiveData<Result<SuccesResponse>> {
+    fun updateStudyMember(universityId: Int, facultyId: Int ?=null, programStudyId: Int): LiveData<Result<SuccesResponse>> {
         Log.d("ViewModel", "Memanggil updateStudyMember() dengan universityId=$universityId, facultyId=$facultyId, programStudyId=$programStudyId")
         return repository.updateStudyMember(universityId, facultyId, programStudyId)
     }

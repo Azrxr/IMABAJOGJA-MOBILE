@@ -431,7 +431,7 @@ class MemberRepository @Inject constructor(private val apiService: ApiService) {
 
     fun updateStudyMember(
         universityId: Int,
-        facultyId: Int,
+        facultyId: Int ?= null,
         programStudyId: Int
     ): LiveData<Result<SuccesResponse>> = liveData {
         emit(Result.Loading)

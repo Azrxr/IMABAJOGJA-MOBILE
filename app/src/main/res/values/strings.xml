@@ -5,7 +5,8 @@
     <string name="second_fragment_label">Second Fragment</string>
     <string name="next">Next</string>
     <string name="previous">Previous</string>
-    <string name="empty">Data tidak tersedia</string>
+    <string name="empty_desk">Maaf, Tidak dapat menemukan data :(</string>
+    <string name="empty">❌ Kosong</string>
     <string name="lorem_ipsum">
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam in scelerisque sem. Mauris
         volutpat, dolor id interdum ullamcorper, risus dolor egestas lectus, sit amet mattis purus
@@ -119,4 +120,6 @@
     <string name="dokumen_pendukung">Dokumen Pendukung</string>
     <string name="icon_document">icon document</string>
     <string name="delete_document">delete document</string>
+    <string name="detail_studi">Detail Studi</string>
+    <string name="perguruan_tinggi">Perguruan Tinggi</string>
 </resources>

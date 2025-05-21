@@ -312,7 +312,7 @@ interface ApiService {
     @POST("member/updateStudyMember")
     suspend fun updateStudyMember(
         @Field("university_id") universityId: Int,
-        @Field("faculty_id") facultyId: Int,
+        @Field("faculty_id") facultyId: Int ?= null,
         @Field("program_study_id") programStudyId: Int
     ): Response<SuccesResponse>
 

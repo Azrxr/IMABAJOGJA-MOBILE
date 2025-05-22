@@ -1,5 +1,6 @@
 package com.imaba.imabajogja.ui.admin.campuse
 
+import android.content.Intent
 import android.os.Bundle
 import android.text.InputType
 import android.util.Log
@@ -65,8 +66,12 @@ class AdmStudyDetailActivity : AppCompatActivity() {
         }
         showMemberDetail()
         getMemberDetail(memberId ?: 0)
+
         binding.btnAdd.setOnClickListener {
-            addStudyPlan()
+            Intent(this, AdmProgramStudyActivity::class.java).apply {
+                putExtra(AdmProgramStudyActivity.ARG_MEMBER_ID, memberId)
+                startActivity(this)
+            }
         }
     }
 
@@ -157,7 +162,7 @@ class AdmStudyDetailActivity : AppCompatActivity() {
         }
     }
 
-    private fun addStudyPlan() {
+    private fun _addStudyPlan() {
         val dialog = DialogStudyPlanAdd.newInstance(memberId ?: 0)
         dialog.onSuccessListener = {
             // Refresh data ketika berhasil menambah

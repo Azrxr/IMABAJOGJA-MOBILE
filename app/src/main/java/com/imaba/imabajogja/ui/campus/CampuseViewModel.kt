@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import com.imaba.imabajogja.data.repository.MemberRepository
 import com.imaba.imabajogja.data.response.DocumentsResponse
+import com.imaba.imabajogja.data.response.ProgramStudyResponse
 import com.imaba.imabajogja.data.response.StudyItem
 import com.imaba.imabajogja.data.response.StudyMemberResponse
 import com.imaba.imabajogja.data.response.StudyPlans
@@ -68,5 +69,12 @@ class CampuseViewModel @Inject constructor(private val repository: MemberReposit
     fun updateStudyMember(universityId: Int, facultyId: Int ?=null, programStudyId: Int): LiveData<Result<SuccesResponse>> {
         Log.d("ViewModel", "Memanggil updateStudyMember() dengan universityId=$universityId, facultyId=$facultyId, programStudyId=$programStudyId")
         return repository.updateStudyMember(universityId, facultyId, programStudyId)
+    }
+
+    fun getAllPrograStudy(
+        search : String? = null,
+        jenjang: String? = null
+    ): LiveData<Result<ProgramStudyResponse>> {
+        return repository.getAllProgramStudy(search, jenjang)
     }
 }

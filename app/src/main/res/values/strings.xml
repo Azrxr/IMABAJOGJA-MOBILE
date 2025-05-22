@@ -122,4 +122,8 @@
     <string name="delete_document">delete document</string>
     <string name="detail_studi">Detail Studi</string>
     <string name="perguruan_tinggi">Perguruan Tinggi</string>
+    <string name="import_perguruan_tinggi">Import Perguruan Tinggi</string>
+    <string name="template">Template</string>
+    <string name="desk_perguruan_tinggi">Menampilkan semua perguruan tinggi beserta program studi se Yogyakarta</string>
+    <string name="title_program_studi">Program Studi</string>
 </resources>

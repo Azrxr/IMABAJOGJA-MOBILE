@@ -13,6 +13,7 @@ import com.imaba.imabajogja.data.response.DocumentsResponse
 import com.imaba.imabajogja.data.response.HomeResponse
 import com.imaba.imabajogja.data.response.ProfileResponse
 import com.imaba.imabajogja.data.response.ProfileUpdateResponse
+import com.imaba.imabajogja.data.response.ProgramStudyResponse
 import com.imaba.imabajogja.data.response.StudyItem
 import com.imaba.imabajogja.data.response.StudyMemberResponse
 import com.imaba.imabajogja.data.response.StudyPlans
@@ -467,6 +468,27 @@ class MemberRepository @Inject constructor(private val apiService: ApiService) {
         } catch (e: Exception) {
             Log.e("Delete study", "Error: ${e.message}")
             emit(Result.Error("Terjadi kesalahan: ${e.message}"))
+        }
+    }
+
+    fun getAllProgramStudy(
+        search: String? = null,
+        jenjang: String? = null
+    ): LiveData<Result<ProgramStudyResponse>> = liveData {
+        emit(Result.Loading)
+        try {
+            val response = apiService.getAllProgramStudy(search, jenjang)
+            if (!response.isSuccessful) {
+                throw Exception("Error dari server: ${response.code()} - ${response.message()}")
+            }
+            val body = response.body()
+            if (body == null) {
+                throw Exception("Response dari server kosong")
+            }
+            emit(Result.Success(body))
+        } catch (e: Exception) {
+            emit(Result.Error(e.message.toString()))
+
         }
     }
 

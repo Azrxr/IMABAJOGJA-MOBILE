@@ -15,6 +15,7 @@ import com.imaba.imabajogja.data.response.HomeResponse
 import com.imaba.imabajogja.data.response.ImportMemberResponse
 import com.imaba.imabajogja.data.response.MemberDetailResponse
 import com.imaba.imabajogja.data.response.MembersResponse
+import com.imaba.imabajogja.data.response.ProgramStudyImportResponse
 import com.imaba.imabajogja.data.response.SuccesResponse
 import com.imaba.imabajogja.data.utils.Result
 import com.imaba.imabajogja.data.utils.compressPdf
@@ -568,6 +569,31 @@ class AdminRepository @Inject constructor(private val apiService: ApiService) {
                     file.asRequestBody("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet".toMediaTypeOrNull())
                 val body = MultipartBody.Part.createFormData("file", file.name, requestFile)
                 val response = apiService.importMember(body)
+
+                if (response.isSuccessful && response.body() != null) {
+                    Log.d("ImportMember", "Respons sukses: ${response.body()}")
+                    val bodyString = response.body()?.toString()
+                    Log.d("ImportCheck", "Body: $bodyString")
+                    emit(Result.Success(response.body()!!))
+                } else {
+                    val errorMessage = response.errorBody()?.string() ?: "Terjadi kesalahan"
+                    Log.e("ImportMember", "Respons gagal: $errorMessage")
+                    emit(Result.Error("Gagal mengupload file: $errorMessage"))
+                }
+            } catch (e: Exception) {
+                Log.e("ImportMember", "Exception: ${e.message}")
+                emit(Result.Error("Exception: ${e.localizedMessage ?: "Unknown error"}"))
+            }
+        }
+
+    fun importProgramStudy(file: File): LiveData<Result<ProgramStudyImportResponse>> =
+        liveData {
+            emit(Result.Loading)
+            try {
+                val requestFile =
+                    file.asRequestBody("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet".toMediaTypeOrNull())
+                val body = MultipartBody.Part.createFormData("file", file.name, requestFile)
+                val response = apiService.importProgramStudy(body)
 
                 if (response.isSuccessful && response.body() != null) {
                     Log.d("ImportMember", "Respons sukses: ${response.body()}")

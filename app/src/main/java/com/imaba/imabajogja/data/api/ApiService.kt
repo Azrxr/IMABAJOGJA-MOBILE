@@ -9,6 +9,8 @@ import com.imaba.imabajogja.data.response.MemberDetailResponse
 import com.imaba.imabajogja.data.response.MembersResponse
 import com.imaba.imabajogja.data.response.ProfileResponse
 import com.imaba.imabajogja.data.response.ProfileUpdateResponse
+import com.imaba.imabajogja.data.response.ProgramStudyImportResponse
+import com.imaba.imabajogja.data.response.ProgramStudyResponse
 import com.imaba.imabajogja.data.response.RegisterAdminResponse
 import com.imaba.imabajogja.data.response.RegisterResponse
 import com.imaba.imabajogja.data.response.StudyMemberResponse
@@ -374,11 +376,23 @@ interface ApiService {
         @Part file: MultipartBody.Part
     ): Response<ImportMemberResponse>
 
+    @Multipart
+    @POST("admin/study/import")
+    suspend fun importProgramStudy(
+        @Part file: MultipartBody.Part
+    ): Response<ProgramStudyImportResponse>
+
     @GET("admin/member/export-excel")
     @Streaming
     suspend fun exportMembers(
         @Query("angkatan[]") generations: List<String>?,
         @Query("member_type[]") memberTypes: List<String>?
     ): Response<ResponseBody>
+
+    @GET("study/getAll")
+    suspend fun getAllProgramStudy(
+        @Query("search") search: String? = null,
+        @Query("jenjang") jenjang: String? = null,
+    ): Response<ProgramStudyResponse>
 
 }

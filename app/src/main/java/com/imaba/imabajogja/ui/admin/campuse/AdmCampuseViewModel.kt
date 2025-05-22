@@ -3,7 +3,9 @@ package com.imaba.imabajogja.ui.admin.campuse
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import com.imaba.imabajogja.data.repository.AdminRepository
+import com.imaba.imabajogja.data.response.ImportMemberResponse
 import com.imaba.imabajogja.data.response.MemberDetailResponse
+import com.imaba.imabajogja.data.response.ProgramStudyImportResponse
 import com.imaba.imabajogja.data.response.SuccesResponse
 import com.imaba.imabajogja.data.utils.Result
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -47,6 +49,12 @@ class AdmCampuseViewModel @Inject constructor(private val repository: AdminRepos
     }
     fun uploadPhotoDoc(memberId: Int, docId: Int, photoType: String, file: File): LiveData<Result<SuccesResponse>> {
         return repository.uploadPhotoDoc(memberId, docId, photoType, file)
+    }
+
+    fun importProgramStudy(
+        file: File,
+    ): LiveData<Result<ProgramStudyImportResponse>> {
+        return repository.importProgramStudy(file)
     }
 
 }

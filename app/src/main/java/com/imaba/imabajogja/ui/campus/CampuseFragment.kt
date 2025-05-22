@@ -152,7 +152,10 @@ class CampuseFragment : Fragment() {
             binding.btnEdit.visibility = View.VISIBLE
         }
         binding.btnAdd.setOnClickListener {
-            Intent(requireContext(), AddStudyPlanActivity::class.java).apply {
+//            Intent(requireContext(), AddStudyPlanActivity::class.java).apply {
+//                startActivity(this)
+//            }
+            Intent(requireContext(), ProgramStudyActivity::class.java).apply {
                 startActivity(this)
             }
         }

@@ -1,11 +1,13 @@
 package com.imaba.imabajogja.ui
 
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.view.View
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.core.view.WindowCompat
 import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -40,8 +42,21 @@ class MainActivity : AppCompatActivity() {
 //        }
         WindowCompat.setDecorFitsSystemWindows(window, false)
         bottomNavMenu()
+        applySystemBarColor()
     }
 
+    private fun applySystemBarColor() {
+        val colorPrimary = ContextCompat.getColor(this, R.color.maroon_primary)
+
+        window.statusBarColor = colorPrimary
+        window.navigationBarColor = colorPrimary
+
+        // Untuk memastikan icon di status bar tetap terbaca:
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            window.decorView.systemUiVisibility = 0 // icon terang (putih)
+            // gunakan View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR jika latar cerah
+        }
+    }
 
     private fun bottomNavMenu() {
         viewModel.getSession().observe(this) { user ->

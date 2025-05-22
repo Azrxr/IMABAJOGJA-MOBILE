@@ -633,4 +633,29 @@ class AdminRepository @Inject constructor(private val apiService: ApiService) {
     }
 
 
+    fun updateStudyMemberAdm(
+        memberId: Int,
+        universityId: Int,
+        facultyId: Int ?= null,
+        programStudyId: Int
+    ): LiveData<Result<SuccesResponse>> = liveData {
+        emit(Result.Loading)
+        try {
+            Timber.d("Mengirim data ke server: universityId=$universityId, facultyId=$facultyId, programStudyId=$programStudyId")
+
+            val response = apiService.updateStudyMemberAdm(memberId, universityId, facultyId, programStudyId)
+
+            if (response.isSuccessful && response.body() != null) {
+                Log.d("UpdateStudyMember", "Berhasil update: ${response.body()!!.message}")
+                emit(Result.Success(response.body()!!))
+            } else {
+                val errorMessage = response.errorBody()?.string() ?: "Gagal memperbarui data"
+                Log.e("UpdateStudyMember", "Error Response: $errorMessage")
+                emit(Result.Error(errorMessage))
+            }
+        } catch (e: Exception) {
+            Log.e("UpdateStudyMember", "Exception: ${e.message}")
+            emit(Result.Error("Terjadi kesalahan: ${e.message}"))
+        }
+    }
 }

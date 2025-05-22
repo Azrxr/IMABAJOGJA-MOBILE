@@ -273,6 +273,7 @@ class AdmProgramStudyActivity : AppCompatActivity() {
                 is Result.Error -> {
                     binding.progressBar.visibility = View.GONE
                     Toast.makeText(this, "Gagal memuat program studi", Toast.LENGTH_SHORT).show()
+                    Log.d("program_stidy", "gagal memuat programStudy, data = ${result.message}")
                 }
             }
         }

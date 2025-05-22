@@ -55,7 +55,7 @@
     <string name="study">Study</string>
     <string name="profile">Profile</string>
     <string name="search_hint">Cari Anggota</string>
-    <string name="title_member">Daftar Anggota</string>
+    <string name="title_member">👥 Daftar Anggota</string>
     <string name="name_example">Spongebob Squarepants</string>
     <string name="email_example">email@example.com</string>
     <string name="number_example">+62 812-3456-7890</string>
@@ -126,4 +126,18 @@
     <string name="template">Template</string>
     <string name="desk_perguruan_tinggi">Menampilkan semua perguruan tinggi beserta program studi se Yogyakarta</string>
     <string name="title_program_studi">Program Studi</string>
+    <string name="desc_dokument_organisasi">Semua dokumen penting organisasi ada di sini. Silakan cek ya!</string>
+    <string name="welcome">👋 Selamat datang di Imaba Jogja!</string>
+    <string name="desk_welcome">Hai! Siap kelola rencana studimu dan tetap terhubung dengan organisasi? Semuanya ada di sini!</string>
+    <string name="desk_welcome_admin">Dashboard ini bantu kamu kelola anggota, dokumen, dan program studi dengan lebih mudah.</string>
+    <string name="desk_member">ILihat siapa aja anggota Imaba Jogja yang terdaftar. Kamu bisa kenalan, cari teman satu kampus, atau cek data anggota lainnya di sini!</string>
+    <string name="desc_plan">Kelola rencana studimu di sini! Kamu bisa menambahkan maksimal 2 kampus dan maksimal 2 program studi untuk setiap kampus.</string>
+    <string name="foto_rumah">Foto Rumah</string>
+    <string name="desc_dock">Upload dokumen persyaratan pendaftaran kampus kamu di sini. Pastikan file yang dikirim sesuai dengan ketentuan</string>
+    <string name="desc_home_photo">Unggah foto beberapa bagian rumah kamu untuk keperluan verifikasi. Pastikan foto jelas dan tidak blur, ya!</string>
+    <string name="studi_saat_ini">Studi saat ini</string>
+    <string name="persyartan">Persyartan</string>
+    <string name="progres_dock">24/24</string>
+    <string name="tambah_anggota">Tambah Anggota</string>
+    <string name="export_anggota">Export Anggota</string>
 </resources>

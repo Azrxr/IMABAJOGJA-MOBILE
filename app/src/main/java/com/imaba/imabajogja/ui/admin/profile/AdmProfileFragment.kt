@@ -27,6 +27,7 @@ import com.imaba.imabajogja.data.utils.showToast
 import com.imaba.imabajogja.data.utils.uriToFile
 import com.imaba.imabajogja.databinding.FragmentAdmProfileBinding
 import com.imaba.imabajogja.databinding.FragmentProfileBinding
+import com.imaba.imabajogja.ui.AboutActivity
 import com.imaba.imabajogja.ui.MainViewModel
 import com.imaba.imabajogja.ui.authentication.AdmUpdatePasswordActivity
 import com.imaba.imabajogja.ui.authentication.UpdatePasswordActivity
@@ -104,6 +105,9 @@ class AdmProfileFragment : Fragment() {
         }
         binding.btnChangePassword.setOnClickListener {
             startActivity(Intent(requireContext(), AdmUpdatePasswordActivity::class.java))
+        }
+        binding.btnAbout.setOnClickListener {
+            startActivity(Intent(requireContext(), AboutActivity::class.java))
         }
         editProfile()
         pickImageFromGallery()

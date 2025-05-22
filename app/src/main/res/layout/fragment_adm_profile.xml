@@ -36,15 +36,26 @@
     <TextView
         android:id="@+id/tvTitle"
         style="@style/textHeaderM_bold"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:padding="8dp"
         android:text="@string/profile"
         android:textAlignment="center"
         android:textColor="?attr/colorOnPrimary"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/btnAbout"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/view2" />
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageButton
+        android:id="@+id/btnAbout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:contentDescription="@string/about"
+        android:src="@drawable/ic_about"
+        app:layout_constraintBottom_toBottomOf="@+id/tvTitle"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tvTitle" />
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView2"
@@ -180,6 +191,7 @@
 
                         <TextView
                             android:id="@+id/btnEdit"
+                            android:background="?attr/selectableItemBackground"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:paddingEnd="8dp"
@@ -337,6 +349,7 @@
             </androidx.cardview.widget.CardView>
 
             <Button
+                android:textAllCaps="false"
                 android:id="@+id/btnChangePassword"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -346,13 +359,14 @@
                 android:text="@string/title_ganti_password"/>
 
             <Button
+                android:textAllCaps="false"
                 android:id="@+id/btnLogout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="4dp"
                 android:layout_marginEnd="16dp"
-                android:text="Keluar"/>
+                android:text="@string/log_out"/>
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 

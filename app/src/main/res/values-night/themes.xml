@@ -22,7 +22,7 @@
         <item name="colorError">@color/errorColor_dark</item>
 
         <!-- 🧱 Status & Navigasi -->
-        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:statusBarColor">@color/maroon_primary_dark</item>
         <item name="android:windowTranslucentStatus">true</item>
         <item name="android:navigationBarColor">@android:color/darker_gray</item>
         <!-- Jika ingin status bar icon terang -->
@@ -66,6 +66,14 @@
         <item name="android:textColor">@color/textColorPrimary_dark</item>
         <item name="android:fontFamily">@font/poppins_regular</item>
 
+    </style>
+
+    <style name="Widget.Custom.SearchView" parent="Widget.AppCompat.SearchView">
+        <item name="android:background">@drawable/bg_searchview</item>
+        <item name="queryHint">@string/search_hint</item>
+        <item name="android:textColorHint">@color/maroon_on_primary_dark</item>
+        <item name="android:textColor">@color/maroon_on_primary_dark</item>
+        <item name="iconifiedByDefault">false</item>
     </style>
 
 

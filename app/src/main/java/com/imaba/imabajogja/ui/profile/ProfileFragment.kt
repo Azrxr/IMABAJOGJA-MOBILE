@@ -91,6 +91,9 @@ class ProfileFragment : Fragment() {
         binding.btnChangePassword.setOnClickListener {
             startActivity(Intent(requireContext(), UpdatePasswordActivity::class.java))
         }
+        binding.btnAbout.setOnClickListener {
+            startActivity(Intent(requireContext(), AboutActivity::class.java))
+        }
     }
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)

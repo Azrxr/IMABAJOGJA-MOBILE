@@ -30,6 +30,7 @@ import com.imaba.imabajogja.data.utils.uriToFilePdf
 import com.imaba.imabajogja.databinding.ActivityAdmStudyDetailBinding
 import com.imaba.imabajogja.ui.admin.member.AdmMemberDetailActivity
 import com.imaba.imabajogja.ui.campus.CampuseViewModel
+import com.imaba.imabajogja.ui.campus.DialogStudyCurrent
 import com.imaba.imabajogja.ui.campus.DocumentAdapter
 import com.imaba.imabajogja.ui.campus.HomePhotoAdapter
 import dagger.hilt.android.AndroidEntryPoint
@@ -73,6 +74,7 @@ class AdmStudyDetailActivity : AppCompatActivity() {
                 startActivity(this)
             }
         }
+        updateStudyMember()
     }
 
     private fun showMemberDetail() {
@@ -93,6 +95,16 @@ class AdmStudyDetailActivity : AppCompatActivity() {
         }
     }
 
+    private fun updateStudyMember(){
+        binding.btnEditCurrentStudy.setOnClickListener {
+            val dialog = DialogStudyCurrent.newInstanceForAdmin(memberId ?: 0)
+            dialog.onSuccessListener = {
+                getMemberDetail(memberId ?: 0)
+            }
+            dialog.show(supportFragmentManager, "DialogStudyCurrent")
+
+        }
+    }
     private fun getMemberDetail(memberId: Int) {
         viewModel.getMemberDetail(memberId).observe(this) { result ->
             when (result) {

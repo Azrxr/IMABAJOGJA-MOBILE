@@ -6,14 +6,17 @@ import android.util.Log
 import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import com.imaba.imabajogja.data.utils.Result
 import com.imaba.imabajogja.data.utils.showToast
 import com.imaba.imabajogja.databinding.DialogCurrentStudyBinding
+import com.imaba.imabajogja.ui.admin.campuse.AdmCampuseViewModel
 import com.imaba.imabajogja.ui.admin.campuse.DialogStudyPlanAdd
 import dagger.hilt.android.AndroidEntryPoint
+import kotlin.invoke
 
 @AndroidEntryPoint
 class DialogStudyCurrent : DialogFragment(){
@@ -21,6 +24,7 @@ class DialogStudyCurrent : DialogFragment(){
     private var _binding: DialogCurrentStudyBinding? = null
     private val binding get() = _binding!!
     private val viewModel: CampuseViewModel by viewModels()
+    private val admViewModel: AdmCampuseViewModel by viewModels()
 
     private lateinit var universityAdapter: ArrayAdapter<String>
     private lateinit var facultyAdapter: ArrayAdapter<String>
@@ -75,25 +79,54 @@ class DialogStudyCurrent : DialogFragment(){
                 }
 
                 // ✅ Panggil update
-                viewModel.updateStudyMember(
-                    selectedUniversityId ?: 0,
-                    selectedFacultyId ?: 0,
-                    selectedProgramStudyId ?: 0
-                ).observe(this) { result ->
-                    when (result) {
-                        is Result.Loading -> {
-                            binding.progressBar.visibility = View.VISIBLE
-                            showToast("Memproses...")
+                val mode = arguments?.getString(ARG_MODE)
+                if (mode == "ADMIN") {
+                    admViewModel.updateStudyMember(
+                        memberId,
+                        selectedUniversityId ?: 0,
+                        selectedFacultyId ?: 0,
+                        selectedProgramStudyId ?: 0
+                    ).observe(this) { result ->
+                        when (result) {
+                            is Result.Loading -> {
+                                binding.progressBar.visibility = View.VISIBLE
+                                showToast("Memproses...")
+                            }
+                            is Result.Success -> {
+                                binding.progressBar.visibility = View.GONE
+                                showToast("Rencana studi berhasil diperbarui!")
+                                onSuccessListener?.invoke()
+                                dismiss()
+                            }
+                            is Result.Error -> {
+                                binding.progressBar.visibility = View.GONE
+                                showToast("Gagal: ${result.message}")
+                            }
                         }
-                        is Result.Success -> {
-                            binding.progressBar.visibility = View.GONE
-                            showToast("Rencana studi berhasil diperbarui!")
-                            onSuccessListener?.invoke() // notifikasi ke fragment pemanggil
-                            dismiss()
-                        }
-                        is Result.Error -> {
-                            binding.progressBar.visibility = View.GONE
-                            showToast("Gagal: ${result.message}")
+                    }
+                } else {
+                    viewModel.updateStudyMember(
+                        selectedUniversityId ?: 0,
+                        selectedFacultyId ?: 0,
+                        selectedProgramStudyId ?: 0
+                    ).observe(this) { result ->
+                        when (result) {
+                            is Result.Loading -> {
+                                binding.progressBar.visibility = View.VISIBLE
+                                showToast("Memproses...")
+                            }
+
+                            is Result.Success -> {
+                                binding.progressBar.visibility = View.GONE
+                                showToast("Rencana studi berhasil diperbarui!")
+                                onSuccessListener?.invoke() // notifikasi ke fragment pemanggil
+                                dismiss()
+                            }
+
+                            is Result.Error -> {
+                                binding.progressBar.visibility = View.GONE
+                                showToast("Gagal: ${result.message}")
+                            }
                         }
                     }
                 }

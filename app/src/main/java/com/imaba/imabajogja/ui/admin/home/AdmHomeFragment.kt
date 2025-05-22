@@ -186,34 +186,42 @@ class AdmHomeFragment : Fragment() {
             R.string.address_placeholder.toString()
         )
 
-        val adapter = AdmFileAdapter(
-            files = homeResponse.data.files ?: emptyList(),
-            onItemClicked = { file -> openPdf(file.fileUrl) },
-            onDeleteClicked = { file ->
-                viewModel.deleteDocumentOrganization(file.id).observe(viewLifecycleOwner) {
-                    when (it) {
-                        is Result.Loading -> showLoading(binding.progressIndicator, true)
-                        is Result.Success -> {
-                            showLoading(binding.progressIndicator, false)
-                            requireContext().showToast("File berhasil dihapus")
-                            getHomeData()
-                        }
+        val files = homeResponse.data.files ?: emptyList()
+        if (files.isEmpty()){
+            binding.listEmpty.visibility = View.VISIBLE
+            binding.recyclerViewDocuments.visibility = View.GONE
+        } else {
+            binding.listEmpty.visibility = View.GONE
+            binding.recyclerViewDocuments.visibility = View.VISIBLE
 
-                        is Result.Error -> {
-                            showLoading(binding.progressIndicator, false)
-                            requireContext().showToast("Gagal menghapus file: ${it.message}")
+            val adapter = AdmFileAdapter(
+                files = homeResponse.data.files ?: emptyList(),
+                onItemClicked = { file -> openPdf(file.fileUrl) },
+                onDeleteClicked = { file ->
+                    viewModel.deleteDocumentOrganization(file.id).observe(viewLifecycleOwner) {
+                        when (it) {
+                            is Result.Loading -> showLoading(binding.progressIndicator, true)
+                            is Result.Success -> {
+                                showLoading(binding.progressIndicator, false)
+                                requireContext().showToast("File berhasil dihapus")
+                                getHomeData()
+                            }
+
+                            is Result.Error -> {
+                                showLoading(binding.progressIndicator, false)
+                                requireContext().showToast("Gagal menghapus file: ${it.message}")
+                            }
                         }
                     }
-                }
-            },
-            isDeleteVisible = true // 🔥 Tampilkan tombol delete
-        )
+                },
+                isDeleteVisible = true // 🔥 Tampilkan tombol delete
+            )
 
-        binding.recyclerViewDocuments.apply {
-            layoutManager = LinearLayoutManager(requireContext())
-            this.adapter = adapter
+            binding.recyclerViewDocuments.apply {
+                layoutManager = LinearLayoutManager(requireContext())
+                this.adapter = adapter
+            }
         }
-
     }
 
     private fun openPdf(fileUrl: String) {

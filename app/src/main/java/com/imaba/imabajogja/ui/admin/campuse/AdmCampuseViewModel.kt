@@ -1,5 +1,6 @@
 package com.imaba.imabajogja.ui.admin.campuse
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import com.imaba.imabajogja.data.repository.AdminRepository
@@ -55,6 +56,11 @@ class AdmCampuseViewModel @Inject constructor(private val repository: AdminRepos
         file: File,
     ): LiveData<Result<ProgramStudyImportResponse>> {
         return repository.importProgramStudy(file)
+    }
+
+    fun updateStudyMember(memberId: Int, universityId: Int, facultyId: Int ?=null, programStudyId: Int): LiveData<Result<SuccesResponse>> {
+        Log.d("ViewModel", "Memanggil updateStudyMember() dengan universityId=$universityId, facultyId=$facultyId, programStudyId=$programStudyId")
+        return repository.updateStudyMemberAdm(memberId, universityId, facultyId, programStudyId)
     }
 
 }

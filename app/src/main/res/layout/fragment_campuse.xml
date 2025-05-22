@@ -54,7 +54,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:text="Studi saat ini"
+        android:text="@string/studi_saat_ini"
         android:textColor="?attr/colorOnPrimary"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView6" />
@@ -83,6 +83,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
         android:text="@string/edit"
+        android:background="?attr/selectableItemBackground"
         android:textColor="?attr/colorOnPrimary"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/titleStudyCurrent" />
@@ -151,7 +152,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:text="Program Studi"
+        android:text="@string/empty"
         android:textColor="?attr/colorOnPrimary"
         app:layout_constraintBottom_toBottomOf="@+id/ivStudyCurrent"
         app:layout_constraintStart_toStartOf="@+id/guideline3" />
@@ -161,6 +162,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
+        android:background="?attr/selectableItemBackground"
         android:text="@string/delete"
         android:textColor="?attr/colorOnPrimary"
         app:layout_constraintBottom_toBottomOf="@+id/btnEditCurrentStudy"
@@ -198,9 +200,17 @@
                     android:layout_height="match_parent"
                     android:padding="16dp">
 
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="0.3dp"
+                        android:background="?attr/colorOnSurface"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/textView7" />
+
                     <TextView
                         android:id="@+id/textView7"
-                        style="@style/textBodyM_bold"
+                        style="@style/textBodyL_bold"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/title_rencana_studi"
@@ -208,6 +218,7 @@
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
+                        android:background="?attr/selectableItemBackground"
                         android:id="@+id/btnEdit"
                         style="@style/ShapeAppearanceOverlay.Material3.Button"
                         android:layout_width="wrap_content"
@@ -218,6 +229,7 @@
 
                     <TextView
                         android:id="@+id/btnAdd"
+                        android:background="?attr/selectableItemBackground"
                         style="@style/ShapeAppearanceOverlay.Material3.Button"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -229,6 +241,7 @@
 
                     <TextView
                         android:id="@+id/btnCancel"
+                        android:background="?attr/selectableItemBackground"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="16dp"
@@ -237,6 +250,27 @@
                         android:visibility="gone"
                         app:layout_constraintEnd_toStartOf="@+id/btnAdd"
                         app:layout_constraintTop_toTopOf="@+id/textView7" />
+
+                    <View
+                        android:id="@+id/view3"
+                        android:layout_width="match_parent"
+                        android:layout_height="0.3dp"
+                        android:background="?attr/colorOnSurface"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/textView7" />
+
+                    <TextView
+                        android:id="@+id/tvDescPlan"
+                        style="@style/textBodyM"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="@string/desc_plan"
+                        android:textAlignment="textStart"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/textView7" />
 
                     <TextView
                         android:id="@+id/tvEmptyPlans"
@@ -251,7 +285,7 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/textView7" />
+                        app:layout_constraintTop_toBottomOf="@+id/tvDescPlan" />
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/rvStudyPlans"
@@ -263,7 +297,7 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/textView7"
+                        app:layout_constraintTop_toBottomOf="@+id/tvDescPlan"
                         tools:listitem="@layout/item_study_plans" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
@@ -288,11 +322,11 @@
 
                     <TextView
                         android:id="@+id/tvTitlePersyaratan"
-                        style="@style/textBodyM_bold"
+                        style="@style/textBodyL_bold"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
-                        android:text="Persyartan"
+                        android:text="@string/persyartan"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -303,7 +337,7 @@
                         android:layout_height="wrap_content"
                         android:background="@drawable/bg_rounded10"
                         android:padding="4dp"
-                        android:text="Status"
+                        android:text="@string/status"
                         android:textColor="?attr/colorOnPrimary"
                         app:layout_constraintBottom_toBottomOf="@+id/tvTitlePersyaratan"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -326,13 +360,33 @@
                         android:layout_marginStart="8dp"
                         android:background="@drawable/bg_rounded10"
                         android:padding="4dp"
-                        android:text="24/24"
+                        android:text="@string/progres_dock"
                         android:textAlignment="center"
                         android:textColor="?attr/colorOnPrimary"
                         app:layout_constraintBottom_toBottomOf="@+id/tvProgress"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@+id/tvProgress"
                         app:layout_constraintTop_toTopOf="@+id/tvProgress" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="0.3dp"
+                        android:layout_marginTop="2dp"
+                        android:background="?attr/colorOnSurface"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/tvProgress" />
+
+                    <TextView
+                        style="@style/textBodyM"
+                        android:id="@+id/tvDescDoc"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="@string/desc_dock"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/tvProgressDoc" />
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/rvDocuments"
@@ -341,18 +395,27 @@
                         android:layout_marginTop="8dp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/tvProgress"
+                        app:layout_constraintTop_toBottomOf="@+id/tvDescDoc"
                         tools:listitem="@layout/item_document_minimal" />
 
                     <TextView
                         android:id="@+id/tvTitleFotoRumah"
-                        style="@style/textBodyM_bold"
+                        style="@style/textBodyL_bold"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
-                        android:text="Foto Rumah"
+                        android:text="@string/foto_rumah"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/rvDocuments" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="0.3dp"
+                        android:layout_marginTop="2dp"
+                        android:background="?attr/colorOnSurface"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/tvTitleFotoRumah" />
 
                     <ImageButton
                         android:id="@+id/btnAddHomePhoto"
@@ -367,6 +430,17 @@
                         app:layout_constraintTop_toTopOf="@+id/tvTitleFotoRumah" />
 
                     <TextView
+                        style="@style/textBodyM"
+                        android:id="@+id/tvDescPhotoHome"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="@string/desc_home_photo"
+                        app:layout_constraintTop_toBottomOf="@+id/tvTitleFotoRumah"
+                        tools:layout_editor_absoluteX="16dp" />
+
+
+                    <TextView
                         android:id="@+id/tvEmptyHomePhoto"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -379,7 +453,7 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="@+id/btnAddHomePhoto"
                         app:layout_constraintStart_toStartOf="@+id/tvTitleFotoRumah"
-                        app:layout_constraintTop_toBottomOf="@+id/tvTitleFotoRumah" />
+                        app:layout_constraintTop_toBottomOf="@+id/tvDescPhotoHome" />
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/rvHomePhoto"
@@ -389,7 +463,7 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="@+id/btnAddHomePhoto"
                         app:layout_constraintStart_toStartOf="@+id/tvTitleFotoRumah"
-                        app:layout_constraintTop_toBottomOf="@+id/tvTitleFotoRumah"
+                        app:layout_constraintTop_toBottomOf="@+id/tvDescPhotoHome"
                         tools:listitem="@layout/item_photo" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>

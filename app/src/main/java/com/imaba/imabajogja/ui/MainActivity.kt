@@ -42,21 +42,8 @@ class MainActivity : AppCompatActivity() {
 //        }
         WindowCompat.setDecorFitsSystemWindows(window, false)
         bottomNavMenu()
-        applySystemBarColor()
     }
 
-    private fun applySystemBarColor() {
-        val colorPrimary = ContextCompat.getColor(this, R.color.maroon_primary)
-
-        window.statusBarColor = colorPrimary
-        window.navigationBarColor = colorPrimary
-
-        // Untuk memastikan icon di status bar tetap terbaca:
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            window.decorView.systemUiVisibility = 0 // icon terang (putih)
-            // gunakan View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR jika latar cerah
-        }
-    }
 
     private fun bottomNavMenu() {
         viewModel.getSession().observe(this) { user ->

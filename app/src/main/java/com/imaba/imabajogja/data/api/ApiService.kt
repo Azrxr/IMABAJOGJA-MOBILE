@@ -318,6 +318,15 @@ interface ApiService {
         @Field("program_study_id") programStudyId: Int
     ): Response<SuccesResponse>
 
+    @FormUrlEncoded
+    @POST("admin/study/updateStudyMember/{memberId}")
+    suspend fun updateStudyMemberAdm(
+        @Path("memberId") memberId: Int,
+        @Field("university_id") universityId: Int,
+        @Field("faculty_id") facultyId: Int ?= null,
+        @Field("program_study_id") programStudyId: Int
+    ): Response<SuccesResponse>
+
     @DELETE("member/deleteStudyMember")
     suspend fun deleteStudyMember(): Response<SuccesResponse>
 

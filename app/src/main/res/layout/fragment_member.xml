@@ -47,9 +47,9 @@
 
     <ImageButton
         android:id="@+id/btnFilter"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="14dp"
+        android:layout_width="42dp"
+        android:layout_height="42dp"
+        android:layout_marginEnd="16dp"
         android:background="?attr/selectableItemBackgroundBorderless"
         android:contentDescription="@string/profile"
         android:src="@drawable/ic_filter_off"
@@ -64,35 +64,37 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
-        android:textColor="?attr/colorOnPrimary"
+        android:layout_marginBottom="8dp"
         android:text="@string/title_member"
-        app:layout_constraintBottom_toTopOf="@+id/guideline"
+        android:textColor="?attr/colorOnPrimary"
+        app:layout_constraintBottom_toTopOf="@+id/textView2"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/searchBar" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/textView2"
-        style="@style/textHeaderS_bold"
+        style="@style/textBodyL_bold"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
-        android:text="IMABA Jogja"
+        android:layout_marginBottom="16dp"
+        android:text="@string/desk_member"
         android:textColor="?attr/colorOnPrimary"
+        app:layout_constraintBottom_toTopOf="@+id/guideline"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/tvEmpty"
-        style="@style/textBodyL_bold"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Tidak ada Members"
-        android:textAlignment="center"
+        android:layout_margin="32dp"
+        android:text="@string/empty_desk"
+        android:textColor="?attr/colorOnSurface"
         android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:drawableTint="?attr/colorOnSurface"
+        app:drawableTopCompat="@drawable/image_empty"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/guideline" />
@@ -112,6 +114,7 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvMemberList"
             android:clipToPadding="false"
+            android:scrollbars="vertical"
             android:padding="0dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

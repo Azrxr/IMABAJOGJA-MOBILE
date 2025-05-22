@@ -68,7 +68,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:background="@drawable/bg_rounded10"
-            android:textColor="?attr/colorSurface"
+            android:textColor="?attr/colorOnPrimary"
             android:padding="4dp"
             android:text="rencana"
             card_view:layout_constraintBottom_toBottomOf="@+id/tvStudy"
@@ -127,9 +127,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
+            android:layout_marginBottom="4dp"
             android:text="Progres: "
             card_view:layout_constraintBottom_toBottomOf="parent"
-            card_view:layout_constraintStart_toEndOf="@+id/circularRevealCardView" />
+            card_view:layout_constraintStart_toEndOf="@+id/circularRevealCardView"
+            card_view:layout_constraintTop_toBottomOf="@+id/rvUniversity" />
 
         <TextView
             android:id="@+id/rvProgressDoc"
@@ -138,9 +140,9 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
             android:background="@drawable/bg_rounded10"
-            android:textColor="?attr/colorSurface"
+            android:textColor="?attr/colorOnPrimary"
             android:textAlignment="center"
-            android:padding="4dp"
+            android:padding="2dp"
             android:text="24/24"
             card_view:layout_constraintBottom_toBottomOf="@+id/tvProgress"
             card_view:layout_constraintEnd_toEndOf="parent"

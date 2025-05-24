@@ -1,27 +1,271 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
-    android:padding="16dp"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_margin="16dp"
     tools:context=".ui.AboutActivity">
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline5"
+        android:id="@+id/guideline"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintGuide_percent="0.30" />
 
-    <ImageView
-        android:layout_width="200dp"
-        android:layout_height="200dp"
-        android:contentDescription="@string/logo"
-        android:src="@drawable/logo"
-        app:layout_constraintBottom_toTopOf="@+id/guideline5"
+    <com.google.android.material.circularreveal.cardview.CircularRevealCardView
+        android:id="@+id/circularRevealCardView"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:backgroundTint="?attr/colorPrimary"
+        android:contentDescription="profile image"
+        android:layout_marginTop="16dp"
+        app:cardCornerRadius="20dp"
+        app:cardElevation="4dp"
+        app:contentPadding="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/guideline"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/rv_image"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:contentDescription="profile image"
+            android:scaleType="centerCrop"
+            android:src="@drawable/logo" />
+    </com.google.android.material.circularreveal.cardview.CircularRevealCardView>
+
+    <!-- activity_about.xml -->
+
+    <TextView
+        android:id="@+id/textView11"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:background="?attr/selectableItemBackground"
+        android:clickable="true"
+        android:focusable="true"
+        android:gravity="center"
+        android:text="IMABA Jogja"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/circularRevealCardView"
+        app:layout_constraintStart_toStartOf="@+id/circularRevealCardView"
+        app:layout_constraintTop_toBottomOf="@+id/circularRevealCardView" />
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:scrollbars="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView11">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <!-- App Info -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/materialCardView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Tentang Aplikasi"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tvVersion"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Versi: 1.0.0" />
+
+                    <!-- Tambahkan info lain -->
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardContribution"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp">
+
+                <LinearLayout
+                    android:id="@+id/linearLayout2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+                    <!-- Team -->
+                    <TextView
+                        android:id="@+id/textView12"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Pengembang"
+                        android:textStyle="bold" />
+
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <com.google.android.material.circularreveal.cardview.CircularRevealCardView
+                            android:id="@+id/cardProfile"
+                            android:layout_width="60dp"
+                            android:layout_height="60dp"
+                            android:contentDescription="profile image"
+                            app:cardCornerRadius="100dp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <ImageView
+                                android:id="@+id/ivProfile"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:background="?attr/colorPrimary"
+                                android:contentDescription="profile image"
+                                android:scaleType="centerCrop"
+                                android:src="@drawable/ic_user" />
+
+                        </com.google.android.material.circularreveal.cardview.CircularRevealCardView>
+
+                        <TextView
+                            android:id="@+id/nameProfile"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:text="Moh Asrori"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@+id/cardProfile"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:id="@+id/textView13"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:text="IMABA Jogja 2021"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="@+id/nameProfile"
+                            app:layout_constraintTop_toBottomOf="@+id/nameProfile" />
+
+                        <TextView
+                            android:id="@+id/tvLinkedIn"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="?attr/selectableItemBackground"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:autoLink="web"
+                            android:textColor="?attr/colorPrimary"
+                            android:text="LinkedIn"
+                            app:drawableStartCompat="@drawable/ic_lingkedin"
+                            app:layout_constraintStart_toStartOf="@+id/textView13"
+                            app:layout_constraintTop_toBottomOf="@+id/textView13" />
+
+                        <TextView
+                            android:id="@+id/tvGithub"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            android:background="?attr/selectableItemBackground"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:autoLink="web"
+                            android:textColor="?attr/colorPrimary"
+                            android:drawableStart="@drawable/ic_github"
+                            android:text="GitHub"
+                            app:layout_constraintStart_toEndOf="@+id/tvLinkedIn"
+                            app:layout_constraintTop_toTopOf="@+id/tvLinkedIn" />
+
+                        <TextView
+                            android:id="@+id/tvEmail"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            android:background="?attr/selectableItemBackground"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:autoLink="email"
+                            android:textColor="?attr/colorPrimary"
+                            android:drawableStart="@drawable/ic_email3"
+                            android:text="Email"
+                            app:layout_constraintStart_toEndOf="@+id/tvGithub"
+                            app:layout_constraintTop_toTopOf="@+id/tvGithub" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+
+            <!-- Open Source CTA -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardSource"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                app:layout_constraintTop_toBottomOf="parent">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Berkontribusi"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="💡 Punya ide keren atau jago coding?" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="4dp"
+                        android:text="Yuk ikut bareng-bareng kembangkan aplikasi Imaba Jogja ke versi web dan iOS!
+Kontribusimu bakal bantu seluruh anggota makin mudah akses informasi dan layanan." />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="Kunjungi repositori GitHub kami untuk mulai berkontribusi:" />
+
+                    <Button
+                        android:id="@+id/btnGithubAndroid"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:textAllCaps="false"
+                        android:text="Android" />
+                    <Button
+                        android:id="@+id/btnGithubWebService"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textAllCaps="false"
+                        android:text="Web Service" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

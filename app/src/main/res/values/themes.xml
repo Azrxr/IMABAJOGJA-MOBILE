@@ -35,6 +35,10 @@
 
     <style name="Theme.IMABAJogja" parent="Theme.MyApp" />
 
+    <style name="Theme.IMABAJogja.Splash" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowBackground">@color/maroon_primary</item>
+    </style>
+
     <!-- Text Style. -->
     <style name="textHeaderL_bold">
         <item name="android:layout_width">wrap_content</item>

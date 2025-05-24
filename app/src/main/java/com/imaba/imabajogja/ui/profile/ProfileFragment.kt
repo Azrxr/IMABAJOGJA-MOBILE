@@ -16,6 +16,7 @@ import com.imaba.imabajogja.data.response.ProfileUser
 import com.imaba.imabajogja.data.utils.Result
 import com.imaba.imabajogja.data.utils.showToast
 import com.imaba.imabajogja.databinding.FragmentProfileBinding
+import com.imaba.imabajogja.ui.AboutActivity
 import com.imaba.imabajogja.ui.MainViewModel
 import com.imaba.imabajogja.ui.authentication.UpdatePasswordActivity
 import com.imaba.imabajogja.ui.welcome.WelcomeActivity

@@ -7,6 +7,7 @@
         <item name="colorOnPrimary">@color/maroon_on_primary_dark</item>
         <item name="colorSecondary">@color/maroon_secondary_dark</item>
         <item name="colorOnSecondary">@color/maroon_on_primary_dark</item>
+        <item name="windowActionBar">@color/maroon_primary_dark</item>
 
         <!-- 🎨 Latar & Permukaan -->
         <item name="android:colorBackground">@color/backgroundColor_dark</item>

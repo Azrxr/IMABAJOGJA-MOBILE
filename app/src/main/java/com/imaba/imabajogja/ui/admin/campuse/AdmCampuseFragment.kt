@@ -30,8 +30,8 @@ import kotlinx.coroutines.launch
 class AdmCampuseFragment : Fragment() {
 
     private lateinit var binding: FragmentAdmCampuseBinding
-    private val viewModel : AdmCampuseViewModel by viewModels()
-    private val memberViewModel : AdmMemberViewModel by viewModels()
+    private val viewModel: AdmCampuseViewModel by viewModels()
+    private val memberViewModel: AdmMemberViewModel by viewModels()
     private lateinit var adapter: AdmStudyAdapter
 
     companion object {
@@ -58,7 +58,7 @@ class AdmCampuseFragment : Fragment() {
         setup()
     }
 
-    private fun setup(){
+    private fun setup() {
         setupSearch()
         setupFilterButton()
         setupListStudyMember()
@@ -66,6 +66,7 @@ class AdmCampuseFragment : Fragment() {
     }
 
 
+    @SuppressLint("SetTextI18n")
     private fun getMemberSummary() {
         memberViewModel.getMemberSummary().observe(viewLifecycleOwner) { result ->
             when (result) {
@@ -76,39 +77,43 @@ class AdmCampuseFragment : Fragment() {
                     binding.tvStatusAccepted.text = "Diterima : ${data.totalPlanAccepted}"
                     binding.tvStatusRejected.text = "Ditolak : ${data.totalPlanRejected}"
                     binding.tvStatusActive.text = "Aktif : ${data.totalPlanActive}"
-                    binding.tvStatusTotalUnivSelect.text = "Total perguruan tinggi dipilih : ${data.totalUnivPlanSelect}"
+                    binding.tvStatusTotalUnivSelect.text =
+                        "Total perguruan tinggi dipilih : ${data.totalUnivPlanSelect}"
 
-                    // klik untuk filter
+
                     binding.tvTotalMember.setOnClickListener {
                         clearMemberTypeAndRefresh()
                     }
+                    /* TODO: filter study plan belum berfungsi
 
-                    binding.tvStatusPending.setOnClickListener {
-                        memberViewModel.clearMemberTypeFilters()
-                        memberViewModel.addMemberTypeFilter("Anggota") // pastikan sesuai nama dari API
-                        adapter.refresh()
-                    }
+                                        binding.tvStatusPending.setOnClickListener {
+                                            viewModel.clearPlanStatusFilter()
+                                            viewModel.setPlanStatusFilter("Pending") // pastikan sesuai nama dari API
+                                            adapter.refresh()
+                                        }
 
-                    binding.tvStatusAccepted.setOnClickListener {
-                        memberViewModel.clearMemberTypeFilters()
-                        memberViewModel.addMemberTypeFilter("Demissioner")
-                        adapter.refresh()
-                    }
-                    binding.tvStatusRejected.setOnClickListener {
-                        memberViewModel.clearMemberTypeFilters()
-                        memberViewModel.addMemberTypeFilter("Camaba")
-                        adapter.refresh()
-                    }
-                    binding.tvStatusActive.setOnClickListener {
-                        memberViewModel.clearMemberTypeFilters()
-                        memberViewModel.addMemberTypeFilter("Pengurus")
-                        adapter.refresh()
-                    }
-                    binding.tvStatusTotalUnivSelect.setOnClickListener {
-                        memberViewModel.clearMemberTypeFilters()
-                        memberViewModel.addMemberTypeFilter("Istimewa")
-                        adapter.refresh()
-                    }
+                                        binding.tvStatusAccepted.setOnClickListener {
+                                            viewModel.clearPlanStatusFilter()
+                                            viewModel.setPlanStatusFilter("Accepted") // pastikan sesuai nama dari API
+                                            adapter.refresh()
+                                        }
+                                        binding.tvStatusRejected.setOnClickListener {
+                                            viewModel.clearPlanStatusFilter()
+                                            viewModel.setPlanStatusFilter("Rejected") // pastikan sesuai nama dari API
+                                            adapter.refresh()
+                                        }
+                                        binding.tvStatusActive.setOnClickListener {
+                                            viewModel.clearPlanStatusFilter()
+                                            viewModel.setPlanStatusFilter("Active")
+                                            adapter.refresh()
+                                        }
+                                        binding.tvStatusTotalUnivSelect.setOnClickListener {
+                                            memberViewModel.clearMemberTypeFilters()
+                                            memberViewModel.addMemberTypeFilter("Istimewa")
+                                            adapter.refresh()
+                                        }
+
+                     */
 
                 }
 
@@ -118,11 +123,13 @@ class AdmCampuseFragment : Fragment() {
         }
 
     }
+
     private fun clearMemberTypeAndRefresh() {
         memberViewModel.clearMemberTypeFilters()
         adapter.refresh()
         requireContext().showToast("Menampilkan semua tipe member")
     }
+
     private fun setupListStudyMember() {
 
         adapter = AdmStudyAdapter(

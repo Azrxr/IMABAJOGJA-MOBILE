@@ -18,123 +18,120 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <View
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/view2"
         android:layout_width="0dp"
-        android:layout_height="160dp"
+        android:layout_height="wrap_content"
         android:background="@drawable/bg_top"
-        app:layout_constraintBottom_toTopOf="@+id/guideline4"
+        android:paddingBottom="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/progressBar" />
+        app:layout_constraintTop_toBottomOf="@id/progressBar" >
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.20" />
-
-    <TextView
-        android:id="@+id/textView6"
-        style="@style/textHeaderS_bold"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:textColor="?attr/colorOnPrimary"
-        android:padding="4dp"
-        android:text="@string/detail_studi"
-        android:textAlignment="center"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <com.google.android.material.circularreveal.cardview.CircularRevealCardView
-        android:id="@+id/circularRevealCardView"
-        android:layout_width="90dp"
-        android:layout_height="90dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginBottom="16dp"
-        android:contentDescription="profile image"
-        app:layout_constraintBottom_toBottomOf="@+id/view2"
-        android:backgroundTint="?attr/colorPrimary"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView6">
-
-        <ImageView
-            android:id="@+id/iv_image"
+        <TextView
+            android:id="@+id/textView6"
+            style="@style/textHeaderS_bold"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:textColor="?attr/colorOnPrimary"
+            android:padding="4dp"
+            android:text="@string/detail_studi"
+            android:textAlignment="center"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.circularreveal.cardview.CircularRevealCardView
+            android:id="@+id/circularRevealCardView"
+            android:layout_width="90dp"
+            android:layout_height="90dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginBottom="16dp"
             android:contentDescription="profile image"
-            android:scaleType="centerCrop"
-            android:src="@drawable/ic_user" />
-    </com.google.android.material.circularreveal.cardview.CircularRevealCardView>
+            app:layout_constraintBottom_toBottomOf="@+id/view2"
+            android:backgroundTint="?attr/colorPrimary"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView6">
 
-    <TextView
-        android:id="@+id/tvFullname"
-        style="@style/textBodyM_bold"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:textColor="?attr/colorOnPrimary"
-        android:text="@string/name_example"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/circularRevealCardView"
-        app:layout_constraintTop_toTopOf="@+id/circularRevealCardView" />
+            <ImageView
+                android:id="@+id/iv_image"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:contentDescription="profile image"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_user" />
+        </com.google.android.material.circularreveal.cardview.CircularRevealCardView>
 
-    <TextView
-        android:id="@+id/btnEditCurrentStudy"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="?attr/colorOnPrimary"
-        android:layout_marginEnd="16dp"
-        android:text="@string/edit"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView6" />
+        <TextView
+            android:id="@+id/tvFullname"
+            style="@style/textBodyM_bold"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:textColor="?attr/colorOnPrimary"
+            android:text="@string/name_example"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/circularRevealCardView"
+            app:layout_constraintTop_toTopOf="@+id/circularRevealCardView" />
 
-    <TextView
-        android:id="@+id/tvCurrentStudy"
-        style="@style/textBodyS"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:textColor="?attr/colorOnPrimary"
-        android:text="Studi Saat ini"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/tvFullname"
-        app:layout_constraintTop_toBottomOf="@+id/tvFullname" />
+        <TextView
+            android:id="@+id/btnEditCurrentStudy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="?attr/colorOnPrimary"
+            android:layout_marginEnd="16dp"
+            android:text="@string/edit"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView6" />
 
-    <TextView
-        android:id="@+id/tvUniversityCurrent"
-        style="@style/textBodyS_bold"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:textColor="?attr/colorOnPrimary"
-        android:text="Universitas"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/tvCurrentStudy"
-        app:layout_constraintTop_toBottomOf="@+id/tvCurrentStudy" />
+        <TextView
+            android:id="@+id/tvCurrentStudy"
+            style="@style/textBodyS"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textColor="?attr/colorOnPrimary"
+            android:text="Studi Saat ini"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/tvFullname"
+            app:layout_constraintTop_toBottomOf="@+id/tvFullname" />
 
-    <TextView
-        android:id="@+id/tvFacultyCurrent"
-        style="@style/textBodyS_bold"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:textColor="?attr/colorOnPrimary"
-        android:text="@string/fakultas"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/tvUniversityCurrent"
-        app:layout_constraintTop_toBottomOf="@+id/tvUniversityCurrent" />
+        <TextView
+            android:id="@+id/tvUniversityCurrent"
+            style="@style/textBodyS_bold"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textColor="?attr/colorOnPrimary"
+            android:text="Universitas"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/tvCurrentStudy"
+            app:layout_constraintTop_toBottomOf="@+id/tvCurrentStudy" />
 
-    <TextView
-        android:id="@+id/tvProgramCurrent"
-        style="@style/textBodyS_bold"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:textColor="?attr/colorOnPrimary"
-        android:text="Program Studi"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/tvFacultyCurrent"
-        app:layout_constraintTop_toBottomOf="@+id/tvFacultyCurrent" />
+        <TextView
+            android:id="@+id/tvFacultyCurrent"
+            style="@style/textBodyS_bold"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textColor="?attr/colorOnPrimary"
+            android:text="@string/fakultas"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/tvUniversityCurrent"
+            app:layout_constraintTop_toBottomOf="@+id/tvUniversityCurrent" />
+
+        <TextView
+            android:id="@+id/tvProgramCurrent"
+            style="@style/textBodyS_bold"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textColor="?attr/colorOnPrimary"
+            android:text="Program Studi"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/tvFacultyCurrent"
+            app:layout_constraintTop_toBottomOf="@+id/tvFacultyCurrent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/scrollableContent"
@@ -145,7 +142,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/guideline4">
+        app:layout_constraintTop_toBottomOf="@+id/view2">
 
         <LinearLayout
             android:layout_width="match_parent"

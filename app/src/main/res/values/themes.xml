@@ -35,7 +35,7 @@
 
     <style name="Theme.IMABAJogja" parent="Theme.MyApp" />
 
-    <style name="Theme.IMABAJogja.Splash" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="Theme.App.Starting" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="android:windowBackground">@color/maroon_primary</item>
     </style>
 

@@ -1,9 +1,11 @@
 package com.imaba.imabajogja.ui
 
 import android.content.Intent
+import android.content.res.Configuration
 import android.os.Build
 import android.os.Bundle
 import android.view.View
+import android.view.WindowManager
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -35,12 +37,41 @@ class MainActivity : AppCompatActivity() {
         enableEdgeToEdge()
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-//        ViewCompat.setOnApplyWindowInsetsListener(binding.root) { v, insets ->
-//            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-//            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-//            insets
-//        }
-        WindowCompat.setDecorFitsSystemWindows(window, false)
+
+        // Deteksi mode terang/gelap
+        val isDarkMode =
+            when (resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) {
+                Configuration.UI_MODE_NIGHT_YES -> true
+                else -> false
+            }
+
+// Ambil warna sesuai mode
+        val resolvedColor = ContextCompat.getColor(
+            this,
+            if (isDarkMode) R.color.maroon_primary_dark else R.color.maroon_primary
+        )
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            window.apply {
+                // Bersihkan flag transparan
+                clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+                // Aktifkan menggambar sistem bar
+                addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+
+                statusBarColor = resolvedColor
+                navigationBarColor = resolvedColor
+            }
+        }
+
+// Untuk Android M+ (ikon status bar terang/gelap)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            WindowCompat.getInsetsController(
+                window,
+                window.decorView
+            )?.isAppearanceLightStatusBars = !isDarkMode
+        }
+
+//        WindowCompat.setDecorFitsSystemWindows(window, false)
         bottomNavMenu()
     }
 

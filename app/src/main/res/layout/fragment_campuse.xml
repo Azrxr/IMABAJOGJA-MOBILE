@@ -16,157 +16,156 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <View
-        android:id="@+id/view2"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/viewTop"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:background="@drawable/bg_top"
-        app:layout_constraintBottom_toTopOf="@+id/guideline20"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/progressBar" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline20"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.27" />
-
-    <TextView
-        android:id="@+id/textView6"
-        style="@style/textHeaderS_bold"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:padding="4dp"
-        android:text="@string/detail_studi"
-        android:textAlignment="center"
-        android:textColor="?attr/colorOnPrimary"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/titleStudyCurrent"
-        style="@style/textBodyL_bold"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:text="@string/studi_saat_ini"
-        android:textColor="?attr/colorOnPrimary"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView6" />
-
-    <View
-        android:layout_width="0dp"
-        android:layout_height="0.3dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:background="?attr/colorOnPrimary"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/titleStudyCurrent" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:paddingBottom="8dp"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.10" />
-
-    <TextView
-        android:id="@+id/btnEditCurrentStudy"
-        style="@style/textBodyL_bold"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:text="@string/edit"
-        android:background="?attr/selectableItemBackground"
-        android:textColor="?attr/colorOnPrimary"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/titleStudyCurrent" />
-
-    <ImageView
-        android:id="@+id/ivUniversityCurrent"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginStart="16dp"
-        android:contentDescription="@string/perguruan_tinggi"
-        android:src="@drawable/ic_university2"
-        app:layout_constraintEnd_toStartOf="@+id/guideline3"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/titleStudyCurrent" />
+        app:layout_constraintTop_toBottomOf="@id/progressBar">
 
-    <TextView
-        android:id="@+id/tvUniversityCurrent"
-        style="@style/textBodyL"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:text="@string/perguruan_tinggi"
-        android:textColor="?attr/colorOnPrimary"
-        app:layout_constraintBottom_toBottomOf="@+id/ivUniversityCurrent"
-        app:layout_constraintStart_toStartOf="@+id/guideline3" />
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.10" />
 
-    <ImageView
-        android:id="@+id/ivFacultyCurrent"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:contentDescription="@string/perguruan_tinggi"
-        android:src="@drawable/ic_university2"
-        app:layout_constraintEnd_toStartOf="@+id/guideline3"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ivUniversityCurrent" />
+        <TextView
+            android:id="@+id/textView6"
+            style="@style/textHeaderS_bold"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="16dp"
+            android:padding="4dp"
+            android:text="@string/detail_studi"
+            android:textAlignment="center"
+            android:textColor="?attr/colorOnPrimary"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/tvFacultyCurrent"
-        style="@style/textBodyL"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:text="@string/fakultas"
-        android:textColor="?attr/colorOnPrimary"
-        app:layout_constraintBottom_toBottomOf="@+id/ivFacultyCurrent"
-        app:layout_constraintStart_toStartOf="@+id/guideline3" />
 
-    <ImageView
-        android:id="@+id/ivStudyCurrent"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:contentDescription="@string/perguruan_tinggi"
-        android:src="@drawable/ic_study2"
-        app:layout_constraintEnd_toStartOf="@+id/guideline3"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ivFacultyCurrent" />
+        <TextView
+            android:id="@+id/titleStudyCurrent"
+            style="@style/textBodyL_bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:text="@string/studi_saat_ini"
+            android:textColor="?attr/colorOnPrimary"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView6" />
 
-    <TextView
-        android:id="@+id/tvProgramCurrent"
-        style="@style/textBodyL"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:text="@string/empty"
-        android:textColor="?attr/colorOnPrimary"
-        app:layout_constraintBottom_toBottomOf="@+id/ivStudyCurrent"
-        app:layout_constraintStart_toStartOf="@+id/guideline3" />
+        <TextView
+            android:id="@+id/btnDeleteCurrentStudy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/textBodyL_bold"
+            android:layout_marginEnd="16dp"
+            android:background="?attr/selectableItemBackground"
+            android:text="@string/delete"
+            android:textColor="?attr/colorOnPrimary"
+            app:layout_constraintBottom_toBottomOf="@+id/btnEditCurrentStudy"
+            app:layout_constraintEnd_toStartOf="@+id/btnEditCurrentStudy" />
 
-    <TextView
-        android:id="@+id/btnDeleteCurrentStudy"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:background="?attr/selectableItemBackground"
-        android:text="@string/delete"
-        android:textColor="?attr/colorOnPrimary"
-        app:layout_constraintBottom_toBottomOf="@+id/btnEditCurrentStudy"
-        app:layout_constraintEnd_toStartOf="@+id/btnEditCurrentStudy" />
+        <TextView
+            android:id="@+id/btnEditCurrentStudy"
+            style="@style/textBodyL_bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:background="?attr/selectableItemBackground"
+            android:text="@string/edit"
+            android:textColor="?attr/colorOnPrimary"
+            app:layout_constraintBottom_toBottomOf="@+id/titleStudyCurrent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/titleStudyCurrent" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0.3dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:background="?attr/colorOnPrimary"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/titleStudyCurrent" />
+
+        <ImageView
+            android:id="@+id/ivUniversityCurrent"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:contentDescription="@string/perguruan_tinggi"
+            android:src="@drawable/ic_university2"
+            app:layout_constraintEnd_toStartOf="@+id/guideline3"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/titleStudyCurrent" />
+
+        <TextView
+            android:id="@+id/tvUniversityCurrent"
+            style="@style/textBodyL"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="@string/perguruan_tinggi"
+            android:textColor="?attr/colorOnPrimary"
+            app:layout_constraintBottom_toBottomOf="@+id/ivUniversityCurrent"
+            app:layout_constraintStart_toStartOf="@+id/guideline3" />
+
+        <ImageView
+            android:id="@+id/ivFacultyCurrent"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:contentDescription="@string/perguruan_tinggi"
+            android:src="@drawable/ic_university2"
+            app:layout_constraintEnd_toStartOf="@+id/guideline3"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ivUniversityCurrent" />
+
+        <TextView
+            android:id="@+id/tvFacultyCurrent"
+            style="@style/textBodyL"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="@string/fakultas"
+            android:textColor="?attr/colorOnPrimary"
+            app:layout_constraintBottom_toBottomOf="@+id/ivFacultyCurrent"
+            app:layout_constraintStart_toStartOf="@+id/guideline3" />
+
+        <ImageView
+            android:id="@+id/ivStudyCurrent"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:contentDescription="@string/perguruan_tinggi"
+            android:src="@drawable/ic_study2"
+            app:layout_constraintEnd_toStartOf="@+id/guideline3"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ivFacultyCurrent" />
+
+        <TextView
+            android:id="@+id/tvProgramCurrent"
+            style="@style/textBodyL"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="@string/empty"
+            android:textColor="?attr/colorOnPrimary"
+            app:layout_constraintBottom_toBottomOf="@+id/ivStudyCurrent"
+            app:layout_constraintStart_toStartOf="@+id/guideline3" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/scrollableContent"
@@ -177,7 +176,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline20">
+        app:layout_constraintTop_toBottomOf="@+id/viewTop">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -218,22 +217,22 @@
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
-                        android:background="?attr/selectableItemBackground"
                         android:id="@+id/btnEdit"
                         style="@style/ShapeAppearanceOverlay.Material3.Button"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:background="?attr/selectableItemBackground"
                         android:text="@string/edit"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="@+id/textView7" />
 
                     <TextView
                         android:id="@+id/btnAdd"
-                        android:background="?attr/selectableItemBackground"
                         style="@style/ShapeAppearanceOverlay.Material3.Button"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="16dp"
+                        android:background="?attr/selectableItemBackground"
                         android:text="@string/add"
                         android:visibility="visible"
                         app:layout_constraintEnd_toStartOf="@+id/btnEdit"
@@ -241,10 +240,10 @@
 
                     <TextView
                         android:id="@+id/btnCancel"
-                        android:background="?attr/selectableItemBackground"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="16dp"
+                        android:background="?attr/selectableItemBackground"
                         android:text="@string/cancel"
                         android:textColor="@color/design_default_color_error"
                         android:visibility="gone"
@@ -278,8 +277,8 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="32dp"
                         android:text="@string/empty_desk"
-                        android:visibility="gone"
                         android:textColor="?attr/colorOnSurface"
+                        android:visibility="gone"
                         app:drawableTint="?attr/colorOnSurface"
                         app:drawableTopCompat="@drawable/image_empty"
                         app:layout_constraintBottom_toBottomOf="parent"
@@ -378,8 +377,8 @@
                         app:layout_constraintTop_toBottomOf="@+id/tvProgress" />
 
                     <TextView
-                        style="@style/textBodyM"
                         android:id="@+id/tvDescDoc"
+                        style="@style/textBodyM"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
@@ -430,8 +429,8 @@
                         app:layout_constraintTop_toTopOf="@+id/tvTitleFotoRumah" />
 
                     <TextView
-                        style="@style/textBodyM"
                         android:id="@+id/tvDescPhotoHome"
+                        style="@style/textBodyM"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
@@ -446,8 +445,8 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="32dp"
                         android:text="@string/empty_desk"
-                        android:visibility="gone"
                         android:textColor="?attr/colorOnSurface"
+                        android:visibility="gone"
                         app:drawableTint="?attr/colorOnSurface"
                         app:drawableTopCompat="@drawable/image_empty"
                         app:layout_constraintBottom_toBottomOf="parent"

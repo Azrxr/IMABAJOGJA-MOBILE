@@ -140,4 +140,11 @@
     <string name="progres_dock">24/24</string>
     <string name="tambah_anggota">Tambah Anggota</string>
     <string name="export_anggota">Export Anggota</string>
+    <string name="replace_photo">replace photo</string>
+    <string name="data_admin">Data Admin</string>
+    <string name="akun">Akun</string>
+    <string name="username">Username</string>
+    <string name="email">Email</string>
+    <string name="no_hp">No. Hp</string>
+    <string name="desk_program_study">Menampilkan semua perguruan tinggi beserta program studi se Yogyakarta</string>
 </resources>

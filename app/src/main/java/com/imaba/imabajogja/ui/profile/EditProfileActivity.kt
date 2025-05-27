@@ -69,27 +69,27 @@ class EditProfileActivity : AppCompatActivity() {
     private fun showProfileData(data: ProfileUser) {
         val profile = data
 
-        binding.etUsername.setTextOrPlaceholder(profile.username, "Masukkan username")
-        binding.etEmail.setTextOrPlaceholder(profile.email, "Masukkan email")
+        binding.etUsername.setText(profile.username)
+        binding.etEmail.setText(profile.email)
 
-        binding.etProvince.setTextOrPlaceholder(profile.province, "Provinsi")
+        binding.etProvince.setText(profile.province)
         selectedProvinceId = profile.provinceId
-        binding.etCity.setTextOrPlaceholder(profile.regency, "kota")
+        binding.etCity.setText(profile.regency)
         selectedRegencyId = profile.regencyId
-        binding.etDistrict.setTextOrPlaceholder(profile.district, "kecamatan")
+        binding.etDistrict.setText(profile.district)
         selectedDistrictId = profile.districtId
 
-        binding.etFullname.setTextOrPlaceholder(profile.fullname, "Masukkan nama lengkap")
-        binding.etPhoneNumber.setTextOrPlaceholder(profile.phoneNumber?.toString(), "Masukkan nomor telepon")
-        binding.etFullAddress.setTextOrPlaceholder(profile.fullAddress, "Masukkan alamat lengkap")
-        binding.etPostalCode.setTextOrPlaceholder(profile.kodePos?.toString(), "Masukkan kode pos")
+        binding.etFullname.setText(profile.fullname)
+        binding.etPhoneNumber.setText(profile.phoneNumber?.toString())
+        binding.etFullAddress.setText(profile.fullAddress)
+        binding.etPostalCode.setText(profile.kodePos?.toString())
         setupReligionDropDown(profile.agama)
-        binding.etNisn.setTextOrPlaceholder(profile.nisn?.toString(), "Masukkan NISN")
-        binding.etBirthPlace.setTextOrPlaceholder(profile.tempat, "Masukkan tempat lahir")
-        binding.etBirthDate.setTextOrPlaceholder(profile.tanggalLahir?.toString(), "Masukkan tanggal lahir")
+        binding.etNisn.setText(profile.nisn?.toString())
+        binding.etBirthPlace.setText(profile.tempat)
+        binding.etBirthDate.setText(profile.tanggalLahir?.toString())
         setupGenderDropDown(profile.gender)
-        binding.etSchoolOrigin.setTextOrPlaceholder(profile.schollOrigin?.toString(), "Masukkan asal sekolah")
-        binding.etGraduationYear.setTextOrPlaceholder(profile.tahunLulus?.toString(), "Masukkan tahun lulus")
+        binding.etSchoolOrigin.setText(profile.schollOrigin?.toString())
+        binding.etGraduationYear.setText(profile.tahunLulus?.toString())
 
         Glide.with(this)
             .load(profile.profileImgUrl)

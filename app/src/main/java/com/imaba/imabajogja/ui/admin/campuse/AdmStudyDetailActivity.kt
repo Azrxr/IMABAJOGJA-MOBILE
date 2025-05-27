@@ -1,17 +1,22 @@
 package com.imaba.imabajogja.ui.admin.campuse
 
 import android.content.Intent
+import android.content.res.Configuration
+import android.os.Build
 import android.os.Bundle
 import android.text.InputType
 import android.util.Log
 import android.view.View
+import android.view.WindowManager
 import android.widget.EditText
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
+import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -23,7 +28,6 @@ import com.imaba.imabajogja.data.response.StudyPlansItem
 import com.imaba.imabajogja.data.response.documentFieldMap
 import com.imaba.imabajogja.data.utils.Result
 import com.imaba.imabajogja.data.utils.compressPdf
-import com.imaba.imabajogja.data.utils.showLoading
 import com.imaba.imabajogja.data.utils.showToast
 import com.imaba.imabajogja.data.utils.uriToFile
 import com.imaba.imabajogja.data.utils.uriToFilePdf
@@ -52,7 +56,9 @@ class AdmStudyDetailActivity : AppCompatActivity() {
         intent.getParcelableExtra<DataItemMember>(AdmMemberDetailActivity.EXTRA_MEMBER)?.id
     }
     private val documentId: Int? by lazy {
-        intent.getParcelableExtra<DataItemMember>(AdmMemberDetailActivity.EXTRA_MEMBER)?.documents?.get(0)?.id
+        intent.getParcelableExtra<DataItemMember>(AdmMemberDetailActivity.EXTRA_MEMBER)?.documents?.get(
+            0
+        )?.id
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -60,6 +66,36 @@ class AdmStudyDetailActivity : AppCompatActivity() {
         enableEdgeToEdge()
         binding = ActivityAdmStudyDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        // Deteksi mode terang/gelap
+        val isDarkMode = when (resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) {
+            Configuration.UI_MODE_NIGHT_YES -> true
+            else -> false
+        }
+
+// Ambil warna sesuai mode
+        val resolvedColor = ContextCompat.getColor(
+            this,
+            if (isDarkMode) R.color.maroon_primary_dark else R.color.maroon_primary
+        )
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            window.apply {
+                // Bersihkan flag transparan
+                clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+                // Aktifkan menggambar sistem bar
+                addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+
+                statusBarColor = resolvedColor
+                navigationBarColor = resolvedColor
+            }
+        }
+
+// Untuk Android M+ (ikon status bar terang/gelap)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            WindowCompat.getInsetsController(window, window.decorView)?.isAppearanceLightStatusBars = !isDarkMode
+        }
+
         ViewCompat.setOnApplyWindowInsetsListener(binding.root) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
@@ -82,9 +118,11 @@ class AdmStudyDetailActivity : AppCompatActivity() {
         member?.let {
             binding.tvFullname.text = it.fullname
 
-            binding.tvUniversityCurrent.text = it.studyMembers?.firstOrNull()?.university ?: "Belum ada"
+            binding.tvUniversityCurrent.text =
+                it.studyMembers?.firstOrNull()?.university ?: "Belum ada"
             binding.tvFacultyCurrent.text = it.studyMembers?.firstOrNull()?.faculty ?: "Belum ada"
-            binding.tvProgramCurrent.text = it.studyMembers?.firstOrNull()?.programStudy ?: "Belum ada"
+            binding.tvProgramCurrent.text =
+                it.studyMembers?.firstOrNull()?.programStudy ?: "Belum ada"
 
             Glide.with(this)
                 .load(member.profileImgUrl)
@@ -95,7 +133,7 @@ class AdmStudyDetailActivity : AppCompatActivity() {
         }
     }
 
-    private fun updateStudyMember(){
+    private fun updateStudyMember() {
         binding.btnEditCurrentStudy.setOnClickListener {
             val dialog = DialogStudyCurrent.newInstanceForAdmin(memberId ?: 0)
             dialog.onSuccessListener = {
@@ -105,6 +143,7 @@ class AdmStudyDetailActivity : AppCompatActivity() {
 
         }
     }
+
     private fun getMemberDetail(memberId: Int) {
         viewModel.getMemberDetail(memberId).observe(this) { result ->
             when (result) {
@@ -113,9 +152,12 @@ class AdmStudyDetailActivity : AppCompatActivity() {
                     binding.progressBar.visibility = View.GONE
                     val data = result.data.data
                     binding.tvFullname.text = data?.fullname
-                    binding.tvUniversityCurrent.text = data?.studyMembers?.firstOrNull()?.university ?: "Belum ada"
-                    binding.tvFacultyCurrent.text = data?.studyMembers?.firstOrNull()?.faculty ?: "Belum ada"
-                    binding.tvProgramCurrent.text = data?.studyMembers?.firstOrNull()?.programStudy ?: "Belum ada"
+                    binding.tvUniversityCurrent.text =
+                        data?.studyMembers?.firstOrNull()?.university ?: "Belum ada"
+                    binding.tvFacultyCurrent.text =
+                        data?.studyMembers?.firstOrNull()?.faculty ?: "Belum ada"
+                    binding.tvProgramCurrent.text =
+                        data?.studyMembers?.firstOrNull()?.programStudy ?: "Belum ada"
 
                     Glide.with(this)
                         .load(data?.profileImgUrl)
@@ -127,7 +169,8 @@ class AdmStudyDetailActivity : AppCompatActivity() {
                     studyPlans(result.data.data?.studyPlans)
                     documents(result.data.data?.documents)
 
-                    binding.tvStatusDoc.text = if (data?.berkasLengkap == true) "Lengkap" else "Belum Lengkap"
+                    binding.tvStatusDoc.text =
+                        if (data?.berkasLengkap == true) "Lengkap" else "Belum Lengkap"
                     binding.tvProgressDoc.text = data?.berkasProgress
 
                     binding.btnAddHomePhoto.setOnClickListener {
@@ -184,18 +227,22 @@ class AdmStudyDetailActivity : AppCompatActivity() {
     }
 
     private fun updateStatusStudyPlan(memberId: Int, studyPlanId: Int, status: String) {
-        viewModel.updateStatusPlan(studyPlanId, studyPlanId, status).observe(this) { result ->
+        viewModel.updateStatusPlan(memberId, studyPlanId, status).observe(this) { result ->
             when (result) {
                 is Result.Loading -> binding.progressBar.visibility = View.VISIBLE
                 is Result.Success -> {
                     binding.progressBar.visibility = View.GONE
                     // 🔥 Refresh daftar setelah update
-                    getMemberDetail(memberId ?: 0)
+                    studyPlanAdapter.setEditingPositions(false)
+                    binding.btnCancel.visibility = View.GONE
+                    binding.btnEdit.visibility = View.VISIBLE
+                    getMemberDetail(memberId)
                 }
 
                 is Result.Error -> {
                     binding.progressBar.visibility = View.GONE
                     this.showToast("Gagal mengupdate: ${result.message}")
+                    Log.e("UpdateStatusPlan", "Error: ${result.message}")
                 }
             }
         }
@@ -296,29 +343,31 @@ class AdmStudyDetailActivity : AppCompatActivity() {
     }
 
 
-    private val pickDocumentLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
-        uri?.let {
-            val fileType = selectedDocumentType
+    private val pickDocumentLauncher =
+        registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
+            uri?.let {
+                val fileType = selectedDocumentType
 
-            if (fileType == "photo_3x4_path" || fileType == "foto_keluarga_path") {
-                // 📸 If it's a photo category, use `uriToFile()`
-                val photoFile = uriToFile(uri, this)
-                uploadPhotoDoc(fileType, photoFile) // 🔥 Upload Photo
-            } else {
-                // 📄 If it's a document category, use `uriToFilePdf()`
-                val pdfFile = uriToFilePdf(uri, this)
-                val compressedFile = compressPdf(pdfFile) // 🔥 Compress PDF if >2MB
-                uploadDocument(fileType, compressedFile) // 🔥 Upload Document
+                if (fileType == "photo_3x4_path" || fileType == "foto_keluarga_path") {
+                    // 📸 If it's a photo category, use `uriToFile()`
+                    val photoFile = uriToFile(uri, this)
+                    uploadPhotoDoc(fileType, photoFile) // 🔥 Upload Photo
+                } else {
+                    // 📄 If it's a document category, use `uriToFilePdf()`
+                    val pdfFile = uriToFilePdf(uri, this)
+                    val compressedFile = compressPdf(pdfFile) // 🔥 Compress PDF if >2MB
+                    uploadDocument(fileType, compressedFile) // 🔥 Upload Document
+                }
             }
         }
-    }
 
-    private val pickImageLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
-        uri?.let {
-            selectedImageFile = uriToFile(uri, this) // 🔥 Convert URI to File
-            showPhotoTitleDialog() // 🔥 After selecting a photo, request a title
-        } ?: showToast("Failed to pick an image, please try again.")
-    }
+    private val pickImageLauncher =
+        registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
+            uri?.let {
+                selectedImageFile = uriToFile(uri, this) // 🔥 Convert URI to File
+                showPhotoTitleDialog() // 🔥 After selecting a photo, request a title
+            } ?: showToast("Failed to pick an image, please try again.")
+        }
 
     private fun pickDocument(docType: String) {
         val fileType = documentFieldMap[docType]
@@ -340,51 +389,56 @@ class AdmStudyDetailActivity : AppCompatActivity() {
             "UploadDocument",
             "Mengunggah dokumen dengan field API: $documentType, Nama file: ${file.name}"
         )
-        viewModel.uploadDocument(memberId ?:0, documentId ?:0, documentType, file).observe(this) { result ->
-            when (result) {
-                is Result.Loading -> {
-                    binding.progressBar.visibility = View.VISIBLE
-                    showToast("Mengunggah dokumen...")
-                }
-                is Result.Success -> {
-                    binding.progressBar.visibility = View.GONE
-                    showToast("Dokumen berhasil diunggah!")
-                    Log.d("UploadDocument", "Berhasil: ${result.data}")
-                    getMemberDetail(memberId ?: 0) // 🔄 Refresh daftar dokumen setelah upload
-                }
+        viewModel.uploadDocument(memberId ?: 0, documentId ?: 0, documentType, file)
+            .observe(this) { result ->
+                when (result) {
+                    is Result.Loading -> {
+                        binding.progressBar.visibility = View.VISIBLE
+                        showToast("Mengunggah dokumen...")
+                    }
 
-                is Result.Error -> {
-                    binding.progressBar.visibility = View.GONE
-                    showToast("Gagal mengupload: ${result.message}")
-                    Log.e("UploadDocument", "Error: ${result.message}")
+                    is Result.Success -> {
+                        binding.progressBar.visibility = View.GONE
+                        showToast("Dokumen berhasil diunggah!")
+                        Log.d("UploadDocument", "Berhasil: ${result.data}")
+                        getMemberDetail(memberId ?: 0) // 🔄 Refresh daftar dokumen setelah upload
+                    }
+
+                    is Result.Error -> {
+                        binding.progressBar.visibility = View.GONE
+                        showToast("Gagal mengupload: ${result.message}")
+                        Log.e("UploadDocument", "Error: ${result.message}")
+                    }
                 }
             }
-        }
     }
 
     private fun uploadPhotoDoc(documentType: String, file: File) {
-        Timber.tag("UploadDocument").d("Mengunggah dokumen dengan field API: $documentType, Nama file: ${file.name}")
+        Timber.tag("UploadDocument")
+            .d("Mengunggah dokumen dengan field API: $documentType, Nama file: ${file.name}")
 
-        viewModel.uploadPhotoDoc(memberId ?:0, documentId ?:0, documentType, file).observe(this) { result ->
-            when (result) {
-                is Result.Loading -> {
-                    binding.progressBar.visibility = View.VISIBLE
-                    showToast("Mengunggah dokumen...")
-                }
-                is Result.Success -> {
-                    binding.progressBar.visibility = View.GONE
-                    showToast("Dokumen berhasil diunggah!")
-                    Timber.d("Berhasil: ${result.data}")
-                    getMemberDetail(memberId ?: 0) // 🔄 Refresh daftar dokumen setelah upload
-                }
+        viewModel.uploadPhotoDoc(memberId ?: 0, documentId ?: 0, documentType, file)
+            .observe(this) { result ->
+                when (result) {
+                    is Result.Loading -> {
+                        binding.progressBar.visibility = View.VISIBLE
+                        showToast("Mengunggah dokumen...")
+                    }
 
-                is Result.Error -> {
-                    binding.progressBar.visibility = View.GONE
-                    showToast("Gagal mengupload: ${result.message}")
-                    Log.e("UploadDocument", "Error: ${result.message}")
+                    is Result.Success -> {
+                        binding.progressBar.visibility = View.GONE
+                        showToast("Dokumen berhasil diunggah!")
+                        Timber.d("Berhasil: ${result.data}")
+                        getMemberDetail(memberId ?: 0) // 🔄 Refresh daftar dokumen setelah upload
+                    }
+
+                    is Result.Error -> {
+                        binding.progressBar.visibility = View.GONE
+                        showToast("Gagal mengupload: ${result.message}")
+                        Log.e("UploadDocument", "Error: ${result.message}")
+                    }
                 }
             }
-        }
     }
 
     private fun showPhotoTitleDialog() {
@@ -407,15 +461,16 @@ class AdmStudyDetailActivity : AppCompatActivity() {
             .setNegativeButton("Batal") { dialog, _ -> dialog.dismiss() }
             .show()
     }
+
     private fun uploadPhoto(photoTitle: String) {
         selectedImageFile?.let { file ->
-            viewModel.uploadHomePhoto(memberId ?:0, photoTitle, file).observe(this) { result ->
+            viewModel.uploadHomePhoto(memberId ?: 0, photoTitle, file).observe(this) { result ->
                 when (result) {
                     is Result.Success -> {
                         binding.progressBar.visibility = View.GONE
                         showToast("Foto rumah berhasil diunggah!")
                         Timber.d("Berhasil: %s", result.data)
-                        getMemberDetail(memberId ?:0) // 🔄 Refresh list setelah berhasil
+                        getMemberDetail(memberId ?: 0) // 🔄 Refresh list setelah berhasil
                     }
 
                     is Result.Error -> {
@@ -457,11 +512,13 @@ class AdmStudyDetailActivity : AppCompatActivity() {
                         is Result.Success -> {
                             Timber.d("✅ Berhasil menghapus: %s", field)
                             showToast("Dokumen berhasil dihapus!")
-                            getMemberDetail(memberId ?: 0) // 🔄 Refresh daftar dokumen setelah delete
+                            getMemberDetail(
+                                memberId ?: 0
+                            ) // 🔄 Refresh daftar dokumen setelah delete
                         }
 
                         is Result.Error -> {
-                            Log.e ("DeleteDocument", "Error: ${result.message}")
+                            Log.e("DeleteDocument", "Error: ${result.message}")
                             showToast("Gagal menghapus: ${result.message}")
                         }
                     }
@@ -502,7 +559,7 @@ class AdmStudyDetailActivity : AppCompatActivity() {
             .show()
     }
 
-    companion object{
+    companion object {
         private const val REQUEST_PICK_DOCUMENT = 2000
         private const val REQUEST_PICK_IMAGE = 2001
         private var selectedDocumentType: String = ""

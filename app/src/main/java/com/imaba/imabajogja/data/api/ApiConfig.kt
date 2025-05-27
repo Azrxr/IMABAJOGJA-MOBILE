@@ -112,7 +112,7 @@ object ApiConfig {
 //        val url = "http://10.0.2.2:8000/api/"
 //        val url = "http://192.168.55.183:8000/api/"
 //        val url = "http://192.168.1.193:8000/api/" //mam
-        val url = "http://webservice.imabayogyakarta.com/api/" //mam
+        val url = "http://webservice.imabayogyakarta.com/api/"
 
         val gson = GsonBuilder()
             .setLenient()

@@ -14,6 +14,7 @@ class MemberPagingSource(
     private val search: String?,
     private val generation: List<String>?,
     private val memberType: List<String>?,
+    private val planStatus: String?
 ): PagingSource<Int, DataItemMember>() {
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, DataItemMember> {
@@ -22,7 +23,8 @@ class MemberPagingSource(
             val response = apiService.getMembers(
                 search = search,
                 generation = generation,
-                memberType = memberType)
+                memberType = memberType,
+                planStatus = planStatus,)
             Log.d("Members", "paging: API Response: ${response.data.data}") // ✅ Debugging
 
             LoadResult.Page(

@@ -65,7 +65,7 @@ class MemberRepository @Inject constructor(private val apiService: ApiService) {
                 pageSize = 10,  // Jumlah item per halaman
                 enablePlaceholders = false
             ),
-            pagingSourceFactory = { MemberPagingSource(apiService, search, generation, memberType) }
+            pagingSourceFactory = { MemberPagingSource(apiService, search, generation, memberType, planStatus = null) }
         ).flow
     }
 

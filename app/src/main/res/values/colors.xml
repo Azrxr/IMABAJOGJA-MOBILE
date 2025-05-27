@@ -19,6 +19,12 @@
     <color name="accentColor">#FF4081</color> <!-- ➤ Optional accent -->
     <color name="errorColor">#B00020</color> <!-- ➤ Warna untuk error -->
 
+    <!-- Status Background Colors -->
+    <color name="status_pending">#FFC107</color> <!-- Yellow -->
+    <color name="status_accepted">#4CAF50</color> <!-- Green -->
+    <color name="status_rejected">#F44336</color> <!-- Red -->
+    <color name="status_active">#2196F3</color> <!-- Blue -->
+
     <!-- theme dark -->
     <!-- 🌈 Warna Utama Aplikasi -->
     <color name="maroon_primary_dark">#9C1B24</color> <!-- ➤ Primary -->

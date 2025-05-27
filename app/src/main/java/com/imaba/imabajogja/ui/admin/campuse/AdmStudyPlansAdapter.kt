@@ -51,6 +51,11 @@ class AdmStudyPlansAdapter(
                     threshold = 1 // Mulai mencari setelah 1 karakter
                     inputType = InputType.TYPE_NULL // Nonaktifkan keyboard
 
+                    // Ensure dropdown opens on click
+                    setOnClickListener {
+                        showDropDown()
+                    }
+
                     // Handle item selection
                     setOnItemClickListener { _, _, pos, _ ->
                         val selectedStatus = statusOptions[pos]
@@ -73,10 +78,12 @@ class AdmStudyPlansAdapter(
                 if (editingPositions.contains(position)) {
                     tvStatus.visibility = View.GONE
                     dropdownStatus.visibility = View.VISIBLE
+                    dropdownStatus.isClickable = true // Ensure dropdown is clickable
                     btnDelete.visibility = View.VISIBLE
                 } else {
                     tvStatus.visibility = View.VISIBLE
                     dropdownStatus.visibility = View.GONE
+                    dropdownStatus.isClickable = false
                     btnDelete.visibility = View.GONE
                 }
 

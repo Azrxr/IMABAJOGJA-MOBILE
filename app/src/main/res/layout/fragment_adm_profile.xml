@@ -16,22 +16,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.25" />
 
-    <View
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/view2"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:background="@drawable/bg_top"
-        app:layout_constraintBottom_toTopOf="@+id/guideline"
+        android:paddingBottom="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/progressIndicator" />
+        app:layout_constraintTop_toBottomOf="@+id/progressIndicator" >
 
     <TextView
         android:id="@+id/tvTitle"
@@ -51,8 +46,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
+        android:background="@drawable/ic_about"
         android:contentDescription="@string/about"
-        android:src="@drawable/ic_about"
         app:layout_constraintBottom_toBottomOf="@+id/tvTitle"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/tvTitle" />
@@ -72,18 +67,18 @@
             android:id="@+id/ivProfile"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:contentDescription="@string/profile"
             android:background="?attr/colorPrimary"
+            android:contentDescription="@string/profile"
             android:scaleType="centerCrop"
             android:src="@drawable/ic_user" />
     </androidx.cardview.widget.CardView>
 
     <ImageButton
         android:id="@+id/btnReplacePhoto"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:background="@drawable/ic_camera_plus"
-        android:contentDescription="replace photo"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:background="@drawable/ic_camera_plus2"
+        android:contentDescription="@string/replace_photo"
         app:layout_constraintBottom_toBottomOf="@+id/cardView2"
         app:layout_constraintEnd_toEndOf="@+id/cardView2"
         app:layout_constraintStart_toEndOf="@+id/cardView2"
@@ -131,8 +126,11 @@
         app:layout_constraintStart_toStartOf="@+id/tvPhoneNumber"
         app:layout_constraintTop_toBottomOf="@+id/tvPhoneNumber" />
 
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
     <androidx.core.widget.NestedScrollView
         android:id="@+id/scrollableContent"
+        android:scrollbars="vertical"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:fillViewport="true"
@@ -177,7 +175,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="Data Admin" />
+                            android:text="@string/data_admin" />
 
                         <TextView
                             android:id="@+id/btnSave"
@@ -207,7 +205,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
                         android:visibility="gone"
-                        android:text="Akun"/>
+                        android:text="@string/akun"/>
 
                     <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/tilUsername"
@@ -220,7 +218,7 @@
                             android:id="@+id/etUsername"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:hint="Username"
+                            android:hint="@string/username"
                             android:inputType="text"
                             android:maxLines="1" />
                     </com.google.android.material.textfield.TextInputLayout>
@@ -236,7 +234,7 @@
                             android:id="@+id/etEmail"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:hint="Email"
+                            android:hint="@string/email"
                             android:inputType="text"
                             android:maxLines="1" />
                     </com.google.android.material.textfield.TextInputLayout>
@@ -257,7 +255,7 @@
                             android:id="@+id/etFullname"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:hint="Nama Lengkap"
+                            android:hint="@string/fullname"
                             android:inputType="text"
                             android:maxLines="1" />
                     </com.google.android.material.textfield.TextInputLayout>
@@ -272,7 +270,7 @@
                             android:id="@+id/etPhoneNumber"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:hint="No. Hp"
+                            android:hint="@string/no_hp"
                             android:inputType="text"
                             android:maxLines="1" />
                     </com.google.android.material.textfield.TextInputLayout>
@@ -308,7 +306,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:hint="@string/regency"
-                            android:inputType="none"
+                            android:inputType="text"
                             android:maxLines="2"
                             android:padding="16dp" />
                     </com.google.android.material.textfield.TextInputLayout>
@@ -325,7 +323,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:hint="@string/district"
-                            android:inputType="none"
+                            android:inputType="text"
                             android:maxLines="2"
                             android:padding="16dp" />
                     </com.google.android.material.textfield.TextInputLayout>
@@ -340,7 +338,7 @@
                             android:id="@+id/etAddress"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:hint="Alamat"
+                            android:hint="@string/full_address"
                             android:inputType="text"
                             android:maxLines="3" />
                     </com.google.android.material.textfield.TextInputLayout>

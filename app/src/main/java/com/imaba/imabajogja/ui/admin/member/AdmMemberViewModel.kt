@@ -26,7 +26,7 @@ class AdmMemberViewModel @Inject constructor(
     private val searchQuery = MutableStateFlow<String?>(null)
     private val generationFilters = MutableStateFlow<Set<String>>(emptySet())
     private val memberTypeFilters = MutableStateFlow<Set<String>>(emptySet())
-    private val planStatus = MutableStateFlow<String?>(null)
+    private val planStatus = MutableStateFlow<Set<String?>>(emptySet())
 
     val members = combine(
         searchQuery, generationFilters, memberTypeFilters

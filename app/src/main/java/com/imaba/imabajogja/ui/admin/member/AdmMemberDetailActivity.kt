@@ -126,48 +126,42 @@ class AdmMemberDetailActivity : AppCompatActivity() {
         member?.let { profile ->
             binding.etFullname.setText(profile.fullname)
 
-            binding.etProvince.setTextOrPlaceholder(profile.province, "Provinsi")
+            binding.etProvince.setText(profile.province)
             selectedProvinceId = profile.provinceId
-            binding.etCity.setTextOrPlaceholder(profile.regency, "kota")
+            binding.etCity.setText(profile.regency)
             selectedRegencyId = profile.regencyId
-            binding.etDistrict.setTextOrPlaceholder(profile.district, "kecamatan")
+            binding.etDistrict.setText(profile.district)
             selectedDistrictId = profile.districtId
 
-            binding.etFullname.setTextOrPlaceholder(profile.fullname, "Masukkan nama lengkap")
-            binding.etPhoneNumber.setTextOrPlaceholder(
-                profile.phoneNumber?.toString(),
-                "Masukkan nomor telepon"
+            binding.etFullname.setText(profile.fullname)
+            binding.etPhoneNumber.setText(
+                profile.phoneNumber?.toString()
             )
-            binding.etFullAddress.setTextOrPlaceholder(
-                profile.fullAddress,
-                "Masukkan alamat lengkap"
+            binding.etFullAddress.setText(
+                profile.fullAddress
             )
-            binding.etPostalCode.setTextOrPlaceholder(
-                profile.kodePos?.toString(),
-                "Masukkan kode pos"
+            binding.etPostalCode.setText(
+                profile.kodePos?.toString()
             )
             setupReligionDropDown(profile.agama)
-            binding.etNisn.setTextOrPlaceholder(profile.nisn?.toString(), "Masukkan NISN")
-            binding.etBirthPlace.setTextOrPlaceholder(profile.tempat, "Masukkan tempat lahir")
-            binding.etBirthDate.setTextOrPlaceholder(
-                profile.tanggalLahir?.toString(),
-                "Masukkan tanggal lahir"
+            binding.etNisn.setText(profile.nisn?.toString())
+            binding.etBirthPlace.setText(profile.tempat)
+            binding.etBirthDate.setText(
+                profile.tanggalLahir?.toString()
             )
             setupGenderDropDown(profile.gender)
-            binding.etSchoolOrigin.setTextOrPlaceholder(
-                profile.schollOrigin?.toString(),
-                "Masukkan asal sekolah"
+            binding.etSchoolOrigin.setText(
+                profile.schollOrigin?.toString()
             )
-            binding.etGraduationYear.setTextOrPlaceholder(
-                profile.tahunLulus?.toString(),
-                "Masukkan tahun lulus"
+            binding.etGraduationYear.setText(
+                profile.tahunLulus?.toString()
             )
 
             binding.etGeneration.setText(
                 profile.angkatan?.toString()
             )
             setupGenerationDropDown(profile.angkatan)
-            binding.etMemberType.setTextOrPlaceholder(profile.memberType, "Masukkan tipe member")
+            binding.etMemberType.setText(profile.memberType)
             setupMemberTypeDropDown(profile.memberType)
 
             Glide.with(this)

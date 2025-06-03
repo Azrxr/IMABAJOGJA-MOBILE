@@ -55,8 +55,8 @@ class LoginRepository @Inject constructor(
         }
     }
 
-
-    fun register(username: String, email: String, password: String, passwordConfirmation: String) : LiveData<Result<RegisterResponse>> {
+/*
+    fun _register(username: String, email: String, password: String, passwordConfirmation: String) : LiveData<Result<RegisterResponse>> {
         return liveData {
             emit(Result.Loading)
             try {
@@ -71,7 +71,36 @@ class LoginRepository @Inject constructor(
 
     }
 
-    fun registerAdm(username: String, fullname: String, phoneNumber: String, email: String, password: String, passwordConfirmation: String) : LiveData<Result<RegisterAdminResponse>> {
+ */
+    fun register(username: String, email: String, password: String, passwordConfirmation: String): LiveData<Result<RegisterResponse>> = liveData {
+        emit(Result.Loading)
+        try {
+            val response = apiService.register(username, email, password, passwordConfirmation)
+            if (response.isSuccessful && response.body() != null) {
+                val body = response.body()!!
+                if (body.error) {
+                    emit(Result.Error(body.message)) // 🔥 error dari server
+                } else {
+                    emit(Result.Success(body)) // ✅ sukses
+                }
+            } else {
+                // Parse JSON dari errorBody
+                val errorBody = response.errorBody()?.string()
+                val parsedError = try {
+                    Gson().fromJson(errorBody, LoginResponse::class.java)
+                } catch (e: Exception) {
+                    null
+                }
+
+                val errorMessage = parsedError?.message ?: "Terjadi kesalahan: ${response.code()}"
+                emit(Result.Error(errorMessage))
+            }
+        } catch (e: Exception) {
+            emit(Result.Error("Terjadi kesalahan: ${e.localizedMessage}"))
+        }
+    }
+/*
+    fun _registerAdm(username: String, fullname: String, phoneNumber: String, email: String, password: String, passwordConfirmation: String) : LiveData<Result<RegisterAdminResponse>> {
         return liveData {
             emit(Result.Loading)
             try {
@@ -84,6 +113,35 @@ class LoginRepository @Inject constructor(
             }
         }
 
+    }
+
+ */
+    fun registerAdm(username: String, fullname: String, phoneNumber: String, email: String, password: String, passwordConfirmation: String): LiveData<Result<RegisterAdminResponse>> = liveData {
+        emit(Result.Loading)
+        try {
+            val response = apiService.registerAdmin(username, fullname, phoneNumber, email, password, passwordConfirmation)
+            if (response.isSuccessful && response.body() != null) {
+                val body = response.body()!!
+                if (body.error) {
+                    emit(Result.Error(body.message)) // 🔥 error dari server
+                } else {
+                    emit(Result.Success(body)) // ✅ sukses
+                }
+            } else {
+                // Parse JSON dari errorBody
+                val errorBody = response.errorBody()?.string()
+                val parsedError = try {
+                    Gson().fromJson(errorBody, LoginResponse::class.java)
+                } catch (e: Exception) {
+                    null
+                }
+
+                val errorMessage = parsedError?.message ?: "Terjadi kesalahan: ${response.code()}"
+                emit(Result.Error(errorMessage))
+            }
+        } catch (e: Exception) {
+            emit(Result.Error("Terjadi kesalahan: ${e.localizedMessage}"))
+        }
     }
 
     suspend fun saveSession(user: UserModel) {

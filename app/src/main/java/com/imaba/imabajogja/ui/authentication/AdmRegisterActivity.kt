@@ -50,12 +50,46 @@ class AdmRegisterActivity : AppCompatActivity() {
             val password = binding.edtPassword.text.toString()
             val passwordConfirmation = binding.edtPasswordConfirm.text.toString()
 
+            // Clear previous errors
+            binding.tilUsername.error = null
+            binding.tilEmail.error = null
+            binding.tilPassword.error = null
+            binding.tilPasswordConfirm.error = null
+            binding.tilFullname.error = null
+            binding.tilPhoneNumber.error = null
+
+            if (fullname.isEmpty()){
+                binding.tilFullname.error = "Nama lengkap tidak boleh kosong"
+                binding.tilFullname.setErrorTextColor(ColorStateList.valueOf(Color.RED))
+                return@setOnClickListener
+            } else if (fullname.contains(" ")) {
+                binding.tilFullname.error = "Nama lengkap tidak boleh mengandung spasi"
+                binding.tilFullname.setErrorTextColor(ColorStateList.valueOf(Color.RED))
+                return@setOnClickListener
+            }
+
+            if (phoneNumber.isEmpty()){
+                binding.tilPhoneNumber.error = "Nomor telepon tidak boleh kosong"
+                binding.tilPhoneNumber.setErrorTextColor(ColorStateList.valueOf(Color.RED))
+                return@setOnClickListener
+            } else if (!phoneNumber.matches(Regex("^[0-9]+$"))) {
+                binding.tilPhoneNumber.error = "Nomor telepon hanya boleh angka"
+                binding.tilPhoneNumber.setErrorTextColor(ColorStateList.valueOf(Color.RED))
+                return@setOnClickListener
+            } else if (phoneNumber.length < 10 || phoneNumber.length > 15) {
+                binding.tilPhoneNumber.error = "Nomor telepon harus antara 10-15 digit"
+                binding.tilPhoneNumber.setErrorTextColor(ColorStateList.valueOf(Color.RED))
+                return@setOnClickListener
+            }
+
             if (username.isEmpty()) {
                 binding.tilUsername.error = "Username tidak boleh kosong"
                 binding.tilUsername.setErrorTextColor(ColorStateList.valueOf(Color.RED))
                 return@setOnClickListener
-            } else {
-                binding.tilUsername.error = null
+            } else if (username.contains(" ")) {
+                binding.tilUsername.error = "Username tidak boleh mengandung spasi"
+                binding.tilUsername.setErrorTextColor(ColorStateList.valueOf(Color.RED))
+                return@setOnClickListener
             }
 
             if (email.isEmpty()) {
@@ -66,16 +100,12 @@ class AdmRegisterActivity : AppCompatActivity() {
                 binding.tilEmail.error = "Email tidak valid"
                 binding.tilEmail.setErrorTextColor(ColorStateList.valueOf(Color.RED))
                 return@setOnClickListener
-            } else {
-                binding.tilEmail.error = null
             }
 
             if (password.isEmpty()) {
                 binding.tilPassword.error = "Password tidak boleh kosong"
                 binding.tilPassword.setErrorTextColor(ColorStateList.valueOf(Color.RED))
                 return@setOnClickListener
-            } else {
-                binding.tilPassword.error = null
             }
 
             if (passwordConfirmation.isEmpty()) {
@@ -86,8 +116,6 @@ class AdmRegisterActivity : AppCompatActivity() {
                 binding.tilPasswordConfirm.error = "Password dan konfirmasi password harus sama"
                 binding.tilPasswordConfirm.setErrorTextColor(ColorStateList.valueOf(Color.RED))
                 return@setOnClickListener
-            } else {
-                binding.tilPasswordConfirm.error = null
             }
             registerAdm(username, fullname, phoneNumber, email, password, passwordConfirmation)
 
@@ -124,12 +152,25 @@ class AdmRegisterActivity : AppCompatActivity() {
 
                     is Result.Error -> {
                         showLoading(false)
-                        AlertDialog.Builder(this).apply {
-                            setTitle("Oops!")
-                            setMessage(it.message)
-                            setPositiveButton("OK") { _, _ -> }
-                            create()
-                            show()
+                        val message = it.message.lowercase()
+                        when {
+                            "the username has already been taken" in message -> {
+                                binding.tilUsername.error = "username sudah terdaftar"
+                            }
+
+                            "the email has already been taken" in message -> {
+                                binding.tilEmail.error = "email sudah terdaftar"
+                            }
+
+                            else -> {
+                                AlertDialog.Builder(this).apply {
+                                    setTitle("Oops!")
+                                    setMessage(message)
+                                    setPositiveButton("OK") { _, _ -> }
+                                    create()
+                                    show()
+                                }
+                            }
                         }
 
                     }

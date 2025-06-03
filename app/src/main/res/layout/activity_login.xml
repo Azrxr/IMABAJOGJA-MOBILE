@@ -140,6 +140,7 @@
                 android:alpha="0"
                 android:hint="Masukkan Password Anda"
                 app:startIconDrawable="@drawable/ic_password"
+                app:endIconMode="password_toggle"
                 tools:alpha="100">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -167,6 +168,9 @@
                 style="@style/textBodyM"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="?attr/selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true"
                 android:alpha="0"
                 android:text="Lupa Password ?"
                 android:textAlignment="center"
@@ -177,6 +181,9 @@
                 style="@style/textBodyM"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:background="?attr/selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true"
                 android:alpha="0"
                 android:text="Belum punya akun ? daftar"
                 android:textAlignment="center"

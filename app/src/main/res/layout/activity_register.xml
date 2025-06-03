@@ -140,7 +140,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:ems="10"
-                        android:inputType="textEmailAddress" />
+                        android:inputType="text" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -167,6 +167,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="16dp"
                     android:alpha="0"
+                    app:endIconMode="password_toggle"
                     android:hint="Masukkan Password Anda"
                     app:startIconDrawable="@drawable/ic_password"
                     tools:alpha="100">
@@ -186,6 +187,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="16dp"
                     android:alpha="0"
+                    app:endIconMode="password_toggle"
                     android:hint="Masukkan kembali Password Anda"
                     app:startIconDrawable="@drawable/ic_password"
                     tools:alpha="100">
@@ -213,6 +215,9 @@
                 <TextView
                     android:id="@+id/btnLogin"
                     style="@style/textBodyM"
+                    android:background="?attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:focusable="true"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:alpha="0"
@@ -225,6 +230,9 @@
                     style="@style/textBodyS"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:background="?attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:focusable="true"
                     android:alpha="0"
                     android:text="daftar sebagai admin"
                     android:textAlignment="center"

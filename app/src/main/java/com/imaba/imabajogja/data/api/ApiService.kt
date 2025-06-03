@@ -44,7 +44,7 @@ interface ApiService {
         @Field("email") email: String,
         @Field("password") password: String,
         @Field("password_confirmation") passwordConfirmation: String
-    ): RegisterResponse
+    ): Response<RegisterResponse>//RegisterResponse
 
     //register admin
     @FormUrlEncoded
@@ -56,7 +56,7 @@ interface ApiService {
         @Field("email") email: String,
         @Field("password") password: String,
         @Field("password_confirmation") passwordConfirmation: String
-    ): RegisterAdminResponse
+    ): Response<RegisterAdminResponse>//RegisterAdminResponse
 
     //login
     @FormUrlEncoded

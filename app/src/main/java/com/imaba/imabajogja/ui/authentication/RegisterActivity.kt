@@ -6,7 +6,9 @@ import android.content.Intent
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
@@ -48,17 +50,25 @@ class RegisterActivity : AppCompatActivity() {
             startActivity(intent)
         }
         binding.btnDaftar.setOnClickListener {
-            val username = binding.edtUsername.text.toString()
+            var username = binding.edtUsername.text.toString()
             val email = binding.edtEmail.text.toString()
             val password = binding.edtPassword.text.toString()
             val passwordConfirmation = binding.edtPasswordConfirm.text.toString()
+
+            // Clear previous errors
+            binding.tilUsername.error = null
+            binding.tilEmail.error = null
+            binding.tilPassword.error = null
+            binding.tilPasswordConfirm.error = null
 
             if (username.isEmpty()) {
                 binding.tilUsername.error = "Username tidak boleh kosong"
                 binding.tilUsername.setErrorTextColor(ColorStateList.valueOf(Color.RED))
                 return@setOnClickListener
-            } else {
-                binding.tilUsername.error = null
+            } else if (username.contains(" ")) {
+                binding.tilUsername.error = "Username tidak boleh mengandung spasi"
+                binding.tilUsername.setErrorTextColor(ColorStateList.valueOf(Color.RED))
+                return@setOnClickListener
             }
 
             if (email.isEmpty()) {
@@ -69,16 +79,12 @@ class RegisterActivity : AppCompatActivity() {
                 binding.tilEmail.error = "Email tidak valid"
                 binding.tilEmail.setErrorTextColor(ColorStateList.valueOf(Color.RED))
                 return@setOnClickListener
-            } else {
-                binding.tilEmail.error = null
             }
 
             if (password.isEmpty()) {
                 binding.tilPassword.error = "Password tidak boleh kosong"
                 binding.tilPassword.setErrorTextColor(ColorStateList.valueOf(Color.RED))
                 return@setOnClickListener
-            } else {
-                binding.tilPassword.error = null
             }
 
             if (passwordConfirmation.isEmpty()) {
@@ -89,11 +95,9 @@ class RegisterActivity : AppCompatActivity() {
                 binding.tilPasswordConfirm.error = "Password dan konfirmasi password harus sama"
                 binding.tilPasswordConfirm.setErrorTextColor(ColorStateList.valueOf(Color.RED))
                 return@setOnClickListener
-            } else {
-                binding.tilPasswordConfirm.error = null
             }
-            register(username, email, password, passwordConfirmation)
 
+            register(username, email, password, passwordConfirmation)
         }
     }
     private fun register(
@@ -123,14 +127,26 @@ class RegisterActivity : AppCompatActivity() {
                         }
                     }
 
-                    is Result.Error -> {
-                        showLoading(false)
-                        AlertDialog.Builder(this).apply {
-                            setTitle("Oops!")
-                            setMessage(it.message)
-                            setPositiveButton("OK") { _, _ -> }
-                            create()
-                            show()
+                    is Result.Error -> { showLoading(false)
+                        val message = it.message.lowercase()
+                        when {
+                            "the username has already been taken" in message -> {
+                                binding.tilUsername.error = "username sudah terdaftar"
+                            }
+
+                            "the email has already been taken" in message -> {
+                                binding.tilEmail.error = "email sudah terdaftar"
+                            }
+
+                            else -> {
+                                AlertDialog.Builder(this).apply {
+                                    setTitle("Oops!")
+                                    setMessage(message)
+                                    setPositiveButton("OK") { _, _ -> }
+                                    create()
+                                    show()
+                                }
+                            }
                         }
 
                     }

@@ -110,7 +110,7 @@ data class DataItemMember(
 	val angkatan: String? = null,
 
 	@field:SerializedName("nisn")
-	val nisn: Int? = null,
+	val nisn: String? = null,
 
 	@field:SerializedName("kode_pos")
 	val kodePos: Int? = null,

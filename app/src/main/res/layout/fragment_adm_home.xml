@@ -152,122 +152,149 @@
 
                     <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/tilTitle"
+                        style="@style/til"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:hint="Judul"
+                        android:gravity="top"
                         android:layout_marginBottom="4dp">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/etTitle"
+                            style="@style/edt"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:hint="Title apa kek"
-                            android:inputType="text"
-                            android:maxLines="5" />
+                            android:gravity="top"
+                            android:scrollbars="vertical"
+                            android:inputType="textMultiLine"
+                            android:maxLines="2" />
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/tilDesk"
+                        style="@style/til"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:hint="Deskripsi Organisasi"
                         android:layout_marginBottom="4dp">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/etDesk"
+                            style="@style/edt"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:hint="Deskripsi apa kek"
-                            android:inputType="text"
-                            android:maxLines="5" />
+                            android:minLines="3"
+                            android:gravity="top"
+                            android:scrollbars="vertical"
+                            android:inputType="textMultiLine" />
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/tilVisi"
+                        style="@style/til"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:hint="@string/vision_placeholder"
                         android:layout_marginBottom="4dp">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/etVisi"
+                            style="@style/edt"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:hint="Visi"
-                            android:inputType="text"
-                            android:maxLines="3" />
+                            android:minLines="2"
+                            android:gravity="top"
+                            android:scrollbars="vertical"
+                            android:inputType="textMultiLine" />
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/tilMisi"
+                        style="@style/til"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:hint="@string/mission_placeholder"
                         android:layout_marginBottom="4dp">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/etMisi"
+                            style="@style/edt"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:hint="Misi"
-                            android:inputType="text"
-                            android:maxLines="3" />
+                            android:minLines="2"
+                            android:gravity="top"
+                            android:scrollbars="vertical"
+                            android:inputType="textMultiLine"  />
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/tilEmail"
+                        style="@style/til"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:hint="Email Organisasi"
                         android:layout_marginBottom="4dp">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/etEmail"
+                            style="@style/edt"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:hint="Email Organisasi"
-                            android:inputType="text"
+                            android:autoLink="email"
+                            android:inputType="textEmailAddress"
                             android:maxLines="1" />
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/tilPhoneNumber"
+                        style="@style/til"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:hint="@string/no_hp"
                         android:layout_marginBottom="4dp">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/etPhoneNumber"
+                            style="@style/edt"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:hint="Nomor HP"
-                            android:inputType="text"
+                            android:inputType="number"
                             android:maxLines="1" />
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/tilPhoneNumber2"
+                        style="@style/til"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:hint="@string/nomor_hp_2"
                         android:layout_marginBottom="4dp">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/etPhoneNumber2"
+                            style="@style/edt"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:hint="Nomor HP 2"
-                            android:inputType="text"
-                            android:maxLines="3" />
+                            android:maxLines="1"
+                            android:inputType="number" />
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/tilAdress"
+                        style="@style/til"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:hint="@string/address_placeholder"
                         android:layout_marginBottom="4dp">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/etAddress"
+                            style="@style/edt"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:hint="Alamat"
-                            android:inputType="text"
-                            android:maxLines="5" />
+                            android:gravity="top"
+                            android:inputType="textMultiLine"
+                            android:minLines="3"/>
                     </com.google.android.material.textfield.TextInputLayout>
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
@@ -305,8 +332,12 @@
                         style="@style/textBodyM_bold"
                         android:layout_width="24dp"
                         android:layout_height="24dp"
+                        android:background="?attr/selectableItemBackground"
+                        android:clickable="true"
                         android:contentDescription="@string/btn_home_photo"
+                        android:focusable="true"
                         android:src="@drawable/ic_document_plus"
+                        app:layout_constraintBottom_toBottomOf="@+id/textView4"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 

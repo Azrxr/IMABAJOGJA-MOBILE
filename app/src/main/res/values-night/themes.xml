@@ -35,6 +35,23 @@
 
     <style name="Theme.IMABAJogja" parent="Theme.MyApp" />
 
+    <!-- Style for TextInputLayout -->
+    <style name="til" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="boxBackgroundMode">outline</item>
+        <item name="boxCornerRadiusTopStart">10dp</item>
+        <item name="boxCornerRadiusTopEnd">10dp</item>
+        <item name="boxCornerRadiusBottomStart">10dp</item>
+        <item name="boxCornerRadiusBottomEnd">10dp</item>
+        <item name="boxStrokeColor">@color/blue</item>
+        <item name="colorControlNormal">@color/maroon_primary</item>
+    </style>
+
+    <!-- Style for TextInputEditText -->
+    <style name="edt" parent="Widget.MaterialComponents.TextInputEditText.OutlinedBox">
+        <item name="android:scrollbars">vertical</item>
+        <item name="android:inputType">textMultiLine</item>
+        <item name="android:gravity">center_vertical</item>
+    </style>
     <!-- Text Style. -->
     <style name="textHeaderL_bold">
         <item name="android:layout_width">wrap_content</item>

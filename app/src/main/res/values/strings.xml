@@ -51,9 +51,9 @@
     <string name="welcome_title">Selamat Datang di IMABA Jogja</string>
     <string name="welcome_desc">Silahkan login atau daftar untuk melanjutkan</string>
     <string name="home">Home</string>
-    <string name="member">Member</string>
-    <string name="study">Study</string>
-    <string name="profile">Profile</string>
+    <string name="member">Anggota</string>
+    <string name="study">Studi</string>
+    <string name="profile">Profil</string>
     <string name="search_hint">Cari Anggota</string>
     <string name="title_member">👥 Daftar Anggota</string>
     <string name="name_example">Spongebob Squarepants</string>
@@ -147,4 +147,11 @@
     <string name="email">Email</string>
     <string name="no_hp">No. Hp</string>
     <string name="desk_program_study">Menampilkan semua perguruan tinggi beserta program studi se Yogyakarta</string>
+    <string name="nomor_hp_2">No. HP 2</string>
+    <string name="email_atau_username">Email atau username</string>
+    <string name="password">Password</string>
+    <string name="belum_punya_akun_daftar">Belum punya akun ? daftar</string>
+    <string name="lupa_password">Lupa Password ?</string>
+    <string name="masuk_untuk_melanjutkan">Masuk untuk melanjutkan</string>
+    <string name="tipe_anggota">Tipe Anggota</string>
 </resources>

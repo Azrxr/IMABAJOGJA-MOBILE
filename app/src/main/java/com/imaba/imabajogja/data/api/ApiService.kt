@@ -171,7 +171,7 @@ interface ApiService {
         @Field("scholl_origin") schollOrigin: String,
         @Field("tahun_lulus") tahunLulus: Int,
 
-        @Field("angkatan") angkatan: Int,
+        @Field("angkatan") angkatan: String,
         @Field("member_type") memberType: String,
     ): Response<SuccesResponse>
 

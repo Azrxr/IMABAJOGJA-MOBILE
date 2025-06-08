@@ -2,41 +2,33 @@ package com.imaba.imabajogja.ui.admin.profile
 
 import android.content.Intent
 import android.net.Uri
-import androidx.fragment.app.viewModels
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import com.bumptech.glide.Glide
 import com.imaba.imabajogja.R
 import com.imaba.imabajogja.data.response.AdmDataUser
 import com.imaba.imabajogja.data.response.AdmProfileResponse
-import com.imaba.imabajogja.data.response.ProfileResponse
-import com.imaba.imabajogja.data.response.ProfileUser
 import com.imaba.imabajogja.data.utils.Result
 import com.imaba.imabajogja.data.utils.reduceFileImage
-import com.imaba.imabajogja.data.utils.setTextOrPlaceholder
 import com.imaba.imabajogja.data.utils.showLoading
 import com.imaba.imabajogja.data.utils.showToast
 import com.imaba.imabajogja.data.utils.uriToFile
 import com.imaba.imabajogja.databinding.FragmentAdmProfileBinding
-import com.imaba.imabajogja.databinding.FragmentProfileBinding
 import com.imaba.imabajogja.ui.AboutActivity
 import com.imaba.imabajogja.ui.MainViewModel
 import com.imaba.imabajogja.ui.authentication.AdmUpdatePasswordActivity
-import com.imaba.imabajogja.ui.authentication.UpdatePasswordActivity
-import com.imaba.imabajogja.ui.profile.EditProfileActivity
-import com.imaba.imabajogja.ui.profile.EditProfileActivity.Companion
 import com.imaba.imabajogja.ui.profile.ProfileViewModel
 import com.imaba.imabajogja.ui.welcome.WelcomeActivity
 import dagger.hilt.android.AndroidEntryPoint
-import timber.log.Timber
 import java.io.File
 
 @AndroidEntryPoint
@@ -48,6 +40,7 @@ class AdmProfileFragment : Fragment() {
         private const val REQUEST_PICK_IMAGE = 1000
         fun newInstance() = AdmProfileFragment()
     }
+
     private val mainViewModel: MainViewModel by viewModels()
     private val profileViewModel: ProfileViewModel by viewModels()
     private lateinit var binding: FragmentAdmProfileBinding
@@ -80,7 +73,7 @@ class AdmProfileFragment : Fragment() {
             when (it) {
                 is Result.Loading -> {
                     // show loading
-                    showLoading(binding.progressIndicator,true)
+                    showLoading(binding.progressIndicator, true)
                 }
 
                 is Result.Success -> {
@@ -142,11 +135,12 @@ class AdmProfileFragment : Fragment() {
         binding.tvName.text = user?.username ?: getString(R.string.empty)
         binding.tvEmail.text = user?.email ?: getString(R.string.empty)
         binding.tvPhoneNumber.text = profile?.phoneNumber ?: getString(R.string.empty)
-        binding.tvFullAddress.text = if (profile?.fullAddress != null && profile.district?.name != null && profile.regency?.name != null && profile.provincy?.name != null) {
-            "${profile.fullAddress}, ${profile.district.name}, ${profile.regency.name}, ${profile.provincy?.name}"
-        } else {
-            getString(R.string.empty)
-        }
+        binding.tvFullAddress.text =
+            if (profile?.fullAddress != null && profile.district?.name != null && profile.regency?.name != null && profile.provincy?.name != null) {
+                "${profile.fullAddress}, ${profile.district.name}, ${profile.regency.name}, ${profile.provincy?.name}"
+            } else {
+                getString(R.string.empty)
+            }
 
         binding.etUsername.setText(user?.username)
         binding.etEmail.setText(user?.email)
@@ -168,7 +162,7 @@ class AdmProfileFragment : Fragment() {
             .into(binding.ivProfile)
     }
 
-    private fun setupEdtEnabled( isEdit: Boolean) {
+    private fun setupEdtEnabled(isEdit: Boolean) {
         binding.etUsername.isEnabled = isEdit
         binding.etEmail.isEnabled = isEdit
         binding.etFullname.isEnabled = isEdit
@@ -177,17 +171,19 @@ class AdmProfileFragment : Fragment() {
         binding.etDistrict.isEnabled = isEdit
         binding.etCity.isEnabled = isEdit
         binding.etProvince.isEnabled = isEdit
+
+        binding.btnEdit.visibility = if (isEdit) View.GONE else View.VISIBLE
+        binding.btnSave.visibility = if (isEdit) View.VISIBLE else View.GONE
+        listOf(
+            binding.tvAccount,
+            binding.tilUsername,
+            binding.tilEmail
+        ).forEach { it.visibility = if (isEdit) View.VISIBLE else View.GONE }
     }
+
 
     private fun editProfile() {
         binding.btnEdit.setOnClickListener {
-            binding.btnEdit.visibility = View.GONE
-            binding.btnSave.visibility = View.VISIBLE
-            listOf(
-                binding.tvAccount,
-                binding.tilUsername,
-                binding.tilEmail
-            ).forEach { it.visibility = View.VISIBLE }
             setupEdtEnabled(true)
             setupProvinceDropdown()
         }
@@ -198,32 +194,84 @@ class AdmProfileFragment : Fragment() {
             val fullname = binding.etFullname.text.toString()
             val phoneNumber = binding.etPhoneNumber.text.toString()
             val fullAddress = binding.etAddress.text.toString()
+            // Validation
+            if (username.isEmpty()) {
+                binding.etUsername.error = "Username cannot be empty"
+                return@setOnClickListener
+            }
+            if (email.isEmpty() || !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+                binding.etEmail.error = "Invalid email address"
+                return@setOnClickListener
+            }
+            if (fullname.isEmpty()) {
+                binding.etFullname.error = "Full name cannot be empty"
+                return@setOnClickListener
+            }
+            if (phoneNumber.isEmpty() || !phoneNumber.matches(Regex("^\\d{10,13}\$"))) {
+                binding.etPhoneNumber.error = "Invalid phone number"
+                return@setOnClickListener
+            }
+            if (fullAddress.isEmpty()) {
+                binding.etAddress.error = "Address cannot be empty"
+                return@setOnClickListener
+            }
 
-
-            viewModel.updateProfile(
+            if (selectedProvinceId == null) {
+                binding.etProvince.error = "Please select a province"
+                return@setOnClickListener
+            } else {
+                binding.etProvince.error = null
+            }
+            if (selectedRegencyId == null) {
+                binding.etCity.error = "Please select a city"
+                return@setOnClickListener
+            } else {
+                binding.etCity.error = null
+            }
+            if (selectedDistrictId == null) {
+                binding.etDistrict.error = "Please select a district"
+                return@setOnClickListener
+            } else {
+                binding.etDistrict.error = null
+            }
+            save(
                 username, email,
                 fullname, phoneNumber,
-                selectedProvinceId ?: 0, selectedRegencyId ?: 0, selectedDistrictId ?: 0, fullAddress,
-            ).observe(viewLifecycleOwner) { result ->
-                when (result) {
-                    is Result.Loading -> {
-                        showLoading(binding.progressIndicator, true)
-                    }
-                    is Result.Success -> {
-                        showLoading(binding.progressIndicator, false)
-                        requireContext().showToast("Profile updated successfully")
-                        listOf(
-                            binding.tvAccount,
-                            binding.tilUsername,
-                            binding.tilEmail
-                        ).forEach { it.visibility = View.GONE }
-                        setupEdtEnabled(false)
-                    }
-                    is Result.Error -> {
-                        showLoading(binding.progressIndicator, false)
-                        requireContext().showToast("Error: ${result.message}")
-                        Log.d("dataProfile", "homeFragment: ${result.message}")
-                    }
+                fullAddress,
+            )
+        }
+    }
+
+    private fun save(
+        username: String, email: String,
+        fullname: String, phoneNumber: String,
+        fullAddress: String,
+    ) {
+        viewModel.updateProfile(
+            username, email,
+            fullname, phoneNumber,
+            selectedProvinceId ?: 0, selectedRegencyId ?: 0, selectedDistrictId ?: 0, fullAddress,
+        ).observe(viewLifecycleOwner) { result ->
+            when (result) {
+                is Result.Loading -> {
+                    showLoading(binding.progressIndicator, true)
+                }
+
+                is Result.Success -> {
+                    showLoading(binding.progressIndicator, false)
+                    requireContext().showToast("Profile updated successfully")
+                    listOf(
+                        binding.tvAccount,
+                        binding.tilUsername,
+                        binding.tilEmail
+                    ).forEach { it.visibility = View.GONE }
+                    setupEdtEnabled(false)
+                }
+
+                is Result.Error -> {
+                    showLoading(binding.progressIndicator, false)
+                    requireContext().showToast("Error: ${result.message}")
+                    Log.d("dataProfile", "homeFragment: ${result.message}")
                 }
             }
         }
@@ -237,25 +285,26 @@ class AdmProfileFragment : Fragment() {
         }
     }
 
-    private val pickImageLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
-        uri?.let {
-            val file = File(requireContext().cacheDir, "profile.jpg").apply {
-                outputStream().use { out ->
-                    requireContext().contentResolver.openInputStream(uri)?.copyTo(out)
+    private val pickImageLauncher =
+        registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
+            uri?.let {
+                val file = File(requireContext().cacheDir, "profile.jpg").apply {
+                    outputStream().use { out ->
+                        requireContext().contentResolver.openInputStream(uri)?.copyTo(out)
+                    }
                 }
+                selectedImageFile = file
+
+                Glide.with(requireContext())
+                    .load(uri)
+                    .into(binding.ivProfile)
+
+                uploadPhoto()
             }
-            selectedImageFile = file
-
-            Glide.with(requireContext())
-                .load(uri)
-                .into(binding.ivProfile)
-
-            uploadPhoto()
         }
-    }
 
 
-    private fun uploadPhoto(){
+    private fun uploadPhoto() {
         selectedImageFile?.let { file ->
             viewModel.updatePhotoProfile(file).observe(this) { result ->
                 when (result) {
@@ -282,7 +331,11 @@ class AdmProfileFragment : Fragment() {
             when (result) {
                 is Result.Success -> {
                     val provinceNames = result.data.map { it.name }
-                    provinceAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_dropdown_item_1line, provinceNames)
+                    provinceAdapter = ArrayAdapter(
+                        requireContext(),
+                        android.R.layout.simple_dropdown_item_1line,
+                        provinceNames
+                    )
                     binding.etProvince.setAdapter(provinceAdapter)
 
                     binding.etProvince.setOnItemClickListener { _, _, position, _ ->
@@ -290,6 +343,7 @@ class AdmProfileFragment : Fragment() {
                         setupRegencyDropdown()
                     }
                 }
+
                 is Result.Error -> requireContext().showToast("Gagal mengambil provinsi: ${result.message}")
                 is Result.Loading -> requireContext().showToast("Memuat data provinsi...")
             }
@@ -297,33 +351,38 @@ class AdmProfileFragment : Fragment() {
     }
 
     private fun setupRegencyDropdown() {
-            binding.etCity.setOnClickListener {
-                if (selectedProvinceId == null) {
-                    binding.tilProvince.error = "Harap pilih provinsi terlebih dahulu"
-                } else {
-                    binding.tilProvince.error = null
-                }
+        binding.etCity.setOnClickListener {
+            if (selectedProvinceId == null) {
+                binding.tilProvince.error = "Harap pilih provinsi terlebih dahulu"
+            } else {
+                binding.tilProvince.error = null
             }
+        }
 
-            selectedProvinceId?.let { provinceId ->
-                profileViewModel.getRegencies(provinceId).observe(viewLifecycleOwner) { result ->
-                    when (result) {
-                        is Result.Success -> {
-                            val regencyNames = result.data.map { it.name }
-                            regencyAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_dropdown_item_1line, regencyNames)
-                            binding.etCity.setAdapter(regencyAdapter)
+        selectedProvinceId?.let { provinceId ->
+            profileViewModel.getRegencies(provinceId).observe(viewLifecycleOwner) { result ->
+                when (result) {
+                    is Result.Success -> {
+                        val regencyNames = result.data.map { it.name }
+                        regencyAdapter = ArrayAdapter(
+                            requireContext(),
+                            android.R.layout.simple_dropdown_item_1line,
+                            regencyNames
+                        )
+                        binding.etCity.setAdapter(regencyAdapter)
 
-                            binding.etCity.setOnItemClickListener { _, _, position, _ ->
-                                selectedRegencyId = result.data[position].id
-                                binding.tilCity.error = null
-                                setupDistrictDropdown()
-                            }
+                        binding.etCity.setOnItemClickListener { _, _, position, _ ->
+                            selectedRegencyId = result.data[position].id
+                            binding.tilCity.error = null
+                            setupDistrictDropdown()
                         }
-                        is Result.Error -> requireContext().showToast("Gagal mengambil kabupaten/kota: ${result.message}")
-                        is Result.Loading -> requireContext().showToast("Memuat data kabupaten/kota...")
                     }
+
+                    is Result.Error -> requireContext().showToast("Gagal mengambil kabupaten/kota: ${result.message}")
+                    is Result.Loading -> requireContext().showToast("Memuat data kabupaten/kota...")
                 }
             }
+        }
     }
 
     private fun setupDistrictDropdown() {
@@ -340,15 +399,20 @@ class AdmProfileFragment : Fragment() {
                 when (result) {
                     is Result.Success -> {
                         val districtNames = result.data.map { it.name }
-                        districtAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_dropdown_item_1line, districtNames)
+                        districtAdapter = ArrayAdapter(
+                            requireContext(),
+                            android.R.layout.simple_dropdown_item_1line,
+                            districtNames
+                        )
                         binding.etDistrict.setAdapter(districtAdapter)
 
                         binding.etDistrict.setOnItemClickListener { _, _, position, _ ->
                             selectedDistrictId = result.data[position].id
                         }
                     }
-                    is Result.Error -> requireContext()showToast("Gagal mengambil kecamatan: ${result.message}")
-                    is Result.Loading -> requireContext()showToast("Memuat data kecamatan...")
+
+                    is Result.Error -> requireContext() showToast ("Gagal mengambil kecamatan: ${result.message}")
+                    is Result.Loading -> requireContext() showToast ("Memuat data kecamatan...")
                 }
             }
         }

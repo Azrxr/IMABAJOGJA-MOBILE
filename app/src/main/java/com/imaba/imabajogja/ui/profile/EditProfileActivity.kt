@@ -19,7 +19,6 @@ import com.imaba.imabajogja.R
 import com.imaba.imabajogja.data.response.ProfileUser
 import com.imaba.imabajogja.data.utils.Result
 import com.imaba.imabajogja.data.utils.reduceFileImage
-import com.imaba.imabajogja.data.utils.setTextOrPlaceholder
 import com.imaba.imabajogja.data.utils.showToast
 import com.imaba.imabajogja.data.utils.uriToFile
 import com.imaba.imabajogja.databinding.ActivityEditProfileBinding
@@ -59,7 +58,7 @@ class EditProfileActivity : AppCompatActivity() {
         profileData?.let {
             showProfileData(it)
         }
-        updateProfile()
+        edit()
         setupDropdowns()
         setupDatePicker()
         pickImageFromGallery()
@@ -99,7 +98,7 @@ class EditProfileActivity : AppCompatActivity() {
     }
 
     private fun pickImageFromGallery() {
-        binding.btnUpload.setOnClickListener{
+        binding.btnUpload.setOnClickListener {
             val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
             intent.type = "image/*"
             startActivityForResult(intent, REQUEST_PICK_IMAGE)
@@ -128,27 +127,31 @@ class EditProfileActivity : AppCompatActivity() {
         }
     }
 
-    private fun setupGenderDropDown(selectedGender : String? = null) {
+    private fun setupGenderDropDown(selectedGender: String? = null) {
         val genderOptions = listOf("Laki-laki", "Perempuan")
         val adapter = ArrayAdapter(this, android.R.layout.simple_dropdown_item_1line, genderOptions)
         binding.etGender.setAdapter(adapter)
 
         selectedGender?.let {
-            if (genderOptions.contains(it)){
+            if (genderOptions.contains(it)) {
                 binding.etGender.setText(it, false)
             }
         }
+        binding.etGender.error = null
     }
 
-    private fun setupReligionDropDown(selectedReligion : String? = null) {
-        val religionOptions = listOf("Islam", "Kristen", "Katolik", "Hindu", "Budha", "Konghucu", "Lainnya")
-        val adapter = ArrayAdapter(this, android.R.layout.simple_dropdown_item_1line, religionOptions)
+    private fun setupReligionDropDown(selectedReligion: String? = null) {
+        val religionOptions =
+            listOf("Islam", "Kristen", "Katolik", "Hindu", "Budha", "Konghucu", "Lainnya")
+        val adapter =
+            ArrayAdapter(this, android.R.layout.simple_dropdown_item_1line, religionOptions)
         binding.etReligion.setAdapter(adapter)
 
         selectedReligion?.let { apiReligion ->
             val matchedReligion = religionOptions.find { it.equals(apiReligion, ignoreCase = true) }
             matchedReligion?.let { binding.etReligion.setText(it, false) }
         }
+        binding.etReligion.error = null
     }
 
     private fun setupProvinceDropdown() {
@@ -156,7 +159,11 @@ class EditProfileActivity : AppCompatActivity() {
             when (result) {
                 is Result.Success -> {
                     val provinceNames = result.data.map { it.name }
-                    provinceAdapter = ArrayAdapter(this, android.R.layout.simple_dropdown_item_1line, provinceNames)
+                    provinceAdapter = ArrayAdapter(
+                        this,
+                        android.R.layout.simple_dropdown_item_1line,
+                        provinceNames
+                    )
                     binding.etProvince.setAdapter(provinceAdapter)
 
                     binding.etProvince.setOnItemClickListener { _, _, position, _ ->
@@ -164,10 +171,12 @@ class EditProfileActivity : AppCompatActivity() {
                         setupRegencyDropdown()
                     }
                 }
+
                 is Result.Error -> showToast("Gagal mengambil provinsi: ${result.message}")
                 is Result.Loading -> showToast("Memuat data provinsi...")
             }
         }
+        binding.etProvince.error = null
     }
 
     private fun setupRegencyDropdown() {
@@ -176,7 +185,11 @@ class EditProfileActivity : AppCompatActivity() {
                 when (result) {
                     is Result.Success -> {
                         val regencyNames = result.data.map { it.name }
-                        regencyAdapter = ArrayAdapter(this, android.R.layout.simple_dropdown_item_1line, regencyNames)
+                        regencyAdapter = ArrayAdapter(
+                            this,
+                            android.R.layout.simple_dropdown_item_1line,
+                            regencyNames
+                        )
                         binding.etCity.setAdapter(regencyAdapter)
 
                         binding.etCity.setOnItemClickListener { _, _, position, _ ->
@@ -184,11 +197,13 @@ class EditProfileActivity : AppCompatActivity() {
                             setupDistrictDropdown()
                         }
                     }
+
                     is Result.Error -> showToast("Gagal mengambil kabupaten/kota: ${result.message}")
                     is Result.Loading -> showToast("Memuat data kabupaten/kota...")
                 }
             }
         }
+        binding.etCity.error = null
     }
 
     private fun setupDistrictDropdown() {
@@ -197,18 +212,24 @@ class EditProfileActivity : AppCompatActivity() {
                 when (result) {
                     is Result.Success -> {
                         val districtNames = result.data.map { it.name }
-                        districtAdapter = ArrayAdapter(this, android.R.layout.simple_dropdown_item_1line, districtNames)
+                        districtAdapter = ArrayAdapter(
+                            this,
+                            android.R.layout.simple_dropdown_item_1line,
+                            districtNames
+                        )
                         binding.etDistrict.setAdapter(districtAdapter)
 
                         binding.etDistrict.setOnItemClickListener { _, _, position, _ ->
                             selectedDistrictId = result.data[position].id
                         }
                     }
+
                     is Result.Error -> showToast("Gagal mengambil kecamatan: ${result.message}")
                     is Result.Loading -> showToast("Memuat data kecamatan...")
                 }
             }
         }
+        binding.etDistrict.error = null
     }
 
     private fun setupDropdowns() {
@@ -228,7 +249,8 @@ class EditProfileActivity : AppCompatActivity() {
             val day = calendar.get(Calendar.DAY_OF_MONTH)
 
             val datePicker = DatePickerDialog(this, { _, selectedYear, selectedMonth, selectedDay ->
-                selectedDate = String.format("%04d-%02d-%02d", selectedYear, selectedMonth + 1, selectedDay)
+                selectedDate =
+                    String.format("%04d-%02d-%02d", selectedYear, selectedMonth + 1, selectedDay)
                 binding.etBirthDate.setText(selectedDate) // 🔥 Menampilkan tanggal yang dipilih di EditText
             }, year, month, day)
 
@@ -237,7 +259,7 @@ class EditProfileActivity : AppCompatActivity() {
         return selectedDate
     }
 
-    private fun uploadPhoto(){
+    private fun uploadPhoto() {
         selectedImageFile?.let { file ->
             viewModel.updatePhotoProfile(file).observe(this) { result ->
                 when (result) {
@@ -259,7 +281,7 @@ class EditProfileActivity : AppCompatActivity() {
         } ?: showToast("Pilih gambar terlebih dahulu")
     }
 
-    private fun updateProfile() {
+    private fun edit() {
         binding.btnSave.setOnClickListener {
             val username = binding.etUsername.text.toString()
             val email = binding.etEmail.text.toString()
@@ -275,36 +297,129 @@ class EditProfileActivity : AppCompatActivity() {
             val tanggalLahir = binding.etBirthDate.text.toString()
             val gender = binding.etGender.text.toString()
             val schollOrigin = binding.etSchoolOrigin.text.toString()
-            val tahunLulus = binding.etGraduationYear.text.toString().toInt()
+            val tahunLulus = binding.etGraduationYear.text.toString().toIntOrNull()
+            val currentYear = Calendar.getInstance().get(Calendar.YEAR)
 
-            viewModel.updateProfile(
+            if (fullname.isEmpty()) {
+                binding.etFullname.error = "Nama lengkap tidak boleh kosong"
+                return@setOnClickListener
+            }
+            if (phoneNumber.isEmpty() || !phoneNumber.matches(Regex("^\\d{10,13}\$"))) {
+                binding.etPhoneNumber.error = "Nomor telepon tidak valid"
+                return@setOnClickListener
+            }
+            if (fullAddress.isEmpty()) {
+                binding.etFullAddress.error = "Alamat lengkap tidak boleh kosong"
+                return@setOnClickListener
+            }
+            if (kodePos.isEmpty() || !kodePos.matches(Regex("^\\d{5}\$"))) {
+                binding.etPostalCode.error = "Kode pos tidak valid"
+                return@setOnClickListener
+            }
+            if (agama.isEmpty()) {
+                binding.etReligion.error = "Agama tidak boleh kosong"
+                return@setOnClickListener
+            } else { binding.etReligion.error = null }
+
+            if (nisn.isEmpty() || nisn.matches(Regex("^\\d{10}\$"))) {
+                binding.etNisn.error = "NISN tidak valid"
+                return@setOnClickListener
+            }
+            if (tempat.isEmpty()) {
+                binding.etBirthPlace.error = "Tempat lahir tidak boleh kosong"
+                return@setOnClickListener
+            }
+            if (tanggalLahir.isEmpty() || tanggalLahir > currentYear.toString()) {
+                binding.tilBirthDate.error = "Tanggal lahir tidak valid"
+                return@setOnClickListener
+            }else { binding.tilBirthDate.error = null }
+            if (gender.isEmpty()) {
+                binding.etGender.error = "Jenis kelamin tidak boleh kosong"
+                return@setOnClickListener
+            } else { binding.etGender.error = null }
+            if (schollOrigin.isEmpty()) {
+                binding.etSchoolOrigin.error = "Asal sekolah tidak boleh kosong"
+                return@setOnClickListener
+            }
+            if (tahunLulus == null || tahunLulus > currentYear) {
+                binding.etGraduationYear.error =
+                    "Tahun lulus tidak valid atau melebihi tahun saat ini"
+                return@setOnClickListener
+            }
+
+            if (selectedProvinceId == null) {
+                binding.etProvince.error = "Please select a province"
+                return@setOnClickListener
+            } else {
+                binding.etProvince.error = null
+            }
+            if (selectedRegencyId == null) {
+                binding.etCity.error = "Please select a city"
+                return@setOnClickListener
+            } else {
+                binding.etCity.error = null
+            }
+            if (selectedDistrictId == null) {
+                binding.etDistrict.error = "Please select a district"
+                return@setOnClickListener
+            } else {
+                binding.etDistrict.error = null
+            }
+            updateProfile(
                 username, email,
-                fullname, phoneNumber, selectedProvinceId ?: 0, selectedRegencyId ?: 0, selectedDistrictId ?: 0,
+                fullname, phoneNumber,
                 fullAddress, kodePos, agama, nisn, tempat, tanggalLahir, gender,
                 schollOrigin, tahunLulus
-            ).observe(this) { result ->
-                when (result) {
-                    is Result.Success -> {
-                        Log.d("UpdateProfile", "Profil berhasil diperbarui!")
-                        showToast("Profil berhasil diperbarui!")
-                        val intent = Intent()
-                        setResult(Activity.RESULT_OK, intent) // Kirim sinyal ke fragment
-                        finish()
-                    }
+            )
+        }
+    }
 
-                    is Result.Error -> {
-                        Log.e("UpdateProfile", "Gagal memperbarui profil: ${result.message}")
-                        showToast("Gagal memperbarui profil: ${result.message}")
-                    }
+    private fun updateProfile(
+        username: String, email: String,
+        fullname: String, phoneNumber: String,
+        fullAddress: String, kodePos: String,
+        agama: String, nisn: String, tempat: String, tanggalLahir: String, gender: String,
+        schollOrigin: String, tahunLulus: Int,
+    ) {
+        viewModel.updateProfile(
+            username,
+            email,
+            fullname,
+            phoneNumber,
+            selectedProvinceId ?: 0,
+            selectedRegencyId ?: 0,
+            selectedDistrictId ?: 0,
+            fullAddress,
+            kodePos,
+            agama,
+            nisn,
+            tempat,
+            tanggalLahir,
+            gender,
+            schollOrigin,
+            tahunLulus
+        ).observe(this) { result ->
+            when (result) {
+                is Result.Success -> {
+                    Log.d("UpdateProfile", "Profil berhasil diperbarui!")
+                    showToast("Profil berhasil diperbarui!")
+                    val intent = Intent()
+                    setResult(Activity.RESULT_OK, intent) // Kirim sinyal ke fragment
+                }
 
-                    is Result.Loading -> {
-                        Log.d("UpdateProfile", "Memproses pembaruan profil...")
-                        showToast("Memproses pembaruan profil...")
-                    }
+                is Result.Error -> {
+                    Log.e("UpdateProfile", "Gagal memperbarui profil: ${result.message}")
+                    showToast("Gagal memperbarui profil: ${result.message}")
+                }
+
+                is Result.Loading -> {
+                    Log.d("UpdateProfile", "Memproses pembaruan profil...")
+                    showToast("Memproses pembaruan profil...")
                 }
             }
         }
     }
+
 
     companion object {
         private const val PROFILE_DATA = "profile_data"

@@ -297,7 +297,7 @@ class AdminRepository @Inject constructor(private val apiService: ApiService) {
         fullname: String, phoneNumber: String,
         provinceId: Int, regencyId: Int, districtId: Int, fullAddres: String, kodePos: String,
         agama: String, nisn: String, tempat: String, tanggalLahir: String, gender: String,
-        schollOrigin: String, tahunLulus: Int, angkatan: Int, memberType: String
+        schollOrigin: String, tahunLulus: Int, angkatan: String, memberType: String
     ): LiveData<Result<SuccesResponse>> {
         return liveData {
             emit(Result.Loading)

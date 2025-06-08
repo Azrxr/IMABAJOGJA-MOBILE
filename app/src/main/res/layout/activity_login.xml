@@ -79,7 +79,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginTop="8dp"
-        android:text="Masuk untuk melanjutkan"
+        android:text="@string/masuk_untuk_melanjutkan"
         android:textColor="?attr/colorOnPrimary"
         android:alpha="0"
         tools:alpha="100"
@@ -116,16 +116,18 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/tilEmail"
+                style="@style/til"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
-                android:alpha="0"
-                android:hint="Masukkan Email Anda"
                 app:startIconDrawable="@drawable/ic_email"
+                android:alpha="0"
+                android:hint="@string/email_atau_username"
                 tools:alpha="100">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/edtEmail"
+                    style="@style/edt"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:ems="10"
@@ -134,17 +136,19 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/tilPassword"
+                style="@style/til"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
                 android:alpha="0"
-                android:hint="Masukkan Password Anda"
+                android:hint="@string/password"
                 app:startIconDrawable="@drawable/ic_password"
                 app:endIconMode="password_toggle"
                 tools:alpha="100">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/edtPassword"
+                    style="@style/edt"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:ems="10"
@@ -172,22 +176,24 @@
                 android:clickable="true"
                 android:focusable="true"
                 android:alpha="0"
-                android:text="Lupa Password ?"
+                android:textColor="?attr/colorPrimary"
+                android:text="@string/lupa_password"
                 android:textAlignment="center"
                 tools:alpha="100" />
 
-            <TextView
-                android:id="@+id/btnDaftar"
-                style="@style/textBodyM"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="?attr/selectableItemBackground"
-                android:clickable="true"
-                android:focusable="true"
-                android:alpha="0"
-                android:text="Belum punya akun ? daftar"
-                android:textAlignment="center"
-                tools:alpha="100" />
+                <TextView
+                    android:id="@+id/btnDaftar"
+                    style="@style/textBodyM"
+                    android:textColor="?attr/colorPrimary"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="?attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:alpha="0"
+                    android:text="@string/belum_punya_akun_daftar"
+                    android:textAlignment="center"
+                    tools:alpha="100" />
 
         </LinearLayout>
     </androidx.cardview.widget.CardView>

@@ -120,6 +120,7 @@
 
                     <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/tilGeneration"
+                        style="@style/til"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="4dp"
@@ -127,6 +128,7 @@
                         app:endIconMode="dropdown_menu">
 
                         <AutoCompleteTextView
+                            style="@style/edt"
                             android:id="@+id/etGeneration"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
@@ -140,6 +142,7 @@
 
                     <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/tilMemberType"
+                        style="@style/til"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="4dp"
@@ -147,20 +150,21 @@
                         app:endIconMode="dropdown_menu">
 
                         <AutoCompleteTextView
+                            style="@style/edt"
                             android:id="@+id/etMemberType"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:clickable="true"
                             android:focusable="true"
-                            android:hint="Type Anggota"
+                            android:hint="@string/tipe_anggota"
                             android:inputType="none"
-                            android:maxLines="1"
-                            android:padding="16dp" />
+                            android:maxLines="1" />
                     </com.google.android.material.textfield.TextInputLayout>
                 </LinearLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/tilFullname"
+                    style="@style/til"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="4dp">
@@ -170,27 +174,30 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/fullname"
+                        style="@style/edt"
                         android:inputType="text"
                         android:maxLines="1" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/tilBirthPlace"
+                    style="@style/til"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="4dp">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/etBirthPlace"
+                        style="@style/edt"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/birth_place"
-                        android:inputType="text"
-                        android:maxLines="1" />
+                        android:inputType="text" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/tilBirthDate"
+                    style="@style/til"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="4dp"
@@ -198,6 +205,7 @@
                     app:endIconMode="custom">
 
                     <AutoCompleteTextView
+                        style="@style/edt"
                         android:id="@+id/etBirthDate"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -210,12 +218,14 @@
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/tilGender"
+                    style="@style/til"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="4dp"
                     app:endIconMode="dropdown_menu">
 
                     <AutoCompleteTextView
+                        style="@style/edt"
                         android:id="@+id/etGender"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -229,14 +239,14 @@
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/tilReligion"
+                    style="@style/til"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="4dp"
-                    android:clickable="true"
-                    android:focusable="true"
                     app:endIconMode="dropdown_menu">
 
                     <AutoCompleteTextView
+                        style="@style/edt"
                         android:id="@+id/etReligion"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -276,12 +286,14 @@
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/tilPhoneNumber"
+                    style="@style/til"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="4dp">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/etPhoneNumber"
+                        style="@style/edt"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/phone_number"
@@ -291,6 +303,7 @@
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/tilProvince"
+                    style="@style/til"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="4dp"
@@ -298,6 +311,7 @@
                     app:endIconMode="dropdown_menu">
 
                     <AutoCompleteTextView
+                        style="@style/edt"
                         android:id="@+id/etProvince"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -309,6 +323,7 @@
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/tilCity"
+                    style="@style/til"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="4dp"
@@ -316,23 +331,25 @@
                     app:endIconMode="dropdown_menu">
 
                     <AutoCompleteTextView
+                        style="@style/edt"
                         android:id="@+id/etCity"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/regency"
                         android:inputType="none"
-                        android:maxLines="2"
                         android:padding="16dp" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/tilDistrict"
+                    style="@style/til"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     app:endIconMode="dropdown_menu">
 
                     <AutoCompleteTextView
+                        style="@style/edt"
                         android:id="@+id/etDistrict"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -344,27 +361,33 @@
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/tilFullAddress"
+                    style="@style/til"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="4dp">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/etFullAddress"
+                        style="@style/edt"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/full_address"
-                        android:inputType="text"
-                        android:maxLines="1" />
+                        android:inputType="textMultiLine"
+                        android:minLines="3"
+                        android:gravity="top"
+                        />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/tilPostalCode"
+                    style="@style/til"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="4dp">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/etPostalCode"
+                        style="@style/edt"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/postal_code"
@@ -401,27 +424,31 @@
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/tilNisn"
+                    style="@style/til"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="4dp">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/etNisn"
+                        style="@style/edt"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/nisn"
-                        android:inputType="text"
+                        android:inputType="number"
                         android:maxLines="1" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/tilSchoolOrigin"
+                    style="@style/til"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="4dp">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/etSchoolOrigin"
+                        style="@style/edt"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/scholl_origin"
@@ -431,12 +458,15 @@
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/tilGraduationYear"
+                    style="@style/til"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:layout_marginBottom="4dp">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/etGraduationYear"
+                        style="@style/edt"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/graduation_year"

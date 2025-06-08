@@ -24,6 +24,8 @@
     <color name="status_accepted">#4CAF50</color> <!-- Green -->
     <color name="status_rejected">#F44336</color> <!-- Red -->
     <color name="status_active">#2196F3</color> <!-- Blue -->
+    <color name="blue">#2196F3</color>
+    <color name="blue_link">#3C6EE7</color>
 
     <!-- theme dark -->
     <!-- 🌈 Warna Utama Aplikasi -->

@@ -1,10 +1,13 @@
 package com.imaba.imabajogja.ui.admin.home
 
 import android.content.Intent
+import android.content.res.ColorStateList
+import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.text.InputType
 import android.util.Log
+import android.util.Patterns
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -106,16 +109,57 @@ class AdmHomeFragment : Fragment() {
         }
 
         binding.btnSave.setOnClickListener {
-            val title = binding.etTitle.text.toString()
-            val description = binding.etDesk.text.toString()
-            val vision = binding.etVisi.text.toString()
-            val mission = binding.etMisi.text.toString()
-            val address = binding.etAddress.text.toString()
-            val email = binding.etEmail.text.toString()
-            val phoneNumber = binding.etPhoneNumber.text.toString()
-            val phoneNumber2 = binding.etPhoneNumber2.text.toString()
+            val title = binding.etTitle.text.toString().trim()
+            val description = binding.etDesk.text.toString().trim()
+            val vision = binding.etVisi.text.toString().trim()
+            val mission = binding.etMisi.text.toString().trim()
+            val address = binding.etAddress.text.toString().trim()
+            val email = binding.etEmail.text.toString().trim()
+            val phoneNumber = binding.etPhoneNumber.text.toString().trim()
+            val phoneNumber2 = binding.etPhoneNumber2.text.toString().trim()
 
-            viewModel.updateProfileOrganization(
+            // Validation checks
+            if (title.isBlank()) {
+                binding.etTitle.error = "Judul tidak boleh kosong"
+                binding.tilTitle.setErrorTextColor(ColorStateList.valueOf(Color.RED))
+                return@setOnClickListener
+            }
+
+            if (description.isBlank() || description.length < 200) {
+                binding.etDesk.error = "Deskripsi minimal harus 200 karakter"
+                binding.tilDesk.setErrorTextColor(ColorStateList.valueOf(Color.RED))
+                return@setOnClickListener
+            }
+
+            if (vision.isBlank() || vision.length < 30) {
+                binding.etVisi.error = "Visi minimal harus 30 karakter"
+                binding.tilVisi.setErrorTextColor(ColorStateList.valueOf(Color.RED))
+                return@setOnClickListener
+            }
+
+            if (mission.isBlank() || mission.length < 30) {
+                binding.etMisi.error = "Misi minimal harus 30 karakter"
+                binding.tilMisi.setErrorTextColor(ColorStateList.valueOf(Color.RED))
+                return@setOnClickListener
+            }
+            if (email.isBlank() || !Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+                binding.etEmail.error = "Email harus dalam format yang benar"
+                binding.tilEmail.setErrorTextColor(ColorStateList.valueOf(Color.RED))
+                return@setOnClickListener
+            }
+
+            if (phoneNumber.isBlank() || !phoneNumber.matches("\\d+".toRegex())) {
+                binding.etPhoneNumber.error = "Nomor telepon harus berupa angka"
+                binding.tilPhoneNumber.setErrorTextColor(ColorStateList.valueOf(Color.RED))
+                return@setOnClickListener
+            }
+
+            if (phoneNumber2.isNotBlank() && !phoneNumber2.matches("\\d+".toRegex())) {
+                binding.etPhoneNumber2.error = "Nomor telepon 2 harus berupa angka"
+                binding.tilPhoneNumber2.setErrorTextColor(ColorStateList.valueOf(Color.RED))
+                return@setOnClickListener
+            }
+            save(
                 title,
                 description,
                 vision,
@@ -124,39 +168,80 @@ class AdmHomeFragment : Fragment() {
                 email,
                 phoneNumber,
                 phoneNumber2
-            ).observe(viewLifecycleOwner) {
-                when (it) {
-                    is Result.Loading -> {
-                        showLoading(binding.progressIndicator, true)
-                    }
+            )
+        }
 
-                    is Result.Success -> {
-                        showLoading(binding.progressIndicator, false)
-                        requireContext().showToast("Berhasil mengupdate data")
-                        listOf(
-                            binding.etTitle,
-                            binding.etDesk,
-                            binding.etVisi,
-                            binding.etMisi,
-                            binding.etEmail,
-                            binding.etPhoneNumber,
-                            binding.etPhoneNumber2,
-                            binding.etAddress
-                        ).forEach { it.isEnabled = false }
-                        binding.btnEdit.visibility = View.VISIBLE
-                        binding.btnSave.visibility = View.GONE
-                        getHomeData() // Refresh data
-                    }
-
-                    is Result.Error -> {
-                        showLoading(binding.progressIndicator, false)
-                        requireContext().showToast("Error: ${it.message}")
-                        Log.d("data", "homeFragment: ${it.message}")
-                    }
-                }
+        binding.etPhoneNumber.setOnClickListener {
+            val phoneNumber = binding.etPhoneNumber.text.toString().trim()
+            if (phoneNumber.matches("\\d+".toRegex())) {
+                val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://wa.me/62$phoneNumber"))
+                startActivity(intent)
+            } else {
+                requireContext().showToast("Nomor telepon tidak valid")
             }
         }
 
+        binding.etPhoneNumber2.setOnClickListener {
+            val phoneNumber2 = binding.etPhoneNumber2.text.toString().trim()
+            if (phoneNumber2.matches("\\d+".toRegex())) {
+                val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://wa.me/62$phoneNumber2"))
+                startActivity(intent)
+            } else {
+                requireContext().showToast("Nomor telepon 2 tidak valid")
+            }
+        }
+    }
+
+    private fun save(
+        title: String,
+        description: String,
+        vision: String,
+        mission: String,
+        address: String,
+        email: String,
+        phoneNumber: String,
+        phoneNumber2: String
+    ) {
+        viewModel.updateProfileOrganization(
+            title,
+            description,
+            vision,
+            mission,
+            address,
+            email,
+            phoneNumber,
+            phoneNumber2
+        ).observe(viewLifecycleOwner) {
+            when (it) {
+                is Result.Loading -> {
+                    showLoading(binding.progressIndicator, true)
+                }
+
+                is Result.Success -> {
+                    showLoading(binding.progressIndicator, false)
+                    requireContext().showToast("Berhasil mengupdate data")
+                    listOf(
+                        binding.etTitle,
+                        binding.etDesk,
+                        binding.etVisi,
+                        binding.etMisi,
+                        binding.etEmail,
+                        binding.etPhoneNumber,
+                        binding.etPhoneNumber2,
+                        binding.etAddress
+                    ).forEach { it.isEnabled = false }
+                    binding.btnEdit.visibility = View.VISIBLE
+                    binding.btnSave.visibility = View.GONE
+                    getHomeData() // Refresh data
+                }
+
+                is Result.Error -> {
+                    showLoading(binding.progressIndicator, false)
+                    requireContext().showToast("Error: ${it.message}")
+                    Log.d("data", "homeFragment: ${it.message}")
+                }
+            }
+        }
     }
 
     private fun showHomeData(homeResponse: HomeResponse) {
@@ -187,7 +272,7 @@ class AdmHomeFragment : Fragment() {
         )
 
         val files = homeResponse.data.files ?: emptyList()
-        if (files.isEmpty()){
+        if (files.isEmpty()) {
             binding.listEmpty.visibility = View.VISIBLE
             binding.recyclerViewDocuments.visibility = View.GONE
         } else {

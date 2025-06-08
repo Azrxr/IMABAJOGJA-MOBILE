@@ -36,6 +36,7 @@
             android:exported="false" />
         <activity
             android:name=".ui.admin.member.AdmMemberDetailActivity"
+            android:windowSoftInputMode="adjustPan"
             android:exported="false" />
         <activity
             android:name=".ui.authentication.AdmUpdatePasswordActivity"
@@ -57,6 +58,7 @@
             android:exported="false" />
         <activity
             android:name=".ui.profile.EditProfileActivity"
+            android:sotfInputMode="adjustPan"
             android:exported="false" />
         <activity
             android:name=".ui.welcome.WelcomeActivity"

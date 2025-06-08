@@ -8,7 +8,6 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
 import android.widget.ArrayAdapter
-import android.widget.AutoCompleteTextView
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
@@ -18,16 +17,15 @@ import androidx.core.view.WindowInsetsCompat
 import com.bumptech.glide.Glide
 import com.imaba.imabajogja.R
 import com.imaba.imabajogja.data.response.DataItemMember
+import com.imaba.imabajogja.data.utils.Dropdown
 import com.imaba.imabajogja.data.utils.Result
 import com.imaba.imabajogja.data.utils.reduceFileImage
-import com.imaba.imabajogja.data.utils.setTextOrPlaceholder
+import com.imaba.imabajogja.data.utils.showLoading
 import com.imaba.imabajogja.data.utils.showToast
 import com.imaba.imabajogja.data.utils.uriToFile
 import com.imaba.imabajogja.databinding.ActivityAdmMemberDetailBinding
 import com.imaba.imabajogja.ui.profile.ProfileViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import com.imaba.imabajogja.data.utils.Dropdown
-import com.imaba.imabajogja.data.utils.showLoading
 import java.io.File
 import java.util.Calendar
 
@@ -52,7 +50,6 @@ class AdmMemberDetailActivity : AppCompatActivity() {
         private const val REQUEST_PICK_IMAGE = 1000
     }
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -66,7 +63,7 @@ class AdmMemberDetailActivity : AppCompatActivity() {
         binding.btnEdit.setOnClickListener {
             setEditMode(true)
         }
-        binding.btnCancel.setOnClickListener{
+        binding.btnCancel.setOnClickListener {
             showMemberDetails()
         }
         updateProfile()
@@ -81,7 +78,7 @@ class AdmMemberDetailActivity : AppCompatActivity() {
         setupGenderDropDown()
         setupReligionDropDown()
         setupMemberTypeDropDown()
-        setupGenerationDropDown()
+        setupYearDropDown()
     }
 
     private fun setEditMode(isEditMode: Boolean) {
@@ -113,7 +110,8 @@ class AdmMemberDetailActivity : AppCompatActivity() {
             if (isEditMode) android.view.View.VISIBLE else android.view.View.GONE
         binding.btnDelete.visibility =
             if (isEditMode) android.view.View.VISIBLE else android.view.View.GONE
-        binding.btnCancel.visibility = if (isEditMode) android.view.View.VISIBLE else android.view.View.GONE
+        binding.btnCancel.visibility =
+            if (isEditMode) android.view.View.VISIBLE else android.view.View.GONE
         binding.btnUpload.visibility =
             if (isEditMode) android.view.View.VISIBLE else android.view.View.GONE
 
@@ -160,7 +158,7 @@ class AdmMemberDetailActivity : AppCompatActivity() {
             binding.etGeneration.setText(
                 profile.angkatan?.toString()
             )
-            setupGenerationDropDown(profile.angkatan)
+            setupYearDropDown(profile.angkatan)
             binding.etMemberType.setText(profile.memberType)
             setupMemberTypeDropDown(profile.memberType)
 
@@ -246,6 +244,7 @@ class AdmMemberDetailActivity : AppCompatActivity() {
             listOf("camaba", "pengurus", "anggota", "demissioner", "istimewa"),
             selectedMemberType
         )
+        binding.etMemberType.error = null
     }
 
     private fun setupReligionDropDown(selectedReligion: String? = null) {
@@ -255,15 +254,24 @@ class AdmMemberDetailActivity : AppCompatActivity() {
             listOf("Islam", "Kristen", "Katolik", "Hindu", "Budha", "Konghucu", "Lainnya"),
             selectedReligion
         )
+        binding.etReligion.error = null
     }
 
-    private fun setupGenerationDropDown(selectedGeneration: String? = null) {
+    private fun setupYearDropDown(selectedYear: String? = null) {
+        val currentYear = Calendar.getInstance().get(Calendar.YEAR)
+        val startYear = 2010
+        val endYear = currentYear + 2 // bisa ditambah lebih banyak tahun ke depan
+
+        val years = (startYear..endYear).map { it.toString() }.reversed()
+
         Dropdown.setSimpleDropdown(
             this,
             binding.etGeneration,
-            listOf("2020", "2021", "2022", "2023", "2024"),
-            selectedGeneration
+            years,
+            selectedYear
         )
+        binding.etGeneration.error = null
+        binding.etGraduationYear.error = null
     }
 
     private fun setupDatePicker(): String {
@@ -283,6 +291,7 @@ class AdmMemberDetailActivity : AppCompatActivity() {
             datePicker.show()
         }
         return selectedDate
+        binding.tilBirthDate.error = null
     }
 
     private fun uploadPhoto() {
@@ -298,11 +307,13 @@ class AdmMemberDetailActivity : AppCompatActivity() {
                         Log.d("UploadPhoto", "Berhasil: ${result.data}")
 
                     }
+
                     is Result.Error -> {
                         showToast("Gagal mengupload foto: ${result.message}")
                         Log.e("UploadPhoto", "Error: ${result.message}")
                         showLoading(binding.progressIndicator, false)
                     }
+
                     is Result.Loading -> {
                         showToast("Mengunggah foto profil...")
                         showLoading(binding.progressIndicator, true)
@@ -328,17 +339,89 @@ class AdmMemberDetailActivity : AppCompatActivity() {
             val tanggalLahir = binding.etBirthDate.text.toString()
             val gender = binding.etGender.text.toString()
             val schollOrigin = binding.etSchoolOrigin.text.toString()
-            val tahunLulus = binding.etGraduationYear.text.toString().toInt()
-            val angkatan = binding.etGeneration.text.toString().toInt()
+            val tahunLulus = binding.etGraduationYear.text.toString().toIntOrNull()
+            val angkatan = binding.etGeneration.text.toString()
             val memberType = binding.etMemberType.text.toString()
+            val currentYear = Calendar.getInstance().get(Calendar.YEAR)
 
-            viewModel.updateMemberAdm(
+
+            if (fullname.isEmpty()) {
+                binding.etFullname.error = "Nama lengkap tidak boleh kosong"
+                return@setOnClickListener
+            }
+            if (phoneNumber.isEmpty() || !phoneNumber.matches(Regex("^\\d{10,13}\$"))) {
+                binding.etPhoneNumber.error = "Nomor telepon tidak valid"
+                return@setOnClickListener
+            }
+            if (fullAddress.isEmpty()) {
+                binding.etFullAddress.error = "Alamat lengkap tidak boleh kosong"
+                return@setOnClickListener
+            }
+            if (kodePos.isEmpty() || !kodePos.matches(Regex("^\\d{5}\$"))) {
+                binding.etPostalCode.error = "Kode pos tidak valid"
+                return@setOnClickListener
+            }
+            if (agama.isEmpty()) {
+                binding.etReligion.error = "Agama tidak boleh kosong"
+                return@setOnClickListener
+            } else { binding.etReligion.error = null }
+            if (nisn.isEmpty() || nisn.matches(Regex("^\\d{10}\$"))) {
+                binding.etNisn.error = "NISN tidak valid"
+                return@setOnClickListener
+            }
+            if (tempat.isEmpty()) {
+                binding.etBirthPlace.error = "Tempat lahir tidak boleh kosong"
+                return@setOnClickListener
+            }
+            if (tanggalLahir.isEmpty() || tanggalLahir > currentYear.toString()) {
+                binding.tilBirthDate.error = "Tanggal lahir tidak valid"
+                return@setOnClickListener
+            }else { binding.tilBirthDate.error = null }
+            if (gender.isEmpty()) {
+                binding.etGender.error = "Jenis kelamin tidak boleh kosong"
+                return@setOnClickListener
+            } else { binding.etGender.error = null }
+            if (schollOrigin.isEmpty()) {
+                binding.etSchoolOrigin.error = "Asal sekolah tidak boleh kosong"
+                return@setOnClickListener
+            }
+            if (tahunLulus == null || tahunLulus > currentYear) {
+                binding.etGraduationYear.error =
+                    "Tahun lulus tidak valid atau melebihi tahun saat ini"
+                return@setOnClickListener
+            }
+            if (angkatan.isEmpty() || angkatan > currentYear.toString()) {
+                binding.etGeneration.error = "Angkatan tidak valid"
+                return@setOnClickListener
+            } else {
+                binding.etGeneration.error = null
+            }
+            if (memberType.isEmpty()) {
+                binding.etMemberType.error = "Tipe anggota tidak boleh kosong"
+                return@setOnClickListener
+            } else { binding.etMemberType.error = null }
+            if (selectedProvinceId == null) {
+                binding.etProvince.error = "Please select a province"
+                return@setOnClickListener
+            } else {
+                binding.etProvince.error = null
+            }
+            if (selectedRegencyId == null) {
+                binding.etCity.error = "Please select a city"
+                return@setOnClickListener
+            } else {
+                binding.etCity.error = null
+            }
+            if (selectedDistrictId == null) {
+                binding.etDistrict.error = "Please select a district"
+                return@setOnClickListener
+            } else {
+                binding.etDistrict.error = null
+            }
+            saveMember(
                 memberId,
                 fullname,
                 phoneNumber,
-                selectedProvinceId ?: 0,
-                selectedRegencyId ?: 0,
-                selectedDistrictId ?: 0,
                 fullAddress,
                 kodePos,
                 agama,
@@ -350,29 +433,55 @@ class AdmMemberDetailActivity : AppCompatActivity() {
                 tahunLulus,
                 angkatan,
                 memberType
-            ).observe(this) { result ->
-                when (result) {
-                    is Result.Success -> {
-                        showLoading(binding.progressIndicator, false)
-                        Log.d("UpdateProfile", "Profil berhasil diperbarui!")
-                        showToast("Profil berhasil diperbarui!")
-                        setEditMode(false)
-                        val intent = Intent()
-                        setResult(Activity.RESULT_OK, intent) // Kirim sinyal ke fragment
-                        finish()
-                    }
+            )
+        }
+    }
 
-                    is Result.Error -> {
-                        showLoading(binding.progressIndicator, false)
-                        Log.e("UpdateProfile", "Gagal memperbarui profil: ${result.message}")
-                        showToast("Gagal memperbarui profil: ${result.message}")
-                    }
+    private fun saveMember(
+        memberId: Int,
+        fullname: String, phoneNumber: String, fullAddress: String, kodePos: String,
+        agama: String, nisn: String, tempat: String, tanggalLahir: String, gender: String,
+        schollOrigin: String, tahunLulus: Int, angkatan: String, memberType: String
+    ) {
+        viewModel.updateMemberAdm(
+            memberId,
+            fullname,
+            phoneNumber,
+            selectedProvinceId ?: 0,
+            selectedRegencyId ?: 0,
+            selectedDistrictId ?: 0,
+            fullAddress,
+            kodePos,
+            agama,
+            nisn,
+            tempat,
+            tanggalLahir,
+            gender,
+            schollOrigin,
+            tahunLulus,
+            angkatan,
+            memberType
+        ).observe(this) { result ->
+            when (result) {
+                is Result.Success -> {
+                    showLoading(binding.progressIndicator, false)
+                    Log.d("UpdateProfile", "Profil berhasil diperbarui!")
+                    showToast("Profil berhasil diperbarui!")
+                    setEditMode(false)
+                    val intent = Intent()
+                    setResult(RESULT_OK, intent)
+                }
 
-                    is Result.Loading -> {
-                        showLoading(binding.progressIndicator, true)
-                        Log.d("UpdateProfile", "Memproses pembaruan profil...")
-                        showToast("Memproses pembaruan profil...")
-                    }
+                is Result.Error -> {
+                    showLoading(binding.progressIndicator, false)
+                    Log.e("UpdateProfile", "Gagal memperbarui profil: ${result.message}")
+                    showToast("Gagal memperbarui profil: ${result.message}")
+                }
+
+                is Result.Loading -> {
+                    showLoading(binding.progressIndicator, true)
+                    Log.d("UpdateProfile", "Memproses pembaruan profil...")
+                    showToast("Memproses pembaruan profil...")
                 }
             }
         }
@@ -401,6 +510,7 @@ class AdmMemberDetailActivity : AppCompatActivity() {
                 is Result.Loading -> this.showToast("Memuat data provinsi...")
             }
         }
+        binding.etProvince.error = null
     }
 
     private fun setupRegencyDropdown() {
@@ -436,6 +546,7 @@ class AdmMemberDetailActivity : AppCompatActivity() {
                 }
             }
         }
+        binding.etCity.error = null
     }
 
     private fun setupDistrictDropdown() {
@@ -469,5 +580,6 @@ class AdmMemberDetailActivity : AppCompatActivity() {
                 }
             }
         }
+        binding.etDistrict.error = null
     }
 }

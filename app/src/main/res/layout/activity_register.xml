@@ -127,6 +127,7 @@
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/tilUsername"
+                    style="@style/til"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="16dp"
@@ -137,6 +138,7 @@
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/edtUsername"
+                        style="@style/edt"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:ems="10"
@@ -145,6 +147,7 @@
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/tilEmail"
+                    style="@style/til"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="16dp"
@@ -155,6 +158,7 @@
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/edtEmail"
+                        style="@style/edt"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:ems="10"
@@ -163,6 +167,7 @@
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/tilPassword"
+                    style="@style/til"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="16dp"
@@ -174,6 +179,7 @@
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/edtPassword"
+                        style="@style/edt"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:ems="10"
@@ -183,6 +189,7 @@
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/tilPasswordConfirm"
+                    style="@style/til"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="16dp"
@@ -194,6 +201,7 @@
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/edtPasswordConfirm"
+                        style="@style/edt"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:ems="10"

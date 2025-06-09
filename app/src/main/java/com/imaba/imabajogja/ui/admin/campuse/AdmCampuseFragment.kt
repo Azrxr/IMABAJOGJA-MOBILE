@@ -25,6 +25,7 @@ import com.imaba.imabajogja.ui.admin.member.AdmMemberViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import java.util.Calendar
 
 @AndroidEntryPoint
 class AdmCampuseFragment : Fragment() {
@@ -217,9 +218,13 @@ class AdmCampuseFragment : Fragment() {
     }
 
     private fun showGenerationFilterDialog() {
-        val generations = (2015..2030).map { it.toString() }
+        val currentYear = Calendar.getInstance().get(Calendar.YEAR)
+        val startYear = 2010
+        val endYear = currentYear + 2
+        val generations = (startYear..endYear).map { it.toString() }.reversed()
         val currentSelections = memberViewModel.getCurrentGenerationFilters()
         val selectedItems = generations.map { currentSelections.contains(it) }.toBooleanArray()
+
 
         val dialog = AlertDialog.Builder(requireContext())
             .setTitle("Pilih Angkatan")

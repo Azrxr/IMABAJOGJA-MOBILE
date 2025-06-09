@@ -101,6 +101,11 @@ class CampuseFragment : Fragment() {
 
     private fun setStudyMember(data: StudyMemberResponse) {
         val studyData = data.data
+        if (studyData == null) {
+            binding.btnDeleteCurrentStudy.visibility = View.GONE
+        } else {
+            binding.btnDeleteCurrentStudy.visibility = View.VISIBLE
+        }
         binding.tvUniversityCurrent.text = studyData?.university?.name ?: "Belum ada data"
         binding.tvFacultyCurrent.text = studyData?.faculty?.name ?: "Belum ada data"
         binding.tvProgramCurrent.text = studyData?.programStudy?.name ?: "Belum ada data"

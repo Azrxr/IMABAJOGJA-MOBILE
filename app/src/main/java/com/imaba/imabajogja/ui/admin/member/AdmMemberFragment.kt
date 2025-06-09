@@ -40,6 +40,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import java.io.File
+import java.util.Calendar
 
 @AndroidEntryPoint
 class AdmMemberFragment : Fragment() {
@@ -172,7 +173,10 @@ class AdmMemberFragment : Fragment() {
     }
 
     private fun showGenerationFilterDialog() {
-        val generations = (2015..2025).map { it.toString() }
+        val currentYear = Calendar.getInstance().get(Calendar.YEAR)
+        val startYear = 2010
+        val endYear = currentYear + 2
+        val generations = (startYear..endYear).map { it.toString() }.reversed()
         val currentSelections = viewModel.getCurrentGenerationFilters()
         val selectedItems = generations.map { currentSelections.contains(it) }.toBooleanArray()
 

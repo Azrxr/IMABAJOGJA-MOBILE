@@ -2,7 +2,6 @@ package com.imaba.imabajogja.ui.admin.member
 
 import android.Manifest
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
@@ -18,9 +17,7 @@ import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
-import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -37,8 +34,10 @@ import com.imaba.imabajogja.data.utils.showToast
 import com.imaba.imabajogja.data.utils.uriToExcel
 import com.imaba.imabajogja.databinding.FragmentAdmMemberBinding
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.io.File
 import java.util.Calendar
 
@@ -48,6 +47,7 @@ class AdmMemberFragment : Fragment() {
     companion object {
         fun newInstance() = AdmMemberFragment()
         private const val STORAGE_PERMISSION_CODE = 999
+
     }
 
     private val viewModel: AdmMemberViewModel by viewModels()
@@ -56,6 +56,12 @@ class AdmMemberFragment : Fragment() {
     private lateinit var filePickerLauncher: ActivityResultLauncher<Intent>
     private lateinit var requestStoragePermissionLauncher: ActivityResultLauncher<String>
 
+    // Add these variables at the top of your class
+    private var pendingAction: PendingAction? = null
+
+    private enum class PendingAction { EXPORT, DOWNLOAD_TEMPLATE }
+
+    private var pendingExportAction: (() -> Unit)? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -64,10 +70,16 @@ class AdmMemberFragment : Fragment() {
             ActivityResultContracts.RequestPermission()
         ) { isGranted ->
             if (isGranted) {
-                downloadExcelTemplate()
+                when (pendingAction) {
+                    PendingAction.EXPORT -> pendingExportAction?.invoke()
+                    PendingAction.DOWNLOAD_TEMPLATE -> downloadExcelTemplate()
+                    else -> {}
+                }
             } else {
                 Toast.makeText(requireContext(), "Izin ditolak", Toast.LENGTH_SHORT).show()
             }
+            pendingAction = null
+            pendingExportAction = null
         }
 
         // TODO: Use the ViewModel
@@ -97,26 +109,21 @@ class AdmMemberFragment : Fragment() {
         binding.btnAdd.setOnClickListener {
             AlertDialog.Builder(requireContext())
                 .setTitle("Import Massal Anggota")
-                .setMessage("Silakan pilih tindakan berikut.")
-                .setPositiveButton("Download Template Excel") { _, _ ->
+                .setMessage("Tambah anggota harus sesuai template yang tersedia.")
+                .setPositiveButton("Template") { _, _ ->
                     if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q &&
                         ContextCompat.checkSelfPermission(
                             requireContext(),
                             Manifest.permission.WRITE_EXTERNAL_STORAGE
-                        )
-                        != PackageManager.PERMISSION_GRANTED
+                        ) != PackageManager.PERMISSION_GRANTED
                     ) {
-                        ActivityCompat.requestPermissions(
-                            requireActivity(),
-                            arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
-                            123 // request code
-                        )
+                        pendingAction = PendingAction.DOWNLOAD_TEMPLATE
+                        requestStoragePermissionLauncher.launch(Manifest.permission.WRITE_EXTERNAL_STORAGE)
                     } else {
-                        // permission granted / Android 10+
                         downloadExcelTemplate()
                     }
                 }
-                .setNeutralButton("Pilih File Excel") { _, _ ->
+                .setNeutralButton("Tambah") { _, _ ->
                     val intent = Intent(Intent.ACTION_GET_CONTENT)
                     intent.type =
                         "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
@@ -286,26 +293,39 @@ class AdmMemberFragment : Fragment() {
     }
 
     private fun downloadExcelTemplate() {
-        try {
-            val fileName = "template_import_anggota.xlsx"
-            val inputStream = requireContext().assets.open(fileName)
-
-            // 🔥 Simpan ke /Download/IMABA
-            val savedFile = saveToDownloadImaba(requireContext(), fileName, inputStream)
-
-            Toast.makeText(
-                requireContext(),
-                "File berhasil disimpan di: ${savedFile.absolutePath}",
-                Toast.LENGTH_LONG
-            ).show()
-
-        } catch (e: Exception) {
-            e.printStackTrace()
-            Toast.makeText(
-                requireContext(),
-                "Gagal menyimpan file template",
-                Toast.LENGTH_SHORT
-            ).show()
+        viewLifecycleOwner.lifecycleScope.launch {
+            try {
+                val fileNameBase = "template_import_anggota"
+                val fileExt = ".xlsx"
+                var fileName = "$fileNameBase$fileExt"
+                val savedFile = withContext(Dispatchers.IO) {
+                    val inputStream = requireContext().assets.open("$fileNameBase$fileExt")
+                    var file = File(requireContext().getExternalFilesDir(null), fileName)
+                    var count = 2
+                    while (file.exists()) {
+                        fileName = "$fileNameBase($count)$fileExt"
+                        file = File(requireContext().getExternalFilesDir(null), fileName)
+                        count++
+                    }
+                    saveToDownloadImaba(requireContext(), fileName, inputStream)
+                }
+                val dialog = AlertDialog.Builder(requireContext())
+                    .setTitle("Export Berhasil")
+                    .setMessage("File berhasil disimpan di:\n${savedFile.absolutePath}")
+                    .setPositiveButton("OK", null)
+                    .setNegativeButton("Open") { _, _ ->
+                        openExcelFile(requireActivity(), savedFile)
+                    }
+                    .create()
+                dialog.show()
+            } catch (e: Exception) {
+                e.printStackTrace()
+                Toast.makeText(
+                    requireContext(),
+                    "Gagal menyimpan file template: ${e.localizedMessage}",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
         }
     }
 
@@ -418,7 +438,10 @@ class AdmMemberFragment : Fragment() {
     }
 
     private fun showExportFilterDialog() {
-        val generations = (2015..2025).map { it.toString() }
+        val currentYear = Calendar.getInstance().get(Calendar.YEAR)
+        val startYear = 2010
+        val endYear = currentYear + 2
+        val generations = (startYear..endYear).map { it.toString() }.reversed()
         val memberTypes = listOf("camaba", "pengurus", "anggota", "demissioner", "istimewa")
 
         val selectedGenerations = mutableListOf<String>()
@@ -459,11 +482,15 @@ class AdmMemberFragment : Fragment() {
             .setTitle("Filter Export Anggota")
             .setView(dialogView)
             .setPositiveButton("Unduh") { _, _ ->
-
-                if (hasStoragePermission()) {
+                val exportAction = {
                     startExport(selectedGenerations, selectedMemberTypes)
+                }
+                if (hasStoragePermission()) {
+                    exportAction()
                 } else {
-                    requestStoragePermission()
+                    pendingAction = PendingAction.EXPORT
+                    pendingExportAction = exportAction
+                    requestStoragePermissionLauncher.launch(Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 }
             }
             .setNegativeButton("Batal", null)
@@ -473,22 +500,33 @@ class AdmMemberFragment : Fragment() {
     private fun startExport(generations: List<String>, memberTypes: List<String>) {
         viewLifecycleOwner.lifecycleScope.launch {
             showLoading(binding.progressBar, true)
+            val result = withContext(Dispatchers.IO) {
+                viewModel.exportMembersRaw(generations, memberTypes)
+            }
 
-            when (val result = viewModel.exportMembersRaw(generations, memberTypes)) {
+            when (result) {
                 is Result.Success -> {
                     val fileName = "members_${System.currentTimeMillis()}.xlsx"
-                    val savedFile = saveToDownloadImaba(requireContext(), fileName, result.data.byteStream())
+                    // Move file saving to IO dispatcher
+                    val savedFile = withContext(Dispatchers.IO) {
+                        saveToDownloadImaba(requireContext(), fileName, result.data.byteStream())
+                    }
 
                     showLoading(binding.progressBar, false)
-                    requireContext().showToast("File saved at: ${savedFile.absolutePath}")
-                    openExcelFile(requireContext(), savedFile)
-                    Log.d("ExportCheck", "Export successful: ${savedFile.absolutePath}")
+                    val dialog = AlertDialog.Builder(requireContext())
+                        .setTitle("Export Berhasil")
+                        .setMessage("File berhasil disimpan di:\n${savedFile.absolutePath}")
+                        .setPositiveButton("OK", null)
+                        .setNegativeButton("Open") { _, _ ->
+                            openExcelFile(requireActivity(), savedFile)
+                        }
+                        .create()
+                    dialog.show()
                 }
 
                 is Result.Error -> {
                     showLoading(binding.progressBar, false)
                     requireContext().showToast("Export failed: ${result.message}")
-                    Log.e("ExportCheck", "Export error: ${result.message}")
                 }
 
                 else -> {}
@@ -496,24 +534,24 @@ class AdmMemberFragment : Fragment() {
         }
     }
 
-
-    fun openExcelFile(context: Context, file: File) {
-        val uri = FileProvider.getUriForFile(
+    private fun openExcelFile(context: Activity, file: File) {
+        val uri = androidx.core.content.FileProvider.getUriForFile(
             context,
-            "${context.packageName}.provider",
+            context.applicationContext.packageName + ".provider",
             file
         )
+        val intent = Intent(Intent.ACTION_VIEW)
+        intent.setDataAndType(
+            uri,
+            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        )
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
 
-        val intent = Intent(Intent.ACTION_VIEW).apply {
-            setDataAndType(uri, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
-            addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-        }
-
+        // TODO: Cek apakah ada aplikasi yang bisa menangani file Excel
         if (intent.resolveActivity(context.packageManager) != null) {
             context.startActivity(intent)
         } else {
-            Toast.makeText(context, "Tidak ada aplikasi untuk membuka file Excel", Toast.LENGTH_LONG).show()
+            Toast.makeText(context, "Tidak ada aplikasi untuk membuka file Excel.", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -526,16 +564,6 @@ class AdmMemberFragment : Fragment() {
                 Manifest.permission.WRITE_EXTERNAL_STORAGE
             ) == PackageManager.PERMISSION_GRANTED
         }
-    }
-
-    private fun requestStoragePermission() {
-        requestPermissions(
-            arrayOf(
-                Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                Manifest.permission.READ_EXTERNAL_STORAGE
-            ),
-            STORAGE_PERMISSION_CODE
-        )
     }
 
 }

@@ -8,6 +8,9 @@
     app:cardElevation="4dp"
     android:layout_margin="8dp"
     android:layout_gravity="center"
+    android:clickable="true"
+    android:focusable="true"
+    android:background="?attr/selectableItemBackground"
     app:cardCornerRadius="20dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout

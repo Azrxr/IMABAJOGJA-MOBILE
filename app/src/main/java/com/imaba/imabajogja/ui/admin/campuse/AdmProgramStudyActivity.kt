@@ -21,9 +21,9 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.imaba.imabajogja.R
-import com.imaba.imabajogja.data.response.ImportMemberResponse
 import com.imaba.imabajogja.data.response.ProgramStudyImportResponse
 import com.imaba.imabajogja.data.utils.Result
 import com.imaba.imabajogja.data.utils.saveToDownloadImaba
@@ -33,11 +33,10 @@ import com.imaba.imabajogja.databinding.ActivityAdmProgramStudyBinding
 import com.imaba.imabajogja.ui.campus.CampuseViewModel
 import com.imaba.imabajogja.ui.campus.ProgramStudyAdapter
 import dagger.hilt.android.AndroidEntryPoint
-import okio.FileSystem
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.io.File
-import kotlin.collections.any
-import kotlin.collections.count
-import kotlin.collections.map
 
 @AndroidEntryPoint
 class AdmProgramStudyActivity : AppCompatActivity() {
@@ -192,29 +191,64 @@ class AdmProgramStudyActivity : AppCompatActivity() {
     }
 
     private fun downloadExcelTemplate() {
-        try {
-            val fileName = "template_prog_study_yogyakarta2025.xlsx"
-            val inputStream = this.assets.open(fileName)
+        lifecycleScope.launch {
+            try {
+                val fileNameBase = "template_prog_study_yogyakarta2025"
+                val fileExt = ".xlsx"
+                var fileName = "$fileNameBase$fileExt"
+                val savedFile = withContext(Dispatchers.IO) {
+                    val inputStream = assets.open("$fileNameBase$fileExt")
+                    var file = File(getExternalFilesDir(null), fileName)
+                    var count = 2
+                    while (file.exists()) {
+                        fileName = "$fileNameBase($count)$fileExt"
+                        file = File(getExternalFilesDir(null), fileName)
+                        count++
+                    }
+                    saveToDownloadImaba(this@AdmProgramStudyActivity, fileName, inputStream)
+                }
 
-            // 🔥 Simpan ke /Download/IMABA
-            val savedFile = saveToDownloadImaba(this, fileName, inputStream)
-
-            Toast.makeText(
-                this,
-                "File berhasil disimpan di: ${savedFile.absolutePath}",
-                Toast.LENGTH_LONG
-            ).show()
-
-        } catch (e: Exception) {
-            e.printStackTrace()
-            Toast.makeText(
-                this,
-                "Gagal menyimpan file template",
-                Toast.LENGTH_SHORT
-            ).show()
+                val dialog = androidx.appcompat.app.AlertDialog.Builder(this@AdmProgramStudyActivity)
+                    .setTitle("Export Berhasil")
+                    .setMessage("File berhasil disimpan di:\n${savedFile.absolutePath}")
+                    .setPositiveButton("OK", null)
+                    .setNegativeButton("Open") { _, _ ->
+                        openExcelFile(this@AdmProgramStudyActivity, savedFile)
+                    }
+                    .create()
+                dialog.show()
+            } catch (e: Exception) {
+                e.printStackTrace()
+                Toast.makeText(
+                    this@AdmProgramStudyActivity,
+                    "Gagal menyimpan file template: ${e.localizedMessage}",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
         }
+
     }
 
+    private fun openExcelFile(context: Activity, file: File) {
+        val uri = androidx.core.content.FileProvider.getUriForFile(
+            context,
+            context.applicationContext.packageName + ".provider",
+            file
+        )
+        val intent = Intent(Intent.ACTION_VIEW)
+        intent.setDataAndType(
+            uri,
+            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        )
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+
+        // TODO : Periksa apakah ada aplikasi yang bisa menangani file Excel
+        if (intent.resolveActivity(context.packageManager) != null) {
+            context.startActivity(intent)
+        } else {
+            Toast.makeText(context, "Tidak ada aplikasi untuk membuka file Excel.", Toast.LENGTH_SHORT).show()
+        }
+    }
     private fun saveStudyPlan(universityId: Int, programStudyId: Int) {
         viewModelAdm.getMemberDetail(memberId).observe(this) { result ->
             if (result is Result.Success) {
@@ -288,10 +322,10 @@ class AdmProgramStudyActivity : AppCompatActivity() {
             jenjang = activeJenjangFilter
         ).observe(this) { result ->
             when (result) {
-                is com.imaba.imabajogja.data.utils.Result.Loading -> binding.progressBar.visibility =
+                is Result.Loading -> binding.progressBar.visibility =
                     View.VISIBLE
 
-                is com.imaba.imabajogja.data.utils.Result.Success -> {
+                is Result.Success -> {
                     binding.progressBar.visibility = View.GONE
                     val data = result.data.data
                     if (data.isNullOrEmpty()) {

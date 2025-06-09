@@ -6,6 +6,9 @@
     android:layout_gravity="center"
     android:layout_margin="4dp"
     android:elevation="4dp"
+    android:clickable="true"
+    android:focusable="true"
+    android:background="?attr/selectableItemBackground"
     app:cardCornerRadius="15dp"
     app:cardElevation="4dp">
 

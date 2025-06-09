@@ -1,5 +1,6 @@
 package com.imaba.imabajogja.ui.member
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -18,9 +19,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.imaba.imabajogja.R
 import com.imaba.imabajogja.data.utils.showToast
 import com.imaba.imabajogja.databinding.FragmentMemberBinding
+import com.imaba.imabajogja.ui.admin.member.AdmMemberDetailActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import java.util.Calendar
 
 @AndroidEntryPoint
 class MemberFragment : Fragment() {
@@ -90,7 +93,10 @@ class MemberFragment : Fragment() {
     }
 
     private fun showGenerationFilterDialog() {
-        val generations = (2015..2025).map { it.toString() }
+        val currentYear = Calendar.getInstance().get(Calendar.YEAR)
+        val startYear = 2010
+        val endYear = currentYear + 2
+        val generations = (startYear..endYear).map { it.toString() }.reversed()
         val currentSelections = viewModel.getCurrentGenerationFilters()
         val selectedItems = generations.map { currentSelections.contains(it) }.toBooleanArray()
 
@@ -146,7 +152,9 @@ class MemberFragment : Fragment() {
     private fun setupRecyclerView() {
 
         adapter = MembersAdapter { member ->
-            Toast.makeText(requireContext(), "Klik: ${member.fullname}", Toast.LENGTH_SHORT).show()
+                val intent = Intent(requireContext(), MemberDetailActivity::class.java)
+                intent.putExtra(MemberDetailActivity.EXTRA_MEMBER, member)
+                startActivity(intent)
         }
 
         binding.rvMemberList.layoutManager = LinearLayoutManager(requireContext())

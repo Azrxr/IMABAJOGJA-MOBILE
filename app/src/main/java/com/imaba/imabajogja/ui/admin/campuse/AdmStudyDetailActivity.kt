@@ -300,15 +300,15 @@ class AdmStudyDetailActivity : AppCompatActivity() {
 //            "Foto 3x4" to doc.photo3x4Path,
                 //berkas sipil
                 "Kartu Keluarga Legalisir" to doc.kkLegalisirPath,
-                "Akte Lahir Legaliisir" to doc.akteLegalisirPath,
+                "Akte Lahir Legalisir" to doc.akteLegalisirPath,
                 //berkas sekolah
-                "Ijazah Legalisir" to doc.ijazahLegalisirPath,
+                "Ijazah Legalisir" to doc.ijazahLegalisirPath, //TODO: tidak terunggah
                 "SKHU Legalisir" to doc.skhuLegalisirPath,
                 "Raport Legalisir" to doc.raportLegalisirPath,
                 "Surat Keterangan Baik" to doc.suratBaikPath,
-                "Surat Rekomendasi" to doc.suratRekomKadesPath, //TODO
+                "Surat Rekomendasi" to doc.suratRekomKadesPath,
                 //kades
-                "Surat Keterangan Kelakuan Baik" to doc.suratRekomKadesPath, //TODO
+                "Surat Keterangan Kelakuan Baik" to doc.suratKeteranganBaikPath,
                 "Surat Pendapatan Orang Tua" to doc.suratPenghasilanOrtuPath,
                 "Surat Keterangan Tidak Mampu" to doc.suratTidakMampuPath,
                 "Surat Pajak Bumi dan Bangunan" to doc.suratPajakBumiBangunanPath,

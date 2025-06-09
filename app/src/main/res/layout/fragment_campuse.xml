@@ -56,6 +56,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
+            android:padding="4dp"
             android:text="@string/studi_saat_ini"
             android:textColor="?attr/colorOnPrimary"
             app:layout_constraintStart_toStartOf="parent"
@@ -66,7 +67,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             style="@style/textBodyL_bold"
-            android:layout_marginEnd="16dp"
+            android:layout_marginEnd="12dp"
+            android:padding="4dp"
+            android:focusable="true"
+            android:clickable="true"
             android:background="?attr/selectableItemBackground"
             android:text="@string/delete"
             android:textColor="?attr/colorOnPrimary"
@@ -78,7 +82,10 @@
             style="@style/textBodyL_bold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
+            android:layout_marginEnd="12dp"
+            android:focusable="true"
+            android:clickable="true"
+            android:padding="4dp"
             android:background="?attr/selectableItemBackground"
             android:text="@string/edit"
             android:textColor="?attr/colorOnPrimary"
@@ -117,7 +124,8 @@
             android:text="@string/perguruan_tinggi"
             android:textColor="?attr/colorOnPrimary"
             app:layout_constraintBottom_toBottomOf="@+id/ivUniversityCurrent"
-            app:layout_constraintStart_toStartOf="@+id/guideline3" />
+            app:layout_constraintStart_toStartOf="@+id/guideline3"
+            app:layout_constraintTop_toTopOf="@+id/ivUniversityCurrent" />
 
         <ImageView
             android:id="@+id/ivFacultyCurrent"
@@ -140,7 +148,8 @@
             android:text="@string/fakultas"
             android:textColor="?attr/colorOnPrimary"
             app:layout_constraintBottom_toBottomOf="@+id/ivFacultyCurrent"
-            app:layout_constraintStart_toStartOf="@+id/guideline3" />
+            app:layout_constraintStart_toStartOf="@+id/guideline3"
+            app:layout_constraintTop_toTopOf="@+id/ivFacultyCurrent" />
 
         <ImageView
             android:id="@+id/ivStudyCurrent"
@@ -163,7 +172,8 @@
             android:text="@string/empty"
             android:textColor="?attr/colorOnPrimary"
             app:layout_constraintBottom_toBottomOf="@+id/ivStudyCurrent"
-            app:layout_constraintStart_toStartOf="@+id/guideline3" />
+            app:layout_constraintStart_toStartOf="@+id/guideline3"
+            app:layout_constraintTop_toTopOf="@+id/ivStudyCurrent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -233,6 +243,8 @@
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="16dp"
                         android:background="?attr/selectableItemBackground"
+                        android:focusable="true"
+                        android:clickable="true"
                         android:text="@string/add"
                         android:visibility="visible"
                         app:layout_constraintEnd_toStartOf="@+id/btnEdit"
@@ -421,7 +433,9 @@
                         style="@style/textBodyM_bold"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="@null"
+                        android:background="?attr/selectableItemBackground"
+                        android:focusable="true"
+                        android:clickable="true"
                         android:contentDescription="@string/btn_home_photo"
                         android:src="@drawable/ic_camera_plus"
                         app:layout_constraintBottom_toBottomOf="@+id/tvTitleFotoRumah"

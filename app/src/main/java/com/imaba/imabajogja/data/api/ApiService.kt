@@ -149,6 +149,7 @@ interface ApiService {
         @Field("gender") gender: String,
         @Field("scholl_origin") schollOrigin: String,
         @Field("tahun_lulus") tahunLulus: Int,
+        @Field("no_member") noMember: String ? = null,
     ): Response<ProfileUpdateResponse>
 
     @FormUrlEncoded
@@ -173,6 +174,7 @@ interface ApiService {
 
         @Field("angkatan") angkatan: String,
         @Field("member_type") memberType: String,
+        @Field("no_member") noMember: String ? = null,
     ): Response<SuccesResponse>
 
     @FormUrlEncoded

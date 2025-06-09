@@ -1,5 +1,6 @@
 package com.imaba.imabajogja.ui.profile
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.DatePickerDialog
 import android.content.Context
@@ -8,6 +9,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
+import android.view.View
 import android.widget.ArrayAdapter
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
@@ -19,6 +21,7 @@ import com.imaba.imabajogja.R
 import com.imaba.imabajogja.data.response.ProfileUser
 import com.imaba.imabajogja.data.utils.Result
 import com.imaba.imabajogja.data.utils.reduceFileImage
+import com.imaba.imabajogja.data.utils.showLoading
 import com.imaba.imabajogja.data.utils.showToast
 import com.imaba.imabajogja.data.utils.uriToFile
 import com.imaba.imabajogja.databinding.ActivityEditProfileBinding
@@ -68,6 +71,7 @@ class EditProfileActivity : AppCompatActivity() {
     private fun showProfileData(data: ProfileUser) {
         val profile = data
 
+        binding.etNoMember.setText(profile.noMember)
         binding.etUsername.setText(profile.username)
         binding.etEmail.setText(profile.email)
 
@@ -97,6 +101,7 @@ class EditProfileActivity : AppCompatActivity() {
             .into(binding.ivProfile)
     }
 
+    @SuppressLint("IntentReset")
     private fun pickImageFromGallery() {
         binding.btnUpload.setOnClickListener {
             val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
@@ -158,6 +163,7 @@ class EditProfileActivity : AppCompatActivity() {
         viewModel.getProvinces().observe(this) { result ->
             when (result) {
                 is Result.Success -> {
+                    binding.etProvince.error = null
                     val provinceNames = result.data.map { it.name }
                     provinceAdapter = ArrayAdapter(
                         this,
@@ -172,8 +178,10 @@ class EditProfileActivity : AppCompatActivity() {
                     }
                 }
 
-                is Result.Error -> showToast("Gagal mengambil provinsi: ${result.message}")
-                is Result.Loading -> showToast("Memuat data provinsi...")
+                is Result.Error -> binding.etProvince.error = "Gagal mengambil provinsi: ${result.message}"
+                is Result.Loading -> {
+                    binding.etProvince.error = "Memuat data provinsi..."
+                }
             }
         }
         binding.etProvince.error = null
@@ -184,6 +192,7 @@ class EditProfileActivity : AppCompatActivity() {
             viewModel.getRegencies(provinceId).observe(this) { result ->
                 when (result) {
                     is Result.Success -> {
+                        binding.etCity.error = null
                         val regencyNames = result.data.map { it.name }
                         regencyAdapter = ArrayAdapter(
                             this,
@@ -198,8 +207,8 @@ class EditProfileActivity : AppCompatActivity() {
                         }
                     }
 
-                    is Result.Error -> showToast("Gagal mengambil kabupaten/kota: ${result.message}")
-                    is Result.Loading -> showToast("Memuat data kabupaten/kota...")
+                    is Result.Error -> binding.etCity.error = "Gagal mengambil kabupaten/kota: ${result.message}"
+                    is Result.Loading -> binding.etCity.error = "Memuat data kabupaten/kota..."
                 }
             }
         }
@@ -211,6 +220,7 @@ class EditProfileActivity : AppCompatActivity() {
             viewModel.getDistricts(regencyId).observe(this) { result ->
                 when (result) {
                     is Result.Success -> {
+                        binding.etDistrict.error = null
                         val districtNames = result.data.map { it.name }
                         districtAdapter = ArrayAdapter(
                             this,
@@ -224,8 +234,8 @@ class EditProfileActivity : AppCompatActivity() {
                         }
                     }
 
-                    is Result.Error -> showToast("Gagal mengambil kecamatan: ${result.message}")
-                    is Result.Loading -> showToast("Memuat data kecamatan...")
+                    is Result.Error -> binding.etDistrict.error ="Gagal mengambil kecamatan: ${result.message}"
+                    is Result.Loading -> binding.etDistrict.error = "Memuat data kecamatan..."
                 }
             }
         }
@@ -298,6 +308,7 @@ class EditProfileActivity : AppCompatActivity() {
             val gender = binding.etGender.text.toString()
             val schollOrigin = binding.etSchoolOrigin.text.toString()
             val tahunLulus = binding.etGraduationYear.text.toString().toIntOrNull()
+            val noMember = binding.etNoMember.text.toString()
             val currentYear = Calendar.getInstance().get(Calendar.YEAR)
 
             if (fullname.isEmpty()) {
@@ -321,7 +332,7 @@ class EditProfileActivity : AppCompatActivity() {
                 return@setOnClickListener
             } else { binding.etReligion.error = null }
 
-            if (nisn.isEmpty() || nisn.matches(Regex("^\\d{10}\$"))) {
+            if (nisn.isEmpty() || !nisn.matches(Regex("^\\d{10}\$"))) {
                 binding.etNisn.error = "NISN tidak valid"
                 return@setOnClickListener
             }
@@ -369,7 +380,7 @@ class EditProfileActivity : AppCompatActivity() {
                 username, email,
                 fullname, phoneNumber,
                 fullAddress, kodePos, agama, nisn, tempat, tanggalLahir, gender,
-                schollOrigin, tahunLulus
+                schollOrigin, tahunLulus, noMember
             )
         }
     }
@@ -379,7 +390,7 @@ class EditProfileActivity : AppCompatActivity() {
         fullname: String, phoneNumber: String,
         fullAddress: String, kodePos: String,
         agama: String, nisn: String, tempat: String, tanggalLahir: String, gender: String,
-        schollOrigin: String, tahunLulus: Int,
+        schollOrigin: String, tahunLulus: Int, noMember: String? = null
     ) {
         viewModel.updateProfile(
             username,
@@ -397,7 +408,8 @@ class EditProfileActivity : AppCompatActivity() {
             tanggalLahir,
             gender,
             schollOrigin,
-            tahunLulus
+            tahunLulus,
+            noMember
         ).observe(this) { result ->
             when (result) {
                 is Result.Success -> {
@@ -419,7 +431,6 @@ class EditProfileActivity : AppCompatActivity() {
             }
         }
     }
-
 
     companion object {
         private const val PROFILE_DATA = "profile_data"

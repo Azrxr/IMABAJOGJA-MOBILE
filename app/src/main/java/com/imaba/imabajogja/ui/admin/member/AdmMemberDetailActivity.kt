@@ -7,6 +7,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
+import android.view.View
 import android.widget.ArrayAdapter
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
@@ -99,6 +100,7 @@ class AdmMemberDetailActivity : AppCompatActivity() {
         binding.etGraduationYear.isEnabled = isEditMode
         binding.etGeneration.isEnabled = isEditMode
         binding.etMemberType.isEnabled = isEditMode
+        binding.etNoMember.isEnabled = isEditMode
 
         // Tombol upload hanya aktif saat mode edit
         binding.btnUpload.isEnabled = isEditMode
@@ -123,6 +125,7 @@ class AdmMemberDetailActivity : AppCompatActivity() {
         val member = intent.getParcelableExtra<DataItemMember>(EXTRA_MEMBER)
         member?.let { profile ->
             binding.etFullname.setText(profile.fullname)
+            binding.etNoMember.setText(profile.noMember)
 
             binding.etProvince.setText(profile.province)
             selectedProvinceId = profile.provinceId
@@ -342,6 +345,7 @@ class AdmMemberDetailActivity : AppCompatActivity() {
             val tahunLulus = binding.etGraduationYear.text.toString().toIntOrNull()
             val angkatan = binding.etGeneration.text.toString()
             val memberType = binding.etMemberType.text.toString()
+            val noMember = binding.etNoMember.text.toString()
             val currentYear = Calendar.getInstance().get(Calendar.YEAR)
 
 
@@ -365,8 +369,8 @@ class AdmMemberDetailActivity : AppCompatActivity() {
                 binding.etReligion.error = "Agama tidak boleh kosong"
                 return@setOnClickListener
             } else { binding.etReligion.error = null }
-            if (nisn.isEmpty() || nisn.matches(Regex("^\\d{10}\$"))) {
-                binding.etNisn.error = "NISN tidak valid"
+            if (nisn.isEmpty() || !nisn.matches(Regex("^\\d{10}\$"))) {
+                binding.etNisn.error = "NISN 10 digit"
                 return@setOnClickListener
             }
             if (tempat.isEmpty()) {
@@ -432,7 +436,8 @@ class AdmMemberDetailActivity : AppCompatActivity() {
                 schollOrigin,
                 tahunLulus,
                 angkatan,
-                memberType
+                memberType,
+                noMember
             )
         }
     }
@@ -441,7 +446,7 @@ class AdmMemberDetailActivity : AppCompatActivity() {
         memberId: Int,
         fullname: String, phoneNumber: String, fullAddress: String, kodePos: String,
         agama: String, nisn: String, tempat: String, tanggalLahir: String, gender: String,
-        schollOrigin: String, tahunLulus: Int, angkatan: String, memberType: String
+        schollOrigin: String, tahunLulus: Int, angkatan: String, memberType: String, noMember: String? = null
     ) {
         viewModel.updateMemberAdm(
             memberId,
@@ -460,7 +465,7 @@ class AdmMemberDetailActivity : AppCompatActivity() {
             schollOrigin,
             tahunLulus,
             angkatan,
-            memberType
+            memberType, noMember
         ).observe(this) { result ->
             when (result) {
                 is Result.Success -> {
@@ -491,6 +496,7 @@ class AdmMemberDetailActivity : AppCompatActivity() {
         profileViewModel.getProvinces().observe(this) { result ->
             when (result) {
                 is Result.Success -> {
+                    binding.progressIndicator.visibility = View.GONE
                     val provinceNames = result.data.map { it.name }
                     provinceAdapter =
                         ArrayAdapter(
@@ -506,8 +512,8 @@ class AdmMemberDetailActivity : AppCompatActivity() {
                     }
                 }
 
-                is Result.Error -> this.showToast("Gagal mengambil provinsi: ${result.message}")
-                is Result.Loading -> this.showToast("Memuat data provinsi...")
+                is Result.Error -> binding.progressIndicator.visibility = View.GONE
+                is Result.Loading -> binding.progressIndicator.visibility = View.VISIBLE
             }
         }
         binding.etProvince.error = null
@@ -526,6 +532,7 @@ class AdmMemberDetailActivity : AppCompatActivity() {
             profileViewModel.getRegencies(provinceId).observe(this) { result ->
                 when (result) {
                     is Result.Success -> {
+                        binding.progressIndicator.visibility = View.GONE
                         val regencyNames = result.data.map { it.name }
                         regencyAdapter = ArrayAdapter(
                             this,
@@ -541,8 +548,8 @@ class AdmMemberDetailActivity : AppCompatActivity() {
                         }
                     }
 
-                    is Result.Error -> this.showToast("Gagal mengambil kabupaten/kota: ${result.message}")
-                    is Result.Loading -> this.showToast("Memuat data kabupaten/kota...")
+                    is Result.Error -> binding.progressIndicator.visibility = View.GONE
+                    is Result.Loading -> binding.progressIndicator.visibility = View.VISIBLE
                 }
             }
         }
@@ -562,6 +569,7 @@ class AdmMemberDetailActivity : AppCompatActivity() {
             profileViewModel.getDistricts(regencyId).observe(this) { result ->
                 when (result) {
                     is Result.Success -> {
+                        binding.progressIndicator.visibility = View.GONE
                         val districtNames = result.data.map { it.name }
                         districtAdapter = ArrayAdapter(
                             this,
@@ -575,8 +583,8 @@ class AdmMemberDetailActivity : AppCompatActivity() {
                         }
                     }
 
-                    is Result.Error -> this.showToast("Gagal mengambil kecamatan: ${result.message}")
-                    is Result.Loading -> this.showToast("Memuat data kecamatan...")
+                    is Result.Error -> binding.progressIndicator.visibility = View.GONE
+                    is Result.Loading -> binding.progressIndicator.visibility = View.VISIBLE
                 }
             }
         }

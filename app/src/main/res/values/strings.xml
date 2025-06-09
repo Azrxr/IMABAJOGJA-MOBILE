@@ -87,7 +87,7 @@
     <string name="program_studi">Program Studi</string>
     <string name="program_studi_2">Program Studi 2</string>
     <string name="jenjang">Jenjang: </string>
-    <string name="status">status</string>
+    <string name="status">Status</string>
     <string name="lengkapi_persyaratan_dokumen">Lengkapi Persyaratan Dokumen</string>
     <string name="fakultas">Fakultas</string>
     <string name="delete">Hapus</string>
@@ -154,4 +154,5 @@
     <string name="lupa_password">Lupa Password ?</string>
     <string name="masuk_untuk_melanjutkan">Masuk untuk melanjutkan</string>
     <string name="tipe_anggota">Tipe Anggota</string>
+    <string name="detail_anggota">Detail Anggota</string>
 </resources>

@@ -297,7 +297,7 @@ class AdminRepository @Inject constructor(private val apiService: ApiService) {
         fullname: String, phoneNumber: String,
         provinceId: Int, regencyId: Int, districtId: Int, fullAddres: String, kodePos: String,
         agama: String, nisn: String, tempat: String, tanggalLahir: String, gender: String,
-        schollOrigin: String, tahunLulus: Int, angkatan: String, memberType: String
+        schollOrigin: String, tahunLulus: Int, angkatan: String, memberType: String, noMember: String? = null
     ): LiveData<Result<SuccesResponse>> {
         return liveData {
             emit(Result.Loading)
@@ -307,7 +307,7 @@ class AdminRepository @Inject constructor(private val apiService: ApiService) {
                     fullname, phoneNumber,
                     provinceId, regencyId, districtId, fullAddres, kodePos,
                     agama, nisn, tempat, tanggalLahir, gender,
-                    schollOrigin, tahunLulus, angkatan, memberType
+                    schollOrigin, tahunLulus, angkatan, memberType, noMember
                 )
                 if (response.isSuccessful) {
                     response.body()?.let {

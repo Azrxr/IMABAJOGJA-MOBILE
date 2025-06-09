@@ -96,7 +96,7 @@ class MemberRepository @Inject constructor(private val apiService: ApiService) {
         fullname: String, phoneNumber: String,
         provinceId: Int, regencyId: Int, districtId: Int, fullAddres: String, kodePos: String,
         agama: String, nisn: String, tempat: String, tanggalLahir: String, gender: String,
-        schollOrigin: String, tahunLulus: Int,
+        schollOrigin: String, tahunLulus: Int, noMember: String? = null
     ): LiveData<Result<ProfileUpdateResponse>> {
         return liveData {
             emit(Result.Loading)
@@ -106,7 +106,7 @@ class MemberRepository @Inject constructor(private val apiService: ApiService) {
                     fullname, phoneNumber,
                     provinceId, regencyId, districtId, fullAddres, kodePos,
                     agama, nisn, tempat, tanggalLahir, gender,
-                    schollOrigin, tahunLulus
+                    schollOrigin, tahunLulus, noMember
                 )
                 if (response.isSuccessful) {
                     response.body()?.let {

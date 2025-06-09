@@ -23,6 +23,9 @@
         android:theme="@style/Theme.IMABAJogja"
         tools:targetApi="31">
         <activity
+            android:name=".ui.member.MemberDetailActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.AboutActivity"
             android:exported="false" />
         <activity
@@ -36,8 +39,8 @@
             android:exported="false" />
         <activity
             android:name=".ui.admin.member.AdmMemberDetailActivity"
-            android:windowSoftInputMode="adjustPan"
-            android:exported="false" />
+            android:exported="false"
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".ui.authentication.AdmUpdatePasswordActivity"
             android:exported="false" />
@@ -58,8 +61,8 @@
             android:exported="false" />
         <activity
             android:name=".ui.profile.EditProfileActivity"
-            android:sotfInputMode="adjustPan"
-            android:exported="false" />
+            android:exported="false"
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".ui.welcome.WelcomeActivity"
             android:exported="false" />
@@ -76,13 +79,14 @@
             android:name=".ui.MainActivity"
             android:exported="true"
             android:theme="@style/Theme.IMABAJogja"
-            android:windowSoftInputMode="adjustPan">
-        </activity>
-        <activity android:name=".ui.SplashActivity"
+            android:windowSoftInputMode="adjustPan"></activity>
+        <activity
+            android:name=".ui.SplashActivity"
             android:exported="true"
             android:theme="@style/Theme.App.Starting">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

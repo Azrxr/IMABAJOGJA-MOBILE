@@ -23,14 +23,14 @@ class ProfileViewModel @Inject constructor(private val repository: MemberReposit
         fullname: String, phoneNumber: String,
         provinceId: Int, regencyId: Int, districtId: Int, fullAddress: String, kodePos: String,
         agama: String, nisn: String, tempat: String, tanggalLahir: String, gender: String,
-        schollOrigin: String, tahunLulus: Int,
+        schollOrigin: String, tahunLulus: Int, noMember: String? = null
     ): LiveData<Result<ProfileUpdateResponse>> {
         return repository.updateProfile(
             username, email,
             fullname, phoneNumber,
             provinceId, regencyId, districtId, fullAddress, kodePos,
             agama, nisn, tempat, tanggalLahir, gender,
-            schollOrigin, tahunLulus
+            schollOrigin, tahunLulus, noMember
         )
 
     }

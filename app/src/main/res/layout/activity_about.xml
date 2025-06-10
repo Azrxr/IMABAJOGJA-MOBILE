@@ -129,6 +129,7 @@
                             android:layout_height="60dp"
                             android:contentDescription="profile image"
                             app:cardCornerRadius="100dp"
+                            app:cardElevation="4dp"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent">
@@ -140,7 +141,7 @@
                                 android:background="?attr/colorPrimary"
                                 android:contentDescription="profile image"
                                 android:scaleType="centerCrop"
-                                android:src="@drawable/ic_user" />
+                                android:src="@drawable/profile_developper" />
 
                         </com.google.android.material.circularreveal.cardview.CircularRevealCardView>
 
@@ -265,6 +266,18 @@ Kontribusimu bakal bantu seluruh anggota makin mudah akses informasi dan layanan
                         android:text="Web Service" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
+            
+            <!-- Tambahkan copyright di bawah konten lain -->
+            <TextView
+                android:id="@+id/tvCopyright"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/copyright"
+                android:textSize="12sp"
+                android:textColor="?android:textColorSecondary"
+                android:layout_marginTop="32dp"
+                android:layout_marginBottom="8dp"/>
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 

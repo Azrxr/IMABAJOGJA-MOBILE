@@ -9,7 +9,8 @@
 
     <!-- 🌤️ Warna Latar dan Permukaan -->
     <color name="backgroundColor">#FAFAFA</color> <!-- ➤ Latar umum -->
-    <color name="surfaceColor">#F6F6F6</color> <!-- ➤ Warna dasar komponen (Card, BottomSheet, dll) -->
+    <color name="surfaceColor">#F6F6F6
+    </color> <!-- ➤ Warna dasar komponen (Card, BottomSheet, dll) -->
 
     <!-- 📝 Warna Teks -->
     <color name="textColorPrimary">#212121</color> <!-- ➤ Teks utama -->
@@ -55,6 +56,11 @@
     <color name="gray600">#757575</color> <!-- Abu-abu gelap -->
     <color name="gray700">#616161</color> <!-- Abu-abu gelap sedang -->
     <color name="gray800">#424242</color> <!-- Abu-abu sangat gelap -->
-    <color name="gray900">#212121</color> <!-- Abu-abu paling gelap (Darkest) -->
+    <color name="gray900">#212121</color>
+    <color name="light_blue_600">#FF039BE5</color>
+    <color name="light_blue_900">#FF01579B</color>
+    <color name="light_blue_A200">#FF40C4FF</color>
+    <color name="light_blue_A400">#FF00B0FF</color>
+    <color name="black_overlay">#66000000</color> <!-- Abu-abu paling gelap (Darkest) -->
 
 </resources>

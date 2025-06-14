@@ -156,4 +156,8 @@
     <string name="tipe_anggota">Tipe Anggota</string>
     <string name="detail_anggota">Detail Anggota</string>
     <string name="copyright">Copyright © 2025 IMABA Jogja - All rights reserved</string>
+    <string name="app_version">version: 1.0.0</string>
+    <string name="title_activity_splash_screen">SplashScreenActivity</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
 </resources>

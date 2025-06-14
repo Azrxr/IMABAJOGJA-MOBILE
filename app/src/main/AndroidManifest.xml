@@ -20,76 +20,101 @@
         android:networkSecurityConfig="@xml/network_security_config"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.IMABAJogja"
+        android:theme="@style/Theme.Splash"
         tools:targetApi="31">
+
+        <!-- Jadikan MainActivity sebagai launcher -->
+        <activity
+            android:name=".ui.MainActivity"
+            android:exported="true"
+            android:windowSoftInputMode="adjustPan">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+<!--        <activity-->
+<!--            android:name=".ui.SplashScreenActivity"-->
+<!--            android:exported="true"-->
+<!--            android:theme="@style/Theme.IMABAJogja.Splash">-->
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.MAIN" />-->
+<!--                <category android:name="android.intent.category.LAUNCHER" />-->
+<!--            </intent-filter>-->
+<!--        </activity>-->
+
+
         <activity
             android:name=".ui.member.MemberDetailActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:theme="@style/Theme.IMABAJogja"/>
         <activity
             android:name=".ui.AboutActivity"
+            android:theme="@style/Theme.IMABAJogja"
             android:exported="false" />
         <activity
             android:name=".ui.admin.campuse.AdmProgramStudyActivity"
+            android:theme="@style/Theme.IMABAJogja"
             android:exported="false" />
         <activity
             android:name=".ui.campus.ProgramStudyActivity"
+            android:theme="@style/Theme.IMABAJogja"
             android:exported="false" />
         <activity
             android:name=".ui.admin.campuse.AdmStudyDetailActivity"
+            android:theme="@style/Theme.IMABAJogja"
             android:exported="false" />
         <activity
             android:name=".ui.admin.member.AdmMemberDetailActivity"
+            android:theme="@style/Theme.IMABAJogja"
             android:exported="false"
             android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".ui.authentication.AdmUpdatePasswordActivity"
+            android:theme="@style/Theme.IMABAJogja"
             android:exported="false" />
         <activity
             android:name=".ui.admin.member.AddMemberActivity"
+            android:theme="@style/Theme.IMABAJogja"
             android:exported="false" />
         <activity
             android:name=".ui.authentication.UpdatePasswordActivity"
+            android:theme="@style/Theme.IMABAJogja"
             android:exported="false" />
         <activity
             android:name=".ui.campus.AddStudyPlanActivity"
+            android:theme="@style/Theme.IMABAJogja"
             android:exported="false" />
         <activity
             android:name=".ui.authentication.AdmRegisterActivity"
+            android:theme="@style/Theme.IMABAJogja"
             android:exported="false" />
         <activity
             android:name=".ui.campus.DokumenCampuseActivity"
+            android:theme="@style/Theme.IMABAJogja"
             android:exported="false" />
         <activity
             android:name=".ui.profile.EditProfileActivity"
+            android:theme="@style/Theme.IMABAJogja"
             android:exported="false"
             android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".ui.welcome.WelcomeActivity"
+            android:theme="@style/Theme.IMABAJogja"
             android:exported="false" />
         <activity
             android:name=".ui.authentication.ForgotPasswordActivity"
+            android:theme="@style/Theme.IMABAJogja"
             android:exported="false" />
         <activity
             android:name=".ui.authentication.RegisterActivity"
+            android:theme="@style/Theme.IMABAJogja"
             android:exported="false" />
         <activity
             android:name=".ui.authentication.LoginActivity"
-            android:exported="false" />
-        <activity
-            android:name=".ui.MainActivity"
-            android:exported="true"
             android:theme="@style/Theme.IMABAJogja"
-            android:windowSoftInputMode="adjustPan"></activity>
-        <activity
-            android:name=".ui.SplashActivity"
-            android:exported="true"
-            android:theme="@style/Theme.App.Starting">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:exported="false" />
 
         <provider
             android:name="androidx.core.content.FileProvider"

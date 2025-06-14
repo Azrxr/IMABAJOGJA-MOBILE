@@ -1,43 +1,54 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-        <style name="Theme.MyApp" parent="Theme.MaterialComponents.DayNight.NoActionBar">
 
-            <!-- 🌈 Warna Brand -->
+    <style name="Theme.MyApp" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- 🌈 Warna Brand -->
 
-            <item name="colorPrimary">@color/maroon_primary</item>
-            <item name="colorPrimaryVariant">@color/maroon_primary_variant</item>
-            <item name="colorOnPrimary">@color/maroon_on_primary</item>
-            <item name="colorSecondary">@color/maroon_secondary</item>
-            <item name="colorOnSecondary">@color/maroon_on_primary</item>
+        <item name="colorPrimary">@color/maroon_primary</item>
+        <item name="colorPrimaryVariant">@color/maroon_primary_variant</item>
+        <item name="colorOnPrimary">@color/maroon_on_primary</item>
+        <item name="colorSecondary">@color/maroon_secondary</item>
+        <item name="colorOnSecondary">@color/maroon_on_primary</item>
 
-            <!-- 🎨 Latar & Permukaan -->
-            <item name="android:colorBackground">@color/backgroundColor</item>
-            <item name="colorSurface">@color/surfaceColor</item>
-            <item name="colorOnSurface">@color/textColorPrimary</item>
+        <!-- 🎨 Latar & Permukaan -->
+        <item name="android:colorBackground">@color/backgroundColor</item>
+        <item name="colorSurface">@color/surfaceColor</item>
+        <item name="colorOnSurface">@color/textColorPrimary</item>
 
-            <!-- 📝 Teks -->
-            <item name="android:textColor">@color/textColorPrimary</item>
-            <item name="android:textColorPrimary">@color/textColorPrimary</item>
-            <item name="android:textColorSecondary">@color/textColorSecondary</item>
+        <!-- 📝 Teks -->
+        <item name="android:textColor">@color/textColorPrimary</item>
+        <item name="android:textColorPrimary">@color/textColorPrimary</item>
+        <item name="android:textColorSecondary">@color/textColorSecondary</item>
 
-            <!-- ⚠️ Error -->
-            <item name="colorError">@color/errorColor</item>
+        <!-- ⚠️ Error -->
+        <item name="colorError">@color/errorColor</item>
 
-            <!-- 🧱 Status & Navigasi -->
-            <item name="android:statusBarColor">@color/maroon_primary</item>
-            <item name="android:windowTranslucentStatus">true</item>
-            <item name="android:navigationBarColor">@android:color/black</item>
-            <!-- Jika ingin status bar icon terang -->
-<!--            <item name="android:windowLightStatusBar">true</item>-->
+        <!-- 🧱 Status & Navigasi -->
+        <item name="android:statusBarColor">@color/maroon_primary</item>
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:navigationBarColor">@android:color/black</item>
+        <!-- Jika ingin status bar icon terang -->
+        <!--            <item name="android:windowLightStatusBar">true</item>-->
 
-            <!-- 🔤 Font default jika dibutuhkan -->
-            <item name="fontFamily">@font/poppins_regular</item> <!-- Ganti sesuai projectmu -->
-        </style>
+        <!-- 🔤 Font default jika dibutuhkan -->
+        <item name="fontFamily">@font/poppins_regular</item>
+    </style>
+
+    <!-- Theme khusus untuk SplashScreen Android 12+ -->
+    <style name="Theme.Splash" parent="Theme.SplashScreen">
+        <item name="postSplashScreenTheme">@style/Theme.IMABAJogja</item>
+        <item name="windowSplashScreenBackground">@color/maroon_primary</item>
+        <!--        <item name="android:windowBackground">@drawable/splash_background</item>-->
+        <item name="windowSplashScreenAnimatedIcon">@mipmap/ic_launcher_foreground</item>
+        <item name="windowSplashScreenAnimationDuration">300</item>
+
+        <!-- Status bar and Nav bar configs -->
+        <item name="android:statusBarColor" tools:targetApi="l">@color/maroon_primary</item>
+        <item name="android:navigationBarColor">@color/maroon_primary</item>
+    </style>
+
 
     <style name="Theme.IMABAJogja" parent="Theme.MyApp" />
 
-    <style name="Theme.App.Starting" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-        <item name="android:windowBackground">@color/maroon_primary</item>
-    </style>
 
     <!-- Style for TextInputLayout -->
     <style name="til" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
@@ -65,11 +76,11 @@
         <item name="android:fontFamily">@font/poppins_bold</item>
     </style>
 
-<style name="textHeaderL">
+    <style name="textHeaderL">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textSize">34sp</item>
-    <item name="android:textColor">@color/textColorPrimary</item>
+        <item name="android:textColor">@color/textColorPrimary</item>
         <item name="android:fontFamily">@font/poppins_regular</item>
     </style>
 
@@ -82,13 +93,13 @@
     </style>
 
     <style name="textHeaderM">
-    <item name="android:layout_width">wrap_content</item>
-    <item name="android:layout_height">wrap_content</item>
-    <item name="android:textSize">24sp</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">24sp</item>
         <item name="android:textColor">@color/textColorPrimary</item>
-    <item name="android:fontFamily">@font/poppins_regular</item>
+        <item name="android:fontFamily">@font/poppins_regular</item>
 
-</style>
+    </style>
 
     <style name="Widget.Custom.SearchView" parent="Widget.AppCompat.SearchView">
         <item name="android:background">@drawable/bg_searchview</item>
@@ -106,11 +117,12 @@
         <item name="android:fontFamily">@font/poppins_bold</item>
 
     </style>
-<style name="textHeaderS">
+
+    <style name="textHeaderS">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textSize">18sp</item>
-    <item name="android:textColor">@color/textColorPrimary</item>
+        <item name="android:textColor">@color/textColorPrimary</item>
         <item name="android:fontFamily">@font/poppins_regular</item>
 
     </style>
@@ -123,6 +135,7 @@
         <item name="android:fontFamily">@font/poppins_regular</item>
 
     </style>
+
     <style name="textBodyL_bold">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
@@ -157,6 +170,7 @@
         <item name="android:textColor">@color/textColorPrimary</item>
         <item name="android:fontFamily">@font/poppins_regular</item>
     </style>
+
     <style name="textBodyS_bold">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>

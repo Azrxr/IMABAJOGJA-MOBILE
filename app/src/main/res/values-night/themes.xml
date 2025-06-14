@@ -1,7 +1,8 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <style name="Theme.MyApp" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- 🌈 Warna Brand -->
+
         <item name="colorPrimary">@color/maroon_primary_dark</item>
         <item name="colorPrimaryVariant">@color/maroon_primary_variant_dark</item>
         <item name="colorOnPrimary">@color/maroon_on_primary_dark</item>
@@ -30,7 +31,20 @@
         <!--            <item name="android:windowLightStatusBar">true</item>-->
 
         <!-- 🔤 Font default jika dibutuhkan -->
-        <item name="fontFamily">@font/poppins_regular</item> <!-- Ganti sesuai projectmu -->
+        <item name="fontFamily">@font/poppins_regular</item>
+    </style>
+
+    <!-- Theme khusus untuk SplashScreen Android 12+ -->
+    <style name="Theme.IMABAJogja.Splash" parent="Theme.SplashScreen">
+        <item name="postSplashScreenTheme">@style/Theme.IMABAJogja</item>
+        <item name="windowSplashScreenBackground">@color/maroon_primary_dark</item>
+<!--        <item name="android:windowBackground">@drawable/splash_background</item>-->
+        <item name="windowSplashScreenAnimatedIcon">@mipmap/ic_launcher_foreground</item>
+        <item name="windowSplashScreenAnimationDuration">300</item>
+
+        <!-- Status bar and Nav bar configs -->
+        <item name="android:statusBarColor" tools:targetApi="l">@color/maroon_primary_dark</item>
+        <item name="android:navigationBarColor">@color/maroon_primary_dark</item>
     </style>
 
     <style name="Theme.IMABAJogja" parent="Theme.MyApp" />
@@ -163,5 +177,10 @@
         <item name="android:textSize">12sp</item>
         <item name="android:textColor">@color/textColorPrimary_dark</item>
         <item name="android:fontFamily">@font/poppins_bold</item>
+    </style>
+
+    <style name="ThemeOverlay.IMABAJogja.FullscreenContainer" parent="">
+        <item name="fullscreenBackgroundColor">@color/light_blue_900</item>
+        <item name="fullscreenTextColor">@color/light_blue_A400</item>
     </style>
 </resources>

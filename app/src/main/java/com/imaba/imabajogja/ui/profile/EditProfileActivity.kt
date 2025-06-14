@@ -423,7 +423,8 @@ class EditProfileActivity : AppCompatActivity() {
                     Log.d("UpdateProfile", "Profil berhasil diperbarui!")
                     showToast("Profil berhasil diperbarui!")
                     val intent = Intent()
-                    setResult(Activity.RESULT_OK, intent) // Kirim sinyal ke fragment
+                    setResult(Activity.RESULT_OK, intent)
+                    finish()// Kirim sinyal ke fragment
                 }
 
                 is Result.Error -> {

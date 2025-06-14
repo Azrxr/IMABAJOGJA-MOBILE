@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.bumptech.glide.Glide
@@ -34,6 +35,12 @@ class ProfileFragment : Fragment() {
     private val mainViewModel: MainViewModel by viewModels()
     private lateinit var binding: FragmentProfileBinding
     private val REQUEST_UPDATE_PROFILE = 1001
+
+    private val updateProfile = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        (result.resultCode == Activity.RESULT_OK)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -82,6 +89,7 @@ class ProfileFragment : Fragment() {
             profileData?.let { profile ->
                 val intent = EditProfileActivity.newIntent(requireContext(), profile)
                 startActivityForResult(intent, REQUEST_UPDATE_PROFILE)
+                updateProfile.launch(intent)
             } ?: requireContext().showToast("Data profil belum tersedia")
         }
 

@@ -72,7 +72,9 @@ class MainActivity : AppCompatActivity() {
         }
 
 //        WindowCompat.setDecorFitsSystemWindows(window, false)
-        bottomNavMenu()
+        if (savedInstanceState == null) {
+            bottomNavMenu()
+        }
     }
 
 
@@ -89,12 +91,16 @@ class MainActivity : AppCompatActivity() {
                 bottomNavigationViewAdmin.menu.clear()
                 // Load fragment sesuai role
                 if (user.role == "admin") {
-                    loadFragment(AdmHomeFragment()) // Fragment admin pertama
-                    bottomNavigationViewAdmin.inflateMenu(R.menu.adm_bottom_nav_menu) // Gunakan menu admin
+                    if (supportFragmentManager.findFragmentById(R.id.fragmentContainer) == null) {
+                        loadFragment(AdmHomeFragment())
+                    }
+                    bottomNavigationViewAdmin.inflateMenu(R.menu.adm_bottom_nav_menu)
                     bottomNavigationViewAdmin.visibility = View.VISIBLE
                 } else {
-                    loadFragment(HomeFragment()) // Fragment member pertama
-                    bottomNavigationView.inflateMenu(R.menu.bottom_nav_menu) // Gunakan menu member
+                    if (supportFragmentManager.findFragmentById(R.id.fragmentContainer) == null) {
+                        loadFragment(HomeFragment())
+                    }
+                    bottomNavigationView.inflateMenu(R.menu.bottom_nav_menu)
                     bottomNavigationView.visibility = View.VISIBLE
                 }
 

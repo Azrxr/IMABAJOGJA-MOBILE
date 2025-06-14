@@ -11,6 +11,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
@@ -38,6 +39,7 @@ class CampuseFragment : Fragment() {
         private const val REQUEST_PICK_IMAGE = 2001
         private var selectedDocumentType: String = "" // Untuk menyimpan tipe dokumen yang dipilih
         private var selectedImageFile: File? = null
+
     }
 
     private lateinit var binding: FragmentCampuseBinding
@@ -45,6 +47,13 @@ class CampuseFragment : Fragment() {
     private lateinit var homePhotoAdapter: HomePhotoAdapter
     private lateinit var documentAdapter: DocumentAdapter
     private val viewModel: CampuseViewModel by viewModels()
+    private val addStudyPlanLauncher = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            loadStudyPlans()
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -157,12 +166,8 @@ class CampuseFragment : Fragment() {
             binding.btnEdit.visibility = View.VISIBLE
         }
         binding.btnAdd.setOnClickListener {
-//            Intent(requireContext(), AddStudyPlanActivity::class.java).apply {
-//                startActivity(this)
-//            }
-            Intent(requireContext(), ProgramStudyActivity::class.java).apply {
-                startActivity(this)
-            }
+            val intent = Intent(requireContext(), ProgramStudyActivity::class.java)
+            addStudyPlanLauncher.launch(intent)
         }
     }
 

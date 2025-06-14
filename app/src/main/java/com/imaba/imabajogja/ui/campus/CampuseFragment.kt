@@ -198,6 +198,8 @@ class CampuseFragment : Fragment() {
                     showLoading(binding.progressBar, false)
                     val documentsData = result.data.data // 👈 Pastikan ini berisi DataDocument
                     setupDocument(documentsData) // 👈 Pastikan parameter cocok
+                    binding.tvProgressDoc.text = documentsData.berkasProgress
+                    binding.tvStatusDoc.text = if (documentsData.berkasLengkap == true) "lengkap" else "kurang lengkap"
                 }
 
                 is Result.Error -> {

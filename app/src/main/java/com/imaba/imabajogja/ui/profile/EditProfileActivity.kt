@@ -13,6 +13,7 @@ import android.view.View
 import android.widget.ArrayAdapter
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -315,6 +316,12 @@ class EditProfileActivity : AppCompatActivity() {
                 binding.etFullname.error = "Nama lengkap tidak boleh kosong"
                 return@setOnClickListener
             }
+
+            if (noMember.isEmpty()) {
+                binding.etNoMember.error = "noMember tidak boleh kosong"
+                return@setOnClickListener
+            } //TODO : cek duplikat no member
+
             if (phoneNumber.isEmpty() || !phoneNumber.matches(Regex("^\\d{10,13}\$"))) {
                 binding.etPhoneNumber.error = "Nomor telepon tidak valid"
                 return@setOnClickListener
@@ -421,7 +428,32 @@ class EditProfileActivity : AppCompatActivity() {
 
                 is Result.Error -> {
                     Log.e("UpdateProfile", "Gagal memperbarui profil: ${result.message}")
-                    showToast("Gagal memperbarui profil: ${result.message}")
+                    //showToast("Gagal memperbarui profil: ${result.message}")
+                    val message = result.message.lowercase()
+                    when {
+                        "the username has already been taken" in message -> {
+                            binding.tilUsername.error = "username sudah terdaftar"
+                        }
+
+                        "the email has already been taken" in message -> {
+                            binding.tilEmail.error = "email sudah terdaftar"
+                        }
+
+                        "the no member has already been taken." in message -> {
+                            binding.etNoMember.error = "no member sudah digunanakan"
+                        }
+
+                        else -> {
+                            AlertDialog.Builder(this).apply {
+                                setTitle("Oops!")
+                                setMessage(message)
+                                setPositiveButton("OK") { _, _ -> }
+                                create()
+                                show()
+                            }
+                        }
+                    }
+
                 }
 
                 is Result.Loading -> {

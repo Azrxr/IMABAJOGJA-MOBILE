@@ -353,6 +353,13 @@ class AdmMemberDetailActivity : AppCompatActivity() {
                 binding.etFullname.error = "Nama lengkap tidak boleh kosong"
                 return@setOnClickListener
             }
+
+            if (noMember.isEmpty()) {
+                binding.etNoMember.error = "Nomor anggota tidak boleh kosong"
+                return@setOnClickListener
+            }
+            //TODO: cek duplikat no member
+
             if (phoneNumber.isEmpty() || !phoneNumber.matches(Regex("^\\d{10,13}\$"))) {
                 binding.etPhoneNumber.error = "Nomor telepon tidak valid"
                 return@setOnClickListener
@@ -480,7 +487,23 @@ class AdmMemberDetailActivity : AppCompatActivity() {
                 is Result.Error -> {
                     showLoading(binding.progressIndicator, false)
                     Log.e("UpdateProfile", "Gagal memperbarui profil: ${result.message}")
-                    showToast("Gagal memperbarui profil: ${result.message}")
+//                    showToast("Gagal memperbarui profil: ${result.message}")
+                    val message = result.message.lowercase()
+                    when {
+                        "the no member has already been taken." in message -> {
+                            binding.etNoMember.error = "no member sudah digunakan"
+                        }
+
+                        else -> {
+                            AlertDialog.Builder(this).apply {
+                                setTitle("Oops!")
+                                setMessage(message)
+                                setPositiveButton("OK") { _, _ -> }
+                                create()
+                                show()
+                            }
+                        }
+                    }
                 }
 
                 is Result.Loading -> {

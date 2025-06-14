@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -271,7 +272,26 @@ class AdmProfileFragment : Fragment() {
                 is Result.Error -> {
                     showLoading(binding.progressIndicator, false)
                     requireContext().showToast("Error: ${result.message}")
-                    Log.d("dataProfile", "homeFragment: ${result.message}")
+                    val message = result.message.lowercase()
+                    when {
+                        "the username has already been taken" in message -> {
+                            binding.tilUsername.error = "username sudah terdaftar"
+                        }
+
+                        "the email has already been taken" in message -> {
+                            binding.tilEmail.error = "email sudah terdaftar"
+                        }
+
+                        else -> {
+                            AlertDialog.Builder(requireContext()).apply {
+                                setTitle("Oops!")
+                                setMessage(message)
+                                setPositiveButton("OK") { _, _ -> }
+                                create()
+                                show()
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -344,8 +364,8 @@ class AdmProfileFragment : Fragment() {
                     }
                 }
 
-                is Result.Error -> requireContext().showToast("Gagal mengambil provinsi: ${result.message}")
-                is Result.Loading -> requireContext().showToast("Memuat data provinsi...")
+                is Result.Error -> {}
+                is Result.Loading -> {}
             }
         }
     }
@@ -378,8 +398,8 @@ class AdmProfileFragment : Fragment() {
                         }
                     }
 
-                    is Result.Error -> requireContext().showToast("Gagal mengambil kabupaten/kota: ${result.message}")
-                    is Result.Loading -> requireContext().showToast("Memuat data kabupaten/kota...")
+                    is Result.Error -> {}
+                    is Result.Loading -> {}
                 }
             }
         }
@@ -411,8 +431,8 @@ class AdmProfileFragment : Fragment() {
                         }
                     }
 
-                    is Result.Error -> requireContext() showToast ("Gagal mengambil kecamatan: ${result.message}")
-                    is Result.Loading -> requireContext() showToast ("Memuat data kecamatan...")
+                    is Result.Error -> {}
+                    is Result.Loading -> {}
                 }
             }
         }

@@ -327,7 +327,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:hint="@string/regency"
-                            android:inputType="text"
+                            android:inputType="none"
                             android:padding="16dp" />
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -345,7 +345,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:hint="@string/district"
-                            android:inputType="text"
+                            android:inputType="none"
                             android:maxLines="2"
                             android:padding="16dp" />
                     </com.google.android.material.textfield.TextInputLayout>

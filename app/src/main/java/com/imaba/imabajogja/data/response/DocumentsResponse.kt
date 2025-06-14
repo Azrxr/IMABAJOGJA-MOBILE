@@ -20,6 +20,15 @@ data class DocumentsResponse(
 @Parcelize
 data class DataDocument(
 
+	@field:SerializedName("berkas_progress")
+	val berkasProgress: String? = null,
+
+	@field:SerializedName("berkas_lengkap")
+	val berkasLengkap: Boolean? = null,
+
+	@field:SerializedName("has_home_photos")
+	val hasHomePhotos: Boolean? = null,
+
 	@field:SerializedName("member_id")
 	val memberId: Int,
 

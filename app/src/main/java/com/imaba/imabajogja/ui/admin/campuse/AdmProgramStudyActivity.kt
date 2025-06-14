@@ -66,10 +66,11 @@ class AdmProgramStudyActivity : AppCompatActivity() {
         binding = ActivityAdmProgramStudyBinding.inflate(layoutInflater)
         setContentView(binding.root)
         // Deteksi mode terang/gelap
-        val isDarkMode = when (resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) {
-            Configuration.UI_MODE_NIGHT_YES -> true
-            else -> false
-        }
+        val isDarkMode =
+            when (resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) {
+                Configuration.UI_MODE_NIGHT_YES -> true
+                else -> false
+            }
 
 // Ambil warna sesuai mode
         val resolvedColor = ContextCompat.getColor(
@@ -91,7 +92,10 @@ class AdmProgramStudyActivity : AppCompatActivity() {
 
 // Untuk Android M+ (ikon status bar terang/gelap)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            WindowCompat.getInsetsController(window, window.decorView)?.isAppearanceLightStatusBars = !isDarkMode
+            WindowCompat.getInsetsController(
+                window,
+                window.decorView
+            )?.isAppearanceLightStatusBars = !isDarkMode
         }
 
         ViewCompat.setOnApplyWindowInsetsListener(binding.root) { v, insets ->
@@ -208,14 +212,15 @@ class AdmProgramStudyActivity : AppCompatActivity() {
                     saveToDownloadImaba(this@AdmProgramStudyActivity, fileName, inputStream)
                 }
 
-                val dialog = androidx.appcompat.app.AlertDialog.Builder(this@AdmProgramStudyActivity)
-                    .setTitle("Export Berhasil")
-                    .setMessage("File berhasil disimpan di:\n${savedFile.absolutePath}")
-                    .setPositiveButton("OK", null)
-                    .setNegativeButton("Open") { _, _ ->
-                        openExcelFile(this@AdmProgramStudyActivity, savedFile)
-                    }
-                    .create()
+                val dialog =
+                    androidx.appcompat.app.AlertDialog.Builder(this@AdmProgramStudyActivity)
+                        .setTitle("Export Berhasil")
+                        .setMessage("File berhasil disimpan di:\n${savedFile.absolutePath}")
+                        .setPositiveButton("OK", null)
+                        .setNegativeButton("Open") { _, _ ->
+                            openExcelFile(this@AdmProgramStudyActivity, savedFile)
+                        }
+                        .create()
                 dialog.show()
             } catch (e: Exception) {
                 e.printStackTrace()
@@ -246,9 +251,14 @@ class AdmProgramStudyActivity : AppCompatActivity() {
         if (intent.resolveActivity(context.packageManager) != null) {
             context.startActivity(intent)
         } else {
-            Toast.makeText(context, "Tidak ada aplikasi untuk membuka file Excel.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(
+                context,
+                "Tidak ada aplikasi untuk membuka file Excel.",
+                Toast.LENGTH_SHORT
+            ).show()
         }
     }
+
     private fun saveStudyPlan(universityId: Int, programStudyId: Int) {
         viewModelAdm.getMemberDetail(memberId).observe(this) { result ->
             if (result is Result.Success) {
@@ -286,7 +296,6 @@ class AdmProgramStudyActivity : AppCompatActivity() {
                 when (result) {
                     is Result.Success -> {
                         binding.progressBar.visibility = View.GONE
-                        showToast("Rencana studi berhasil ditambah")
                         val intent = Intent()
                         setResult(Activity.RESULT_OK, intent)
                         finish()
@@ -299,7 +308,6 @@ class AdmProgramStudyActivity : AppCompatActivity() {
 
                     is Result.Loading -> {
                         binding.progressBar.visibility = View.VISIBLE
-                        showToast("Memproses Rencana Studi...")
                     }
                 }
             }

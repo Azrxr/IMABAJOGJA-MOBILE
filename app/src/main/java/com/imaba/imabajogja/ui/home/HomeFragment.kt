@@ -15,6 +15,7 @@ import com.imaba.imabajogja.data.response.HomeResponse
 import com.imaba.imabajogja.databinding.FragmentHomeBinding
 import com.imaba.imabajogja.data.utils.Result
 import dagger.hilt.android.AndroidEntryPoint
+import androidx.core.net.toUri
 
 @AndroidEntryPoint
 class HomeFragment : Fragment() {
@@ -75,8 +76,25 @@ class HomeFragment : Fragment() {
         binding.tvVisi.text = homeResponse.data.vision
         binding.tvMisi.text = homeResponse.data.mission
 
+        binding.tvContacPhone.setOnClickListener {
+            val phone = homeResponse.data.contactPhone
+            if (phone.isNotBlank()) {
+                val url = "https://wa.me/$phone"
+                val intent = Intent(Intent.ACTION_VIEW, url.toUri())
+                startActivity(intent)
+            }
+        }
+        binding.tvContacPhone2.setOnClickListener {
+            val phone = homeResponse.data.contactPhone2
+            if (phone.isNotBlank()) {
+                val url = "https://wa.me/$phone"
+                val intent = Intent(Intent.ACTION_VIEW, url.toUri())
+                startActivity(intent)
+            }
+        }
+
         val files = homeResponse.data.files
-        if (files.isNullOrEmpty()) {
+        if (files.isEmpty()) {
             binding.listEmpty.visibility = View.VISIBLE
             binding.recyclerViewDocuments.visibility = View.GONE
         } else {

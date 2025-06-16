@@ -1,7 +1,9 @@
 package com.imaba.imabajogja.ui
 
+import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.content.res.Configuration
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
@@ -10,6 +12,7 @@ import android.view.View
 import android.view.WindowManager
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
@@ -17,6 +20,7 @@ import androidx.core.view.WindowCompat
 import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.imaba.imabajogja.R
+import com.imaba.imabajogja.data.utils.ReleaseManager
 import com.imaba.imabajogja.databinding.ActivityMainBinding
 import com.imaba.imabajogja.ui.admin.campuse.AdmCampuseFragment
 import com.imaba.imabajogja.ui.admin.home.AdmHomeFragment
@@ -28,6 +32,7 @@ import com.imaba.imabajogja.ui.member.MemberFragment
 import com.imaba.imabajogja.ui.profile.ProfileFragment
 import com.imaba.imabajogja.ui.welcome.WelcomeActivity
 import dagger.hilt.android.AndroidEntryPoint
+import androidx.core.net.toUri
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -47,7 +52,6 @@ class MainActivity : AppCompatActivity() {
         if (savedInstanceState != null) {
             currentFragmentTag = savedInstanceState.getString("CURRENT_FRAGMENT")
         }
-
         setupUI()
     }
 
@@ -66,6 +70,28 @@ class MainActivity : AppCompatActivity() {
             super.onBackPressed()
         }
     }
+
+    private fun showUpdateDialog() {
+        AlertDialog.Builder(this)
+            .setTitle("Update Tersedia")
+            .setMessage("Versi terbaru aplikasi Imaba Jogja sudah tersedia. Silakan update untuk mendapatkan fitur terbaru.")
+            .setCancelable(true)
+            .setPositiveButton("Update") { _, _ ->
+                val appPackageName = packageName
+                try {
+                    startActivity(Intent(Intent.ACTION_VIEW,
+                        "market://details?id=$appPackageName".toUri()))
+                } catch (e: ActivityNotFoundException) {
+                    startActivity(Intent(Intent.ACTION_VIEW,
+                        "https://play.google.com/store/apps/details?id=$appPackageName".toUri()))
+                }
+            }
+            .setNegativeButton("Nanti Saja") { dialog, _ ->
+                dialog.dismiss()
+            }
+            .show()
+    }
+
 
     private fun setupUI() {
         // Deteksi mode terang/gelap
@@ -148,6 +174,9 @@ class MainActivity : AppCompatActivity() {
             } else {
                 navView.selectedItemId = R.id.nav_home
             }
+        }
+        ReleaseManager.checkForAppUpdate(this) {
+            showUpdateDialog()
         }
     }
 

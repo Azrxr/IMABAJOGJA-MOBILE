@@ -1,7 +1,6 @@
 package com.imaba.imabajogja.ui
 
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -10,6 +9,7 @@ import androidx.core.view.WindowInsetsCompat
 import com.imaba.imabajogja.R
 import com.imaba.imabajogja.databinding.ActivityAboutBinding
 import androidx.core.net.toUri
+import com.imaba.imabajogja.data.utils.ReleaseManager
 
 class AboutActivity : AppCompatActivity() {
     private lateinit var binding: ActivityAboutBinding
@@ -24,6 +24,10 @@ class AboutActivity : AppCompatActivity() {
             insets
         }
 
+        val versionName = ReleaseManager.getLocalVersionName(this)
+        binding.tvVersion.text = getString(R.string.app_version, versionName)
+
+
         binding.tvGithub.setOnClickListener {
             val url = "https://github.com/Azrxr"
             val intent = Intent(Intent.ACTION_VIEW, url.toUri())
@@ -37,7 +41,7 @@ class AboutActivity : AppCompatActivity() {
         binding.tvEmail.setOnClickListener {
             val email = "irvanea1@gmail.com"
             val intent = Intent(Intent.ACTION_SENDTO).apply {
-                data = Uri.parse("mailto:$email")
+                data = "mailto:$email".toUri()
             }
             startActivity(intent)
         }

@@ -7,10 +7,12 @@ import android.os.Handler
 import android.os.Looper
 import android.view.WindowManager
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.imaba.imabajogja.R
+import com.imaba.imabajogja.data.utils.ReleaseManager
 import com.imaba.imabajogja.databinding.ActivitySplashScreenBinding
 
 
@@ -38,5 +40,7 @@ class SplashScreenActivity : AppCompatActivity() {
             WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
             WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS
         )
+        val versionName = ReleaseManager.getLocalVersionName(this)
+        findViewById<TextView>(R.id.appVersion).text = getString(R.string.app_version, versionName)
     }
 }

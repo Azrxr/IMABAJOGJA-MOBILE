@@ -1,6 +1,7 @@
 [versions]
 agp = "8.5.0"
 androidxJunit = "1.2.1"
+appUpdateVersion = "2.1.0"
 coreSplashscreen = "1.0.1"
 espressoCoreVersion = "3.6.1"
 firebaseBom = "33.9.0"
@@ -63,6 +64,7 @@ material = { group = "com.google.android.material", name = "material", version.r
 androidx-activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }
 androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
 pdfbox = { module = "org.apache.pdfbox:pdfbox", version.ref = "pdfbox" }
+play-app-update = { module = "com.google.android.play:app-update", version.ref = "appUpdateVersion" }
 retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
 timber = { module = "com.jakewharton.timber:timber", version.ref = "timber" }
 androidx-navigation-fragment = { group = "androidx.navigation", name = "navigation-fragment", version.ref = "navigationFragment" }

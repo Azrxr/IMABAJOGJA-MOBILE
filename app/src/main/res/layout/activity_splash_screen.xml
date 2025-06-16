@@ -3,6 +3,7 @@
     android:orientation="vertical"
     android:gravity="center"
     android:layout_width="match_parent"
+    android:background="@color/maroon_primary"
     android:layout_height="match_parent">
 
     <ImageView

@@ -9,6 +9,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.view.View
+import android.view.Window
 import android.view.WindowManager
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
@@ -33,6 +34,8 @@ import com.imaba.imabajogja.ui.profile.ProfileFragment
 import com.imaba.imabajogja.ui.welcome.WelcomeActivity
 import dagger.hilt.android.AndroidEntryPoint
 import androidx.core.net.toUri
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -48,6 +51,11 @@ class MainActivity : AppCompatActivity() {
         enableEdgeToEdge()
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        ViewCompat.setOnApplyWindowInsetsListener(binding.root) { v, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+            insets
+        }
         // Restore fragment terakhir jika ada
         if (savedInstanceState != null) {
             currentFragmentTag = savedInstanceState.getString("CURRENT_FRAGMENT")
@@ -60,6 +68,7 @@ class MainActivity : AppCompatActivity() {
         outState.putString("CURRENT_FRAGMENT", currentFragmentTag)
     }
 
+    @Deprecated("This method has been deprecated in favor of using the\n      {@link OnBackPressedDispatcher} via {@link #getOnBackPressedDispatcher()}.\n      The OnBackPressedDispatcher controls how back button events are dispatched\n      to one or more {@link OnBackPressedCallback} objects.")
     override fun onBackPressed() {
         if (supportFragmentManager.backStackEntryCount > 1) {
             // Kembali ke fragment sebelumnya dalam stack

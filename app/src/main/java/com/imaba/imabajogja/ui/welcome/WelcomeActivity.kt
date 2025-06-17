@@ -9,6 +9,9 @@ import android.view.View
 import android.view.WindowInsets
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import com.imaba.imabajogja.R
 import com.imaba.imabajogja.databinding.ActivityWelcomeBinding
 import com.imaba.imabajogja.ui.authentication.LoginActivity
 import com.imaba.imabajogja.ui.authentication.RegisterActivity
@@ -20,8 +23,13 @@ class WelcomeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityWelcomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        ViewCompat.setOnApplyWindowInsetsListener(binding.root) { v, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+            insets
+        }
 
-        setupView()
+        //setupView()
         setupAction()
         playAnimation()
     }

@@ -23,7 +23,7 @@
         <item name="colorError">@color/errorColor</item>
 
         <!-- 🧱 Status & Navigasi -->
-        <item name="android:statusBarColor">@color/maroon_primary</item>
+        <item name="android:statusBarColor" tools:targetApi="l">@color/maroon_primary</item>
         <item name="android:windowTranslucentStatus">true</item>
         <item name="android:navigationBarColor">@android:color/black</item>
         <!-- Jika ingin status bar icon terang -->
@@ -32,6 +32,7 @@
         <!-- 🔤 Font default jika dibutuhkan -->
         <item name="fontFamily">@font/poppins_regular</item>
     </style>
+
 
     <!-- Theme khusus untuk SplashScreen Android 12+ -->
     <style name="Theme.Splash" parent="Theme.SplashScreen">

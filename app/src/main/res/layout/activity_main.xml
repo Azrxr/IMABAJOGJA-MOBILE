@@ -12,7 +12,8 @@
         android:id="@+id/fragmentContainer"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/bottomNav"
+        android:layout_marginBottom="2dp"
+        app:layout_constraintBottom_toTopOf="@+id/bottomNavBarrier"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -52,5 +53,12 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:menu="@menu/adm_bottom_nav_menu" />
+
+    <androidx.constraintlayout.widget.Barrier
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:id="@+id/bottomNavBarrier"
+        app:barrierDirection="top"
+        app:constraint_referenced_ids="bottomNav,admBottomNav" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

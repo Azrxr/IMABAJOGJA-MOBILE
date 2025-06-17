@@ -93,6 +93,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
+                android:textAllCaps="false"
                 android:alpha="0"
                 android:text="@string/sign_in"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -102,13 +103,15 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnSignUp"
-                style="@style/Widget.Material3.Button.OutlinedButton.Icon"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                android:textAllCaps="false"
                 android:alpha="0"
                 android:text="@string/sign_up"
-                android:textSize="14sp"
+                app:strokeColor="?attr/colorPrimary"
+                app:strokeWidth="1dp"
+                android:textColor="?attr/colorPrimary"
+                android:backgroundTint="@android:color/transparent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/btnLogin"
@@ -137,7 +140,8 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/masuk_dengan"
-                tools:alpha="100">
+                tools:alpha="100"
+                tools:ignore="UseCompoundDrawables">
 
                 <ImageView
                     android:layout_width="40dp"

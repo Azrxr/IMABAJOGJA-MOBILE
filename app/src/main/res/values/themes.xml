@@ -50,6 +50,10 @@
 
     <style name="Theme.IMABAJogja" parent="Theme.MyApp" />
 
+    <style name="BottomNavText" parent="TextAppearance.AppCompat.Caption">
+        <item name="android:layout_marginTop">4dp</item> <!-- 🔥 jarak antara icon dan teks -->
+        <item name="android:textSize">12sp</item>
+    </style>
 
     <!-- Style for TextInputLayout -->
     <style name="til" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">

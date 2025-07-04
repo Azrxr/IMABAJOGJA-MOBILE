@@ -51,11 +51,7 @@ class MainActivity : AppCompatActivity() {
         enableEdgeToEdge()
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        ViewCompat.setOnApplyWindowInsetsListener(binding.root) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
-        }
+
         // Restore fragment terakhir jika ada
         if (savedInstanceState != null) {
             currentFragmentTag = savedInstanceState.getString("CURRENT_FRAGMENT")
@@ -103,6 +99,20 @@ class MainActivity : AppCompatActivity() {
 
 
     private fun setupUI() {
+        ViewCompat.setOnApplyWindowInsetsListener(binding.root) { v, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+            insets
+        }
+        ViewCompat.setOnApplyWindowInsetsListener(binding.bottomNav) { view, insets ->
+            view.setPadding(view.paddingLeft, view.paddingTop, view.paddingRight, 0)
+            insets
+        }
+        ViewCompat.setOnApplyWindowInsetsListener(binding.admBottomNav) { view, insets ->
+            view.setPadding(view.paddingLeft, view.paddingTop, view.paddingRight, 0)
+            insets
+        }
+        WindowCompat.setDecorFitsSystemWindows(window, true)
         // Deteksi mode terang/gelap
         val isDarkMode =
             when (resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) {

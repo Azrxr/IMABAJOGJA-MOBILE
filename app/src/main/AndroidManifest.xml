@@ -89,6 +89,7 @@
         <activity
             android:name=".ui.authentication.AdmRegisterActivity"
             android:theme="@style/Theme.IMABAJogja"
+            android:windowSoftInputMode="adjustPan"
             android:exported="false" />
         <activity
             android:name=".ui.campus.DokumenCampuseActivity"
@@ -110,10 +111,12 @@
         <activity
             android:name=".ui.authentication.RegisterActivity"
             android:theme="@style/Theme.IMABAJogja"
+            android:windowSoftInputMode="adjustPan"
             android:exported="false" />
         <activity
             android:name=".ui.authentication.LoginActivity"
             android:theme="@style/Theme.IMABAJogja"
+            android:windowSoftInputMode="adjustPan"
             android:exported="false" />
 
         <provider

@@ -60,8 +60,29 @@ class ProfileFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        var profileData: ProfileUser? = null
+        loadProfileData()
 
+        binding.btnLogout.setOnClickListener {
+            mainViewModel.logout()
+            startActivity(Intent(requireContext(), WelcomeActivity::class.java))
+        }
+        binding.btnChangePassword.setOnClickListener {
+            startActivity(Intent(requireContext(), UpdatePasswordActivity::class.java))
+        }
+        binding.btnAbout.setOnClickListener {
+            startActivity(Intent(requireContext(), AboutActivity::class.java))
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == REQUEST_UPDATE_PROFILE && resultCode == Activity.RESULT_OK) {
+            viewModel.getProfileData() // Ambil ulang data profile terbaru
+        }
+    }
+
+    private fun loadProfileData(){
+        var profileData: ProfileUser? = null
         viewModel.getProfileData().observe(viewLifecycleOwner) {
             when (it) {
                 is Result.Loading -> {
@@ -84,45 +105,36 @@ class ProfileFragment : Fragment() {
                 }
             }
         }
-
         binding.btnEdit.setOnClickListener {
+            // Disable button to prevent double click
+            it.isEnabled = false
             profileData?.let { profile ->
                 val intent = EditProfileActivity.newIntent(requireContext(), profile)
-                startActivityForResult(intent, REQUEST_UPDATE_PROFILE)
-                updateProfile.launch(intent)
+                startActivity(intent)
             } ?: requireContext().showToast("Data profil belum tersedia")
-        }
-
-        binding.btnLogout.setOnClickListener {
-            mainViewModel.logout()
-            startActivity(Intent(requireContext(), WelcomeActivity::class.java))
-        }
-        binding.btnChangePassword.setOnClickListener {
-            startActivity(Intent(requireContext(), UpdatePasswordActivity::class.java))
-        }
-        binding.btnAbout.setOnClickListener {
-            startActivity(Intent(requireContext(), AboutActivity::class.java))
-        }
-    }
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == REQUEST_UPDATE_PROFILE && resultCode == Activity.RESULT_OK) {
-            viewModel.getProfileData() // Ambil ulang data profile terbaru
+            it.postDelayed({ it.isEnabled = true }, 1000) // Re-enable after 1 second
+//            profileData?.let { profile ->
+//                val intent = EditProfileActivity.newIntent(requireContext(), profile)
+//                startActivityForResult(intent, REQUEST_UPDATE_PROFILE)
+//                updateProfile.launch(intent)
+//            } ?: requireContext().showToast("Data profil belum tersedia")
         }
     }
 
     private fun showProfileData(data: ProfileResponse) {
         val profile = data.data
+        binding.tvNoMember.text = profile?.noMember ?: getString(R.string.empty)
         binding.tvName.text = profile?.username ?: getString(R.string.empty)
         binding.tvFullname.text = profile?.fullname ?: getString(R.string.empty)
         binding.tvEmail.text = profile?.email ?: getString(R.string.empty)
         binding.tvPhone.text = profile?.phoneNumber ?: getString(R.string.empty)
         binding.tvPhoneNumber.text = profile?.phoneNumber ?: getString(R.string.empty)
-        binding.tvAddress.text = if (profile?.fullAddress != null && profile.district != null && profile.regency != null && profile.province != null) {
-            "${profile.fullAddress}, ${profile.district}, ${profile.regency}, ${profile.province}"
-        } else {
-            getString(R.string.empty)
-        }
+        binding.tvAddress.text =
+            if (profile?.fullAddress != null && profile.district != null && profile.regency != null && profile.province != null) {
+                "${profile.fullAddress}, ${profile.district}, ${profile.regency}, ${profile.province}"
+            } else {
+                getString(R.string.empty)
+            }
         binding.tvGender.text = profile?.gender ?: getString(R.string.empty)
         binding.tvNISN.text = profile?.nisn?.toString() ?: getString(R.string.empty)
         binding.tvType.text = profile?.memberType ?: getString(R.string.empty)
@@ -144,5 +156,9 @@ class ProfileFragment : Fragment() {
 
     private fun showLoading(isLoading: Boolean) {
         binding.progressIndicator.visibility = if (isLoading) View.VISIBLE else View.GONE
+    }
+    override  fun onResume() {
+        super.onResume()
+        loadProfileData() // Your function to refresh profile info
     }
 }

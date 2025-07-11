@@ -309,8 +309,10 @@ class EditProfileActivity : AppCompatActivity() {
             val gender = binding.etGender.text.toString()
             val schollOrigin = binding.etSchoolOrigin.text.toString()
             val tahunLulus = binding.etGraduationYear.text.toString().toIntOrNull()
-            val noMember = binding.etNoMember.text.toString()
+            var noMember = binding.etNoMember.text.toString()
             val currentYear = Calendar.getInstance().get(Calendar.YEAR)
+            val yearSuffix = currentYear % 100
+            val millis = System.currentTimeMillis() % 10000
 
             if (fullname.isEmpty()) {
                 binding.etFullname.error = "Nama lengkap tidak boleh kosong"
@@ -318,9 +320,9 @@ class EditProfileActivity : AppCompatActivity() {
             }
 
             if (noMember.isEmpty()) {
-                binding.etNoMember.error = "noMember tidak boleh kosong"
-                return@setOnClickListener
-            } //TODO : cek duplikat no member
+                noMember = "IMB${yearSuffix}${millis}"
+                binding.etNoMember.setText(noMember)
+            }
 
             if (phoneNumber.isEmpty() || !phoneNumber.matches(Regex("^\\d{10,13}\$"))) {
                 binding.etPhoneNumber.error = "Nomor telepon tidak valid"

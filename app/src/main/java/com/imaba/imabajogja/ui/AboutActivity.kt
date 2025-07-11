@@ -45,19 +45,19 @@ class AboutActivity : AppCompatActivity() {
             }
             startActivity(intent)
         }
-        binding.btnGithubAndroid.setOnClickListener{
+        binding.textView11.setOnClickListener{
         val url = "https://imabayogyakarta.com/"
             val intent = Intent(Intent.ACTION_VIEW, url.toUri())
             startActivity(intent)
         }
         binding.btnGithubWebService.setOnClickListener {
-            val url = "https://github.com/Azrxr/IMABAJOGJA-MOBILE"
+            val url = "https://github.com/Azrxr/IMABAJOGJA-WEB-RESTAPI"
             val intent = Intent(Intent.ACTION_VIEW, url.toUri())
             startActivity(intent)
         }
 
-        binding.textView11.setOnClickListener {
-        val url = "https://github.com/Azrxr/IMABAJOGJA-WEB-RESTAPI"
+        binding.btnGithubAndroid.setOnClickListener{
+        val url = "https://github.com/Azrxr/IMABAJOGJA-MOBILE"
             val intent = Intent(Intent.ACTION_VIEW, url.toUri())
             startActivity(intent)
         }

@@ -11,6 +11,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.CheckBox
+import android.widget.GridLayout
 import android.widget.LinearLayout
 import android.widget.PopupMenu
 import android.widget.Toast
@@ -434,7 +435,6 @@ class AdmMemberFragment : Fragment() {
                 is Result.Loading -> Unit
             }
         }
-
     }
 
     private fun showExportFilterDialog() {
@@ -450,8 +450,8 @@ class AdmMemberFragment : Fragment() {
         val dialogView = LayoutInflater.from(requireContext())
             .inflate(R.layout.dialog_export_filter, null)
 
-        val generationLayout = dialogView.findViewById<LinearLayout>(R.id.generationLayout)
-        val memberTypeLayout = dialogView.findViewById<LinearLayout>(R.id.memberTypeLayout)
+        val generationLayout = dialogView.findViewById<GridLayout>(R.id.generationLayout)
+        val memberTypeLayout = dialogView.findViewById<GridLayout>(R.id.memberTypeLayout)
 
         // Checkbox Angkatan
         generations.forEach { item ->

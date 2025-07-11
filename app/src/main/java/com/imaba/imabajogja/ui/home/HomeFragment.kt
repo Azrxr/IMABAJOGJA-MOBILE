@@ -43,6 +43,14 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+
+        binding.ivLogo.setOnClickListener{
+            val url = "https://imabayogyakarta.com/"
+            val intent = Intent(Intent.ACTION_VIEW, url.toUri())
+            startActivity(intent)
+        }
+
         viewModel.getHomeData().observe(viewLifecycleOwner) {
             when (it) {
                 is Result.Loading -> {

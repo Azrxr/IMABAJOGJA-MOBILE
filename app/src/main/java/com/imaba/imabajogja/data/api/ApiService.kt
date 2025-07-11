@@ -100,6 +100,7 @@ interface ApiService {
     //List member
     @GET("member/members")
     suspend fun getMembers(
+        @Query("page") page: Int,
         @Query("search") search: String? = null,
         @Query("generation[]") generation: List<String>? = null,
         @Query("member_type[]") memberType: List<String>? = null,

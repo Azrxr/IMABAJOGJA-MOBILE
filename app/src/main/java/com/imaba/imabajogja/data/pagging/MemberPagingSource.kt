@@ -21,6 +21,7 @@ class MemberPagingSource(
         return try{
             val currentPage = params.key ?: 1
             val response = apiService.getMembers(
+                page = currentPage,
                 search = search,
                 generation = generation,
                 memberType = memberType,
